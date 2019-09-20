@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Hbase入门 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第十六天 概述HBase是一个高可靠性、高性能、面向列、可伸缩的分布式存储系统，利用HBASE技术可在廉价PC Server上搭建起大规模结构化存储集群。HBase的目标是存储并处理大型的数据，更具体来说是仅需使用普通的硬件配置，就能够处理由成千上万的行和列所组成的大型数据。 Hbase架构 1）ClientClient包含了访问Hbase的接口，另外Client还维护了对应的cache">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hbase入门">
+<meta property="og:url" content="http://yoursite.com/2019/09/17/bigdata-16/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第十六天 概述HBase是一个高可靠性、高性能、面向列、可伸缩的分布式存储系统，利用HBASE技术可在廉价PC Server上搭建起大规模结构化存储集群。HBase的目标是存储并处理大型的数据，更具体来说是仅需使用普通的硬件配置，就能够处理由成千上万的行和列所组成的大型数据。 Hbase架构 1）ClientClient包含了访问Hbase的接口，另外Client还维护了对应的cache">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/09/17/bigdata-16/1.jpg">
+<meta property="og:updated_time" content="2019-09-18T00:43:04.393Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hbase入门">
+<meta name="twitter:description" content="大数据学习第十六天 概述HBase是一个高可靠性、高性能、面向列、可伸缩的分布式存储系统，利用HBASE技术可在廉价PC Server上搭建起大规模结构化存储集群。HBase的目标是存储并处理大型的数据，更具体来说是仅需使用普通的硬件配置，就能够处理由成千上万的行和列所组成的大型数据。 Hbase架构 1）ClientClient包含了访问Hbase的接口，另外Client还维护了对应的cache">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/17/bigdata-16/1.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-16" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Hbase入门
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/09/17/bigdata-16/" class="article-date">
+            <time datetime="2019-09-17T13:48:41.000Z" itemprop="datePublished">2019-09-17</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第十六天</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>HBase是一个高可靠性、高性能、面向列、可伸缩的分布式存储系统，利用HBASE技术可在廉价PC Server上搭建起大规模结构化存储集群。<br>HBase的目标是存储并处理大型的数据，更具体来说是仅需使用普通的硬件配置，就能够处理由成千上万的行和列所组成的大型数据。</p>
+<h4 id="Hbase架构"><a href="#Hbase架构" class="headerlink" title="Hbase架构"></a>Hbase架构</h4><p><img src="/2019/09/17/bigdata-16/1.jpg" alt></p>
+<h5 id="1）Client"><a href="#1）Client" class="headerlink" title="1）Client"></a>1）Client</h5><p>Client包含了访问Hbase的接口，另外Client还维护了对应的cache来加速Hbase的访问，比如cache的.META.元数据的信息。</p>
+<h5 id="2）Zookeeper"><a href="#2）Zookeeper" class="headerlink" title="2）Zookeeper"></a>2）Zookeeper</h5><p>HBase通过Zookeeper来做master的高可用、RegionServer的监控、元数据的入口以及集群配置的维护等工作。具体工作如下：<br>通过Zoopkeeper来保证集群中只有1个master在运行，如果master异常，会通过竞争机制产生新的master提供服务<br>通过Zoopkeeper来监控RegionServer的状态，当RegionSevrer有异常的时候，通过回调的形式通知Master RegionServer上下线的信息<br>通过Zoopkeeper存储元数据的统一入口地址</p>
+<h5 id="3）Hmaster（NameNode）"><a href="#3）Hmaster（NameNode）" class="headerlink" title="3）Hmaster（NameNode）"></a>3）Hmaster（NameNode）</h5><p>master节点的主要职责如下：<br>为RegionServer分配Region<br>维护整个集群的负载均衡<br>维护集群的元数据信息<br>发现失效的Region，并将失效的Region分配到正常的RegionServer上<br>当RegionSever失效的时候，协调对应Hlog的拆分</p>
+<h5 id="4）HregionServer-DataNode"><a href="#4）HregionServer-DataNode" class="headerlink" title="4）HregionServer(DataNode)"></a>4）HregionServer(DataNode)</h5><p>HregionServer直接对接用户的读写请求，是真正的“干活”的节点。它的功能概括如下：<br>管理master为其分配的Region<br>处理来自客户端的读写请求<br>负责和底层HDFS的交互，存储数据到HDFS<br>负责Region变大以后的拆分<br>负责Storefile的合并工作</p>
+<h5 id="5）HDFS"><a href="#5）HDFS" class="headerlink" title="5）HDFS"></a>5）HDFS</h5><p>HDFS为Hbase提供最终的底层数据存储服务，同时为HBase提供高可用（Hlog存储在HDFS）的支持，具体功能概括如下：<br>提供元数据和表数据的底层分布式存储服务<br>数据多副本，保证的高可靠和高可用性</p>
+<h4 id="其他组件"><a href="#其他组件" class="headerlink" title="其他组件"></a>其他组件</h4><ol>
+<li>Write-Ahead logs<br>HBase的修改记录，当对HBase读写数据的时候，数据不是直接写进磁盘，它会在内存中保留一段时间（时间以及数据量阈值可以设定）。但把数据保存在内存中可能有更高的概率引起数据丢失，为了解决这个问题，数据会先写在一个叫做Write-Ahead logfile的文件中，然后再写入内存中。所以在系统出现故障的时候，数据可以通过这个日志文件重建。</li>
+<li>Region<br>Hbase表的分片，HBase表会根据RowKey值被切分成不同的region存储在RegionServer中，在一个RegionServer中可以有多个不同的region。</li>
+<li>Store<br>HFile存储在Store中，一个Store对应HBase表中的一个列族(列簇， Column Family)。</li>
+<li>MemStore<br>顾名思义，就是内存存储，位于内存中，用来保存当前的数据操作，所以当数据保存在WAL中之后，RegsionServer会在内存中存储键值对。</li>
+<li>HFile<br>这是在磁盘上保存原始数据的实际的物理文件，是实际的存储文件。StoreFile是以Hfile的形式存储在HDFS的。</li>
+</ol>
+<h2 id="HBase安装"><a href="#HBase安装" class="headerlink" title="HBase安装"></a>HBase安装</h2><ol>
+<li>Zookeeper和Hadoop启动</li>
+<li>解压</li>
+<li>配置</li>
+</ol>
+<p>1）hbase-env.sh修改内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/opt/module/jdk1.8.0_144</span><br><span class="line"><span class="built_in">export</span> HBASE_MANAGES_ZK=<span class="literal">false</span></span><br><span class="line"><span class="built_in">export</span> HBASE_PID_DIR=/opt/app/hbase-1.3.1/pids(要在hbase根目录下创建pids目录)</span><br><span class="line">JDK1.8需要注释以下</span><br><span class="line"><span class="comment">#export HBASE_MASTER_OPTS。。。。</span></span><br><span class="line"><span class="comment">#export HBASE_REGIONSERVER_OPTS。。。</span></span><br></pre></td></tr></table></figure>
+
+<p>2）hbase-site.xml修改内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;property&gt;     </span><br><span class="line">		&lt;name&gt;hbase.rootdir&lt;/name&gt;     </span><br><span class="line">		&lt;value&gt;hdfs://hadoop011:9000/hbase&lt;/value&gt;   </span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">	&lt;property&gt;   </span><br><span class="line">		&lt;name&gt;hbase.cluster.distributed&lt;/name&gt;</span><br><span class="line">		&lt;value&gt;<span class="literal">true</span>&lt;/value&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">   &lt;!-- 0.98后的新变动，之前版本没有.port,默认端口为60000 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hbase.master.port&lt;/name&gt;</span><br><span class="line">		&lt;value&gt;16000&lt;/value&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">	&lt;property&gt;   </span><br><span class="line">		&lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;</span><br><span class="line">	     &lt;value&gt;hadoop013:2888,hadoop014:2888,hadoop015:2888&lt;/value&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">	&lt;property&gt;   </span><br><span class="line">		&lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;</span><br><span class="line">	     &lt;value&gt;/opt/module/zookeeper-3.4.10/zkData&lt;/value&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3）regionservers：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hadoop012</span><br><span class="line">hadoop013</span><br><span class="line">hadoop014</span><br><span class="line">hadoop015</span><br></pre></td></tr></table></figure>
+
+<p>4）软连接hadoop配置文件到hbase：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /opt/module/hadoop-2.7.2/etc/hadoop/core-site.xml /opt/module/hbase-1.3.1/conf/core-site.xml</span><br><span class="line">ln -s /opt/module/hadoop-2.7.2/etc/hadoop/hdfs-site.xml /opt/module/hbase-1.3.1/conf/hdfs-site.xml</span><br></pre></td></tr></table></figure>
+
+<h5 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h5><p>1．启动方式1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/hbase-daemon.sh start master</span><br><span class="line">bin/hbase-daemon.sh start regionserver</span><br></pre></td></tr></table></figure>
+
+<p>2．启动方式2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">启动：</span><br><span class="line">bin/start-hbase.sh</span><br><span class="line">对应的停止服务：</span><br><span class="line">bin/stop-hbase.sh</span><br></pre></td></tr></table></figure>
+
+<p>查看HBase页面<br>启动成功后，可以通过“host:port”的方式来访问HBase管理页面，例如：<br><a href="http://hadoop011:16010" target="_blank" rel="noopener">http://hadoop011:16010</a> </p>
+<h2 id="HBase-Shell操作"><a href="#HBase-Shell操作" class="headerlink" title="HBase Shell操作"></a>HBase Shell操作</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">1．进入HBase客户端命令行</span><br><span class="line">[root@hadoop012 hbase]$ bin/hbase shell</span><br><span class="line">2．查看帮助命令</span><br><span class="line">hbase(main):001:0&gt; <span class="built_in">help</span></span><br><span class="line">3．查看当前数据库中有哪些表</span><br><span class="line">hbase(main):002:0&gt; list</span><br><span class="line">3.2 表的操作</span><br><span class="line">1．创建表</span><br><span class="line">hbase(main):002:0&gt; create <span class="string">'student'</span>,<span class="string">'info'</span></span><br><span class="line">2．插入数据到表</span><br><span class="line">hbase(main):003:0&gt; put <span class="string">'student'</span>,<span class="string">'1001'</span>,<span class="string">'info:sex'</span>,<span class="string">'male'</span></span><br><span class="line">hbase(main):004:0&gt; put <span class="string">'student'</span>,<span class="string">'1001'</span>,<span class="string">'info:age'</span>,<span class="string">'18'</span></span><br><span class="line">hbase(main):005:0&gt; put <span class="string">'student'</span>,<span class="string">'1002'</span>,<span class="string">'info:name'</span>,<span class="string">'Janna'</span></span><br><span class="line">hbase(main):006:0&gt; put <span class="string">'student'</span>,<span class="string">'1002'</span>,<span class="string">'info:sex'</span>,<span class="string">'female'</span></span><br><span class="line">hbase(main):007:0&gt; put <span class="string">'student'</span>,<span class="string">'1002'</span>,<span class="string">'info:age'</span>,<span class="string">'20'</span></span><br><span class="line">3．扫描查看表数据</span><br><span class="line">hbase(main):008:0&gt; scan <span class="string">'student'</span></span><br><span class="line">hbase(main):009:0&gt; scan <span class="string">'student'</span>,&#123;STARTROW =&gt; <span class="string">'1001'</span>, STOPROW  =&gt; <span class="string">'1001'</span>&#125;</span><br><span class="line">hbase(main):010:0&gt; scan <span class="string">'student'</span>,&#123;STARTROW =&gt; <span class="string">'1001'</span>&#125;</span><br><span class="line">4．查看表结构</span><br><span class="line">hbase(main):011:0&gt; describe <span class="string">'student'</span></span><br><span class="line">5．更新指定字段的数据</span><br><span class="line">hbase(main):012:0&gt; put <span class="string">'student'</span>,<span class="string">'1001'</span>,<span class="string">'info:name'</span>,<span class="string">'Nick'</span></span><br><span class="line">hbase(main):013:0&gt; put <span class="string">'student'</span>,<span class="string">'1001'</span>,<span class="string">'info:age'</span>,<span class="string">'100'</span></span><br><span class="line">6．查看“指定行”或“指定列族:列”的数据</span><br><span class="line">hbase(main):014:0&gt; get <span class="string">'student'</span>,<span class="string">'1001'</span></span><br><span class="line">hbase(main):015:0&gt; get <span class="string">'student'</span>,<span class="string">'1001'</span>,<span class="string">'info:name'</span></span><br><span class="line">7．统计表数据行数</span><br><span class="line">hbase(main):021:0&gt; count <span class="string">'student'</span></span><br><span class="line">8．删除数据</span><br><span class="line">删除某rowkey的全部数据：</span><br><span class="line">hbase(main):016:0&gt; deleteall <span class="string">'student'</span>,<span class="string">'1001'</span></span><br><span class="line">删除某rowkey的某一列数据：</span><br><span class="line">hbase(main):017:0&gt; delete <span class="string">'student'</span>,<span class="string">'1002'</span>,<span class="string">'info:sex'</span></span><br><span class="line">9．清空表数据</span><br><span class="line">hbase(main):018:0&gt; truncate <span class="string">'student'</span></span><br><span class="line">提示：清空表的操作顺序为先<span class="built_in">disable</span>，然后再truncate。</span><br><span class="line">10．删除表</span><br><span class="line">首先需要先让该表为<span class="built_in">disable</span>状态：</span><br><span class="line">hbase(main):019:0&gt; <span class="built_in">disable</span> <span class="string">'student'</span></span><br><span class="line">然后才能drop这个表：</span><br><span class="line">hbase(main):020:0&gt; drop <span class="string">'student'</span></span><br><span class="line">提示：如果直接drop表，会报错：ERROR: Table student is enabled. Disable it first.</span><br><span class="line">11．变更表信息</span><br><span class="line">将info列族中的数据存放3个版本：</span><br><span class="line">hbase(main):022:0&gt; alter <span class="string">'student'</span>,&#123;NAME=&gt;<span class="string">'info'</span>,VERSIONS=&gt;3&#125;</span><br><span class="line">hbase(main):022:0&gt; get <span class="string">'student'</span>,<span class="string">'1001'</span>,&#123;COLUMN=&gt;<span class="string">'info:name'</span>,VERSIONS=&gt;3&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/09/17/bigdata-16/" data-id="ck0s5r20f000gdovjijfyf0s6" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "Hbase入门",
+        "image": "http://yoursite.com/2019/09/17/bigdata-16/1.jpg",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-09-17",
+        "dateCreated": "2019-09-17",
+        "dateModified": "2019-09-18",
+        "url": "http://yoursite.com/2019/09/17/bigdata-16/",
+        "description": "大数据学习第十六天
+概述HBase是一个高可靠性、高性能、面向列、可伸缩的分布式存储系统，利用HBASE技术可在廉价PC Server上搭建起大规模结构化存储集群。HBase的目标是存储并处理大型的数据，更具体来说是仅需使用普通的硬件配置，就能够处理由成千上万的行和列所组成的大型数据。
+Hbase架构
+1）ClientClient包含了访问Hbase的接口，另外Client还维护了对应的cache"
+        "wordCount": 447
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/09/17/question/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Hbase安装问题及解决方法
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/09/16/bigdata-15（2）/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">zookeeper客户端命令行操作和API应用</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/09/17/bigdata-16/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

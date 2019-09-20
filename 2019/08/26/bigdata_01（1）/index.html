@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>linux下网卡配置和jdk的安装 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第一天(上) Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联网, 1[root@hadoop014 ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0  1234567891011DEVICE=eth0HWADDR=00:0c:29:c5:8f:bb TYPE=EthernetUUID=c2992435-23a">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下网卡配置和jdk的安装">
+<meta property="og:url" content="http://yoursite.com/2019/08/26/bigdata_01（1）/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第一天(上) Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联网, 1[root@hadoop014 ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0  1234567891011DEVICE=eth0HWADDR=00:0c:29:c5:8f:bb TYPE=EthernetUUID=c2992435-23a">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-27T15:15:25.270Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux下网卡配置和jdk的安装">
+<meta name="twitter:description" content="大数据学习第一天(上) Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联网, 1[root@hadoop014 ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0  1234567891011DEVICE=eth0HWADDR=00:0c:29:c5:8f:bb TYPE=EthernetUUID=c2992435-23a">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata_01（1）" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        linux下网卡配置和jdk的安装
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/08/26/bigdata_01（1）/" class="article-date">
+            <time datetime="2019-08-26T13:44:44.627Z" itemprop="datePublished">2019-08-26</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第一天(上)</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="启动网卡"><a href="#启动网卡" class="headerlink" title="启动网卡"></a>启动网卡</h3><p>CenOS 在虚拟机上安装后需要启用网卡才能联网,</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 ~]<span class="comment"># vim /etc/sysconfig/network-scripts/ifcfg-eth0</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">DEVICE=eth0</span><br><span class="line">HWADDR=00:0c:29:c5:8f:bb </span><br><span class="line">TYPE=Ethernet</span><br><span class="line">UUID=c2992435-23aa-49ca-ac07-87816eca9233</span><br><span class="line">ONBOOT=yes   //初始安装是no,改成yes</span><br><span class="line">NM_CONTROLLED=yes</span><br><span class="line">BOOTPROTO=static  //ip设置成不变的 static</span><br><span class="line"></span><br><span class="line">IPADDR=192.168.164.14 // 根据虚拟机设置</span><br><span class="line">GATEWAY=192.168.164.2 //网关</span><br><span class="line">DNS1=8.8.8.8 //设置死的（有其他写法）</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置集群的ip地址与主机名的键值对"><a href="#配置集群的ip地址与主机名的键值对" class="headerlink" title="配置集群的ip地址与主机名的键值对"></a>配置集群的ip地址与主机名的键值对</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 etc]<span class="comment"># vim /etc/hosts</span></span><br><span class="line"></span><br><span class="line"><span class="string">"/etc/sysconfig/network-scripts/ifcfg-eth0"</span> 11L, 197C 已写入</span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.164.11 hadoop011</span><br><span class="line">192.168.164.12 hadoop012</span><br><span class="line">192.168.164.13 hadoop013</span><br><span class="line">192.168.164.14 hadoop014</span><br></pre></td></tr></table></figure>
+
+<h3 id="JDK的卸载安装"><a href="#JDK的卸载安装" class="headerlink" title="JDK的卸载安装"></a>JDK的卸载安装</h3><p>CenOS 安装后会自带JDK，我安装的是CenOS 6.6，自带jdk7.如果需要其他版本则需要卸载后安装其他版本。</p>
+<p>查看已安装的jdk</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 ~]<span class="comment"># rpm -qa|grep jdk</span></span><br><span class="line">java-1.7.0-openjdk-headless-1.7.0.191-2.6.15.4.el7_5.x86_64</span><br></pre></td></tr></table></figure>
+
+<p>卸载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 ~]<span class="comment"># yum -y remove java-1.7.0-openjdk-headless-1.7.0.191-2.6.15.4.el7_5.x86_64</span></span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 ~]<span class="comment"># java -version</span></span><br><span class="line">bash: java: 未找到命令...</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装JDK1-8"><a href="#安装JDK1-8" class="headerlink" title="安装JDK1.8"></a>安装JDK1.8</h3><p>可以在window下载jdk1.8的linux版本，然后上传到虚拟机上。<br>我在/opt目录先创建了三个文件夹soft.app,shell,分别用于存放window上传的tar包，tar包解压的目录，执行shell文件（用于执行配置ssh免密登录的脚本）。<br>我将jdk-8u131-linux-x64.tar.gz上传到soft文件夹。</p>
+<p>解压</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 soft]<span class="comment">#  tar -zxvf jdk-8u131-linux-x64.tar.gz -C /opt/app</span></span><br></pre></td></tr></table></figure>
+
+<p>配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 soft]<span class="comment"># vim /etc/profile</span></span><br></pre></td></tr></table></figure>
+
+<p>在export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL 之后新增以下两行<br>jdk8是重命名的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/opt/app/jdk8</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+
+<p>配置后需要刷新</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 soft]<span class="comment"># source /etc/profile</span></span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 soft]<span class="comment"># java -version</span></span><br><span class="line">java version <span class="string">"1.8.0_131"</span></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_131-b11)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)</span><br></pre></td></tr></table></figure>
+
+<p>为了执行shell脚本，提前安装expect</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop014 soft]<span class="comment"># yum install expect -y</span></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/08/26/bigdata_01（1）/" data-id="ck0s5r20i000kdovjrin1xisp" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "linux下网卡配置和jdk的安装",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-08-26",
+        "dateCreated": "2019-08-26",
+        "dateModified": "2019-08-27",
+        "url": "http://yoursite.com/2019/08/26/bigdata_01（1）/",
+        "description": "大数据学习第一天(上)
+Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联网,
+1[root@hadoop014 ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0
+
+1234567891011DEVICE=eth0HWADDR=00:0c:29:c5:8f:bb TYPE=EthernetUUID=c2992435-23a"
+        "wordCount": 266
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/08/27/bigdata-01（2）/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            linux下集群的搭建
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/08/24/first/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">第一篇博客</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/08/26/bigdata_01（1）/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

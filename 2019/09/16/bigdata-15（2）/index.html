@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>zookeeper客户端命令行操作和API应用 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第十五天（2） zookeeper客户端命令行操作1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677//1. 启动客户端[root@hadoop013">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper客户端命令行操作和API应用">
+<meta property="og:url" content="http://yoursite.com/2019/09/16/bigdata-15（2）/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第十五天（2） zookeeper客户端命令行操作1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677//1. 启动客户端[root@hadoop013">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-17T12:15:00.366Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zookeeper客户端命令行操作和API应用">
+<meta name="twitter:description" content="大数据学习第十五天（2） zookeeper客户端命令行操作1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677//1. 启动客户端[root@hadoop013">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-15（2）" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        zookeeper客户端命令行操作和API应用
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/09/16/bigdata-15（2）/" class="article-date">
+            <time datetime="2019-09-16T13:51:49.000Z" itemprop="datePublished">2019-09-16</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第十五天（2）</p>
+<h2 id="zookeeper客户端命令行操作"><a href="#zookeeper客户端命令行操作" class="headerlink" title="zookeeper客户端命令行操作"></a>zookeeper客户端命令行操作</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">//1. 启动客户端</span><br><span class="line">[root@hadoop013 zookeeper-3.4.10]$ bin/zkCli.sh</span><br><span class="line">//2．显示所有操作命令</span><br><span class="line">[zk: localhost:2181(CONNECTED) 1] <span class="built_in">help</span></span><br><span class="line">//3．查看当前znode中所包含的内容</span><br><span class="line">[zk: localhost:2181(CONNECTED) 0] ls /</span><br><span class="line">[zookeeper]</span><br><span class="line">//4．查看当前节点详细数据</span><br><span class="line">[zk: localhost:2181(CONNECTED) 1] ls2 /</span><br><span class="line">[zookeeper]</span><br><span class="line">cZxid = 0x0</span><br><span class="line">ctime = Thu Jan 01 08:00:00 CST 1970</span><br><span class="line">mZxid = 0x0</span><br><span class="line">mtime = Thu Jan 01 08:00:00 CST 1970</span><br><span class="line">pZxid = 0x0</span><br><span class="line">cversion = -1</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 0</span><br><span class="line">numChildren = 1</span><br><span class="line">//5．创建普通节点</span><br><span class="line">[zk: localhost:2181(CONNECTED) 3] create /sanguo <span class="string">"jinlian"</span></span><br><span class="line">Created /sanguo</span><br><span class="line">[zk: localhost:2181(CONNECTED) 4] create /sanguo/shuguo <span class="string">"liubei"</span></span><br><span class="line">Created /sanguo/shuguo</span><br><span class="line">//6．获得节点的值</span><br><span class="line">[zk: localhost:2181(CONNECTED) 5] get /sanguo</span><br><span class="line">jinlian</span><br><span class="line">cZxid = 0x100000003</span><br><span class="line">ctime = Wed Aug 29 00:03:23 CST 2018</span><br><span class="line">mZxid = 0x100000003</span><br><span class="line">mtime = Wed Aug 29 00:03:23 CST 2018</span><br><span class="line">pZxid = 0x100000004</span><br><span class="line">cversion = 1</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 7</span><br><span class="line">numChildren = 1</span><br><span class="line">//7．创建短暂节点</span><br><span class="line">[zk: localhost:2181(CONNECTED) 7] create -e /sanguo/wuguo <span class="string">"zhouyu"</span></span><br><span class="line">Created /sanguo/wuguo</span><br><span class="line">//8．创建带序号的节点</span><br><span class="line">[zk: localhost:2181(CONNECTED) 2] create -s /sanguo/weiguo/xiaoqiao <span class="string">"jinlian"</span></span><br><span class="line">Created /sanguo/weiguo/xiaoqiao0000000000</span><br><span class="line">[zk: localhost:2181(CONNECTED) 3] create -s /sanguo/weiguo/daqiao <span class="string">"jinlian"</span></span><br><span class="line">Created /sanguo/weiguo/daqiao0000000001</span><br><span class="line">[zk: localhost:2181(CONNECTED) 4] create -s /sanguo/weiguo/diaocan <span class="string">"jinlian"</span></span><br><span class="line">Created /sanguo/weiguo/diaocan0000000002</span><br><span class="line">如果原来没有序号节点，序号从0开始依次递增。如果原节点下已有2个节点，则再排序时从2开始，以此类推。</span><br><span class="line">//9．修改节点数据值</span><br><span class="line">[zk: localhost:2181(CONNECTED) 6] <span class="built_in">set</span> /sanguo/weiguo <span class="string">"simayi"</span></span><br><span class="line">//10．节点的值变化监听</span><br><span class="line">	（1）在hadoop104主机上注册监听/sanguo节点数据变化</span><br><span class="line">[zk: localhost:2181(CONNECTED) 26] [zk: localhost:2181(CONNECTED) 8] get /sanguo watch</span><br><span class="line">	（2）在hadoop103主机上修改/sanguo节点的数据</span><br><span class="line">[zk: localhost:2181(CONNECTED) 1] <span class="built_in">set</span> /sanguo <span class="string">"xisi"</span></span><br><span class="line">	（3）观察hadoop104主机收到数据变化的监听</span><br><span class="line">WATCHER::</span><br><span class="line">WatchedEvent state:SyncConnected <span class="built_in">type</span>:NodeDataChanged path:/sanguo</span><br><span class="line">//11．节点的子节点变化监听（路径变化）</span><br><span class="line">	（1）在hadoop104主机上注册监听/sanguo节点的子节点变化</span><br><span class="line">[zk: localhost:2181(CONNECTED) 1] ls /sanguo watch</span><br><span class="line">[aa0000000001, server101]</span><br><span class="line">	（2）在hadoop103主机/sanguo节点上创建子节点</span><br><span class="line">[zk: localhost:2181(CONNECTED) 2] create /sanguo/jin <span class="string">"simayi"</span></span><br><span class="line">Created /sanguo/jin</span><br><span class="line">	（3）观察hadoop104主机收到子节点变化的监听</span><br><span class="line">WATCHER::</span><br><span class="line">WatchedEvent state:SyncConnected <span class="built_in">type</span>:NodeChildrenChanged path:/sanguo</span><br><span class="line">//12．删除节点</span><br><span class="line">[zk: localhost:2181(CONNECTED) 4] delete /sanguo/jin</span><br><span class="line">//13．递归删除节点</span><br><span class="line">[zk: localhost:2181(CONNECTED) 15] rmr /sanguo/shuguo</span><br><span class="line">//14．查看节点状态</span><br><span class="line">[zk: localhost:2181(CONNECTED) 17] <span class="built_in">stat</span> /sanguo</span><br></pre></td></tr></table></figure>
+
+<h2 id="Java-API应用"><a href="#Java-API应用" class="headerlink" title="Java API应用"></a>Java API应用</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.zookeeper.*;</span><br><span class="line">import org.apache.zookeeper.data.Stat;</span><br><span class="line">import org.junit.Before;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public class ZKClient&#123;</span><br><span class="line">    private ZooKeeper zkCli;</span><br><span class="line">    private static final String CONNECT_STRING = <span class="string">"hadoop102:2181,hadoop103:2181,hadoop104:2181"</span>;</span><br><span class="line">    private static final int SESSION_TIMEOUT = 2000;</span><br><span class="line"></span><br><span class="line">    @Before</span><br><span class="line">    public void before() throws IOException &#123;</span><br><span class="line">        zkCli = new ZooKeeper(CONNECT_STRING, SESSION_TIMEOUT, e -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">"默认回调函数"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void ls() throws KeeperException, InterruptedException &#123;</span><br><span class="line">        List&lt;String&gt; children = zkCli.getChildren(<span class="string">"/"</span>, e -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">"自定义回调函数"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"=========================================="</span>);</span><br><span class="line">        <span class="keyword">for</span> (String child : children) &#123;</span><br><span class="line">            System.out.println(child);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"=========================================="</span>);</span><br><span class="line"></span><br><span class="line">        Thread.sleep(Long.MAX_VALUE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void create() throws KeeperException, InterruptedException &#123;</span><br><span class="line">        String s = zkCli.create(<span class="string">"/Idea"</span>, <span class="string">"Idea2018"</span>.getBytes(),</span><br><span class="line">                ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);</span><br><span class="line"></span><br><span class="line">        System.out.println(s);</span><br><span class="line"></span><br><span class="line">        Thread.sleep(Long.MAX_VALUE);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void get() throws KeeperException, InterruptedException &#123;</span><br><span class="line">        byte[] data = zkCli.getData(<span class="string">"/zxx0000000007"</span>, <span class="literal">true</span>, new Stat());</span><br><span class="line"></span><br><span class="line">        String string = new String(data);</span><br><span class="line"></span><br><span class="line">        System.out.println(string);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void <span class="built_in">set</span>() throws KeeperException, InterruptedException &#123;</span><br><span class="line"></span><br><span class="line">        Stat <span class="built_in">stat</span> = zkCli.setData(<span class="string">"/zxx0000000007"</span>, <span class="string">"defabc"</span>.getBytes(), 0);</span><br><span class="line"></span><br><span class="line">        System.out.println(stat.getDataLength());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void <span class="built_in">stat</span>() throws KeeperException, InterruptedException &#123;</span><br><span class="line">        Stat exists = zkCli.exists(<span class="string">"/Idea"</span>, <span class="literal">false</span>);</span><br><span class="line">        <span class="keyword">if</span> (exists == null) &#123;</span><br><span class="line">            System.out.println(<span class="string">"节点不存在"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(exists.getDataLength());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void delete() throws KeeperException, InterruptedException &#123;</span><br><span class="line">        Stat exists = zkCli.exists(<span class="string">"/zxx0000000007"</span>, <span class="literal">false</span>);</span><br><span class="line">        <span class="keyword">if</span> (exists != null)</span><br><span class="line">            zkCli.delete(<span class="string">"/zxx0000000007"</span>, exists.getVersion());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void register() throws KeeperException, InterruptedException &#123;</span><br><span class="line">        byte[] data = zkCli.getData(<span class="string">"/a"</span>, new <span class="function"><span class="title">Watcher</span></span>() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void process(WatchedEvent event) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    register();</span><br><span class="line">                &#125; catch (KeeperException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, null);</span><br><span class="line"></span><br><span class="line">        System.out.println(new String(data));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void <span class="function"><span class="title">testRegister</span></span>() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            register();</span><br><span class="line">            Thread.sleep(Long.MAX_VALUE);</span><br><span class="line">        &#125; catch (KeeperException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/09/16/bigdata-15（2）/" data-id="ck0s5r20e000fdovjuv1xbasr" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "zookeeper客户端命令行操作和API应用",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-09-16",
+        "dateCreated": "2019-09-16",
+        "dateModified": "2019-09-17",
+        "url": "http://yoursite.com/2019/09/16/bigdata-15（2）/",
+        "description": "大数据学习第十五天（2）
+zookeeper客户端命令行操作1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677//1. 启动客户端[root@hadoop013"
+        "wordCount": 1418
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/09/17/bigdata-16/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Hbase入门
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/09/16/bigdata-15/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Zookeeper入门</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/09/16/bigdata-15（2）/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

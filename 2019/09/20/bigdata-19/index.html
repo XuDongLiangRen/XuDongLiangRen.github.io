@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Hbase“微博小项目”——代码实现 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第十九天（1） 代码实现1 获取配置conf123456789101112private static Configuration conf = HBaseConfiguration.create();static&amp;#123;    conf.set(&quot;hbase.zookeeper.property.clientPort&quot;, &quot;2181&quot;);    conf.set(&quot;hbase.zo">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hbase“微博小项目”——代码实现">
+<meta property="og:url" content="http://yoursite.com/2019/09/20/bigdata-19/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第十九天（1） 代码实现1 获取配置conf123456789101112private static Configuration conf = HBaseConfiguration.create();static&amp;#123;    conf.set(&quot;hbase.zookeeper.property.clientPort&quot;, &quot;2181&quot;);    conf.set(&quot;hbase.zo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-20T12:11:25.205Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hbase“微博小项目”——代码实现">
+<meta name="twitter:description" content="大数据学习第十九天（1） 代码实现1 获取配置conf123456789101112private static Configuration conf = HBaseConfiguration.create();static&amp;#123;    conf.set(&quot;hbase.zookeeper.property.clientPort&quot;, &quot;2181&quot;);    conf.set(&quot;hbase.zo">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-19" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Hbase“微博小项目”——代码实现
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/09/20/bigdata-19/" class="article-date">
+            <time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第十九天（1）</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h4 id="1-获取配置conf"><a href="#1-获取配置conf" class="headerlink" title="1 获取配置conf"></a>1 获取配置conf</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private static Configuration conf = HBaseConfiguration.create();</span><br><span class="line">static&#123;</span><br><span class="line">    conf.set(<span class="string">"hbase.zookeeper.property.clientPort"</span>, <span class="string">"2181"</span>);</span><br><span class="line">    conf.set(<span class="string">"hbase.zookeeper.quorum"</span>,<span class="string">"hadoop013:2181,hadoop014:2181,hadoop015:2181"</span>);</span><br><span class="line">    conf.set(<span class="string">"hbase.master"</span>, <span class="string">"192.168.164.11:16000"</span>);</span><br><span class="line">&#125;</span><br><span class="line">//微博内容表的表名</span><br><span class="line">private static final byte[] TABLE_CONTENT = Bytes.toBytes(<span class="string">"weibo:content"</span>);</span><br><span class="line">//用户关系表的表名</span><br><span class="line">private static final byte[] TABLE_RELATION = Bytes.toBytes(<span class="string">"weibo:relation"</span>);</span><br><span class="line">//微博收件箱表的表名</span><br><span class="line">private static final byte[] TABLE_RECEIVE_CONTENT_EMAIL = Bytes.toBytes(<span class="string">"weibo:receive_content_email"</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-命名空间初始化"><a href="#2-命名空间初始化" class="headerlink" title="2 命名空间初始化"></a>2 命名空间初始化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 命名空间初始化</span><br><span class="line"> * @param namespace 命名空间名</span><br><span class="line"> */</span><br><span class="line">public void initNamespase(String namespace)&#123;</span><br><span class="line">    HBaseAdmin hBaseAdmin = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        hBaseAdmin = (HBaseAdmin) ConnectionFactory.createConnection(conf).getAdmin();</span><br><span class="line">        //创建一个命名空间描述对象，赋予一些属性（命名空间类似于关系型数据库中的schema）</span><br><span class="line">        NamespaceDescriptor namespaceDescriptor = NamespaceDescriptor</span><br><span class="line">                .create(namespace)</span><br><span class="line">                .addConfiguration(<span class="string">"creator"</span>,<span class="string">"Dongliang"</span>)</span><br><span class="line">                .addConfiguration(<span class="string">"create_time"</span>,System.currentTimeMillis()+<span class="string">""</span>)</span><br><span class="line">                .build();</span><br><span class="line">        //Hbase管理员根据命名空间描述对象创建命名空间</span><br><span class="line">        hBaseAdmin.createNamespace(namespaceDescriptor);</span><br><span class="line">    &#125; catch (MasterNotRunningException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch (ZooKeeperConnectionException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        <span class="keyword">if</span>(hBaseAdmin!=null)&#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                hBaseAdmin.close();</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-创建表的方法"><a href="#3-创建表的方法" class="headerlink" title="3 创建表的方法"></a>3 创建表的方法</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 创建表</span><br><span class="line"> * @param tableName 表名 字节数组</span><br><span class="line"> */</span><br><span class="line">public void createTable(byte[] tableName,String... columns)&#123;</span><br><span class="line">    HBaseAdmin hBaseAdmin = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        hBaseAdmin = (HBaseAdmin) ConnectionFactory.createConnection(conf).getAdmin();</span><br><span class="line">        //创建表描述对象，并赋予一些属性</span><br><span class="line">        HTableDescriptor hTableDescriptors = new HTableDescriptor(TableName.valueOf(tableName));</span><br><span class="line">        //表存在的话，提示</span><br><span class="line">        <span class="keyword">if</span>(hBaseAdmin.tableExists(tableName))&#123;</span><br><span class="line">            new Exception(<span class="string">"表已经存在，不能创建"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        //判断列族参数是否至少一个，否 抛出异常，提示创建失败</span><br><span class="line">        <span class="keyword">if</span>(columns.length&lt;=0)&#123;</span><br><span class="line">            new Exception(<span class="string">"没有列族参数，不能初始化表"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        //创建列族描述对象</span><br><span class="line">        <span class="keyword">for</span>(String column : columns) &#123;</span><br><span class="line">            HColumnDescriptor hColumnDescriptor = new HColumnDescriptor(column);</span><br><span class="line">            //设置启用块缓存</span><br><span class="line">            hColumnDescriptor.setBlockCacheEnabled(<span class="literal">true</span>);</span><br><span class="line">            //设置块缓存大小</span><br><span class="line">            hColumnDescriptor.setBlocksize(2097152);</span><br><span class="line">            //设置压缩方式</span><br><span class="line">            //hColumnDescriptor.setCompactionCompressionType(Compression.Algorithm.SNAPPY);</span><br><span class="line">            //设置版本确界</span><br><span class="line">            hColumnDescriptor.setMaxVersions(1);</span><br><span class="line">            hColumnDescriptor.setMinVersions(1);</span><br><span class="line">            //将列族描述加入到表描述对象中</span><br><span class="line">            hTableDescriptors.addFamily(hColumnDescriptor);</span><br><span class="line">        &#125;</span><br><span class="line">        //根据</span><br><span class="line">        hBaseAdmin.createTable(hTableDescriptors);</span><br><span class="line">    &#125; catch (MasterNotRunningException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch (ZooKeeperConnectionException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch(Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;finally &#123;</span><br><span class="line">        <span class="keyword">if</span>(hBaseAdmin!=null)&#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                hBaseAdmin.close();</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-命名空间和表的初始化"><a href="#4-命名空间和表的初始化" class="headerlink" title="4 命名空间和表的初始化"></a>4 命名空间和表的初始化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public void <span class="function"><span class="title">initTable</span></span>()&#123;</span><br><span class="line">    initNamespase(<span class="string">"weibo"</span>);</span><br><span class="line">    createTable(TABLE_CONTENT,<span class="string">"info"</span>);</span><br><span class="line">    createTable(TABLE_RELATION,<span class="string">"attend"</span>,<span class="string">"fan"</span>);</span><br><span class="line">    createTable(TABLE_RECEIVE_CONTENT_EMAIL,<span class="string">"info"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-发布微博"><a href="#5-发布微博" class="headerlink" title="5 发布微博"></a>5 发布微博</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 发布微博</span><br><span class="line"> * 1.微博内容表中插入数据</span><br><span class="line"> * 2.微博收件箱加入新发布的微博RowKey</span><br><span class="line"> *</span><br><span class="line"> * @param uid 用户id</span><br><span class="line"> * @param text 发布的微博内容</span><br><span class="line"> */</span><br><span class="line">public void publishContent(String uid,String text)&#123;</span><br><span class="line">    // 声明Hbase连接</span><br><span class="line">    Connection conn = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        conn = ConnectionFactory.createConnection(conf);</span><br><span class="line">        //a.微博内容表添加一条数据</span><br><span class="line">        //获取微博表链接</span><br><span class="line">        Table content = conn.getTable(TableName.valueOf(TABLE_CONTENT));</span><br><span class="line">        //组装RowKey</span><br><span class="line">        long timestamp = System.currentTimeMillis();</span><br><span class="line">        String rowKey = uid+<span class="string">"_"</span>+timestamp;</span><br><span class="line">        //组装put</span><br><span class="line">        Put put = new Put(Bytes.toBytes(rowKey));</span><br><span class="line">        put.addColumn(Bytes.toBytes(<span class="string">"info"</span>),Bytes.toBytes(<span class="string">"content"</span>),timestamp,Bytes.toBytes(text));</span><br><span class="line">        content.put(put);</span><br><span class="line">        //b.向粉丝微博收件箱中加入发布的RowKey</span><br><span class="line">        //获取粉丝列表</span><br><span class="line">        Table relation = conn.getTable(TableName.valueOf(TABLE_RELATION));</span><br><span class="line">        Get get = new Get(Bytes.toBytes(uid));</span><br><span class="line">        get.addFamily(Bytes.toBytes(<span class="string">"fan"</span>));</span><br><span class="line">        Result result = relation.get(get);</span><br><span class="line">        List&lt;byte[]&gt; fans = new ArrayList&lt;&gt;();</span><br><span class="line">        //遍历取出当前发布的微博的用户的所有粉丝</span><br><span class="line">        <span class="keyword">for</span> (Cell cell : result.rawCells())&#123;</span><br><span class="line">            fans.add(CellUtil.cloneQualifier(cell));</span><br><span class="line">        &#125;</span><br><span class="line">        //如果该用户没有粉丝，直接<span class="built_in">return</span></span><br><span class="line">        <span class="keyword">if</span>(fans.size()&lt;=0)&#123;</span><br><span class="line">            <span class="built_in">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        //向各个粉丝的收件箱发送</span><br><span class="line">        Table email = conn.getTable(TableName.valueOf(TABLE_RECEIVE_CONTENT_EMAIL));</span><br><span class="line">        List&lt;Put&gt; puts = new ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(byte[] fan : fans)&#123;</span><br><span class="line">            Put fanPut = new Put(fan);</span><br><span class="line">            fanPut.addColumn(Bytes.toBytes(<span class="string">"info"</span>),Bytes.toBytes(uid),timestamp,Bytes.toBytes(rowKey));</span><br><span class="line">            puts.add(fanPut);</span><br><span class="line">        &#125;</span><br><span class="line">        //添加</span><br><span class="line">        email.put(puts);</span><br><span class="line">    &#125; catch (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        <span class="keyword">if</span>(conn != null)&#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-关注用户"><a href="#6-关注用户" class="headerlink" title="6 关注用户"></a>6 关注用户</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 关注用户</span><br><span class="line"> * 1.在微博关系表中，对当前主动操作的用户添加新的关注的好友</span><br><span class="line"> * 2.在微博关系表中，对被关注的用户添加粉丝（本人id）</span><br><span class="line"> * 3.当前操作用户的微博收件箱中添加所关注份的用户发布的微博rowkey</span><br><span class="line"> *</span><br><span class="line"> * @param uid 本人id</span><br><span class="line"> * @param attends_uids 关注的人的id</span><br><span class="line"> */</span><br><span class="line">public void addAttends(String uid,String... attends_uids)&#123;</span><br><span class="line">    //参数过滤</span><br><span class="line">    <span class="keyword">if</span>(attends_uids == null || attends_uids.length&lt;=0 || uid == null || uid.length()&lt;=0)&#123;</span><br><span class="line">        <span class="built_in">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Connection conn = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        conn = ConnectionFactory.createConnection(conf);</span><br><span class="line">        Table tableRelation = conn.getTable(TableName.valueOf(TABLE_RELATION));</span><br><span class="line">        List&lt;Put&gt; puts = new ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(String att_uid : attends_uids)&#123;</span><br><span class="line">            Put put = new Put(Bytes.toBytes(uid));</span><br><span class="line">            put.addColumn(Bytes.toBytes(<span class="string">"attend"</span>),Bytes.toBytes(att_uid),Bytes.toBytes(uid));</span><br><span class="line">            Put fanPut = new Put(Bytes.toBytes(att_uid));</span><br><span class="line">            fanPut.addColumn(Bytes.toBytes(<span class="string">"fan"</span>),Bytes.toBytes(uid),Bytes.toBytes(att_uid));</span><br><span class="line">            //添加粉丝和关注</span><br><span class="line">            puts.add(put);</span><br><span class="line">            puts.add(fanPut);</span><br><span class="line">        &#125;</span><br><span class="line">        tableRelation.put(puts);</span><br><span class="line">        //获取关注的人的微博的rowKey</span><br><span class="line">        Table content = conn.getTable(TableName.valueOf(TABLE_CONTENT));</span><br><span class="line">        Scan scan = new Scan();</span><br><span class="line">        List&lt;byte[]&gt; rowList = new ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(String att_uid : attends_uids)&#123;</span><br><span class="line">            PrefixFilter prefixFilter = new PrefixFilter(Bytes.toBytes(att_uid));</span><br><span class="line">            scan.setFilter(prefixFilter);</span><br><span class="line">            ResultScanner scanner = content.getScanner(scan);</span><br><span class="line">            Iterator&lt;Result&gt; iterator = scanner.iterator();</span><br><span class="line">            <span class="keyword">while</span>(iterator.hasNext())&#123;</span><br><span class="line">                Result result = iterator.next();</span><br><span class="line">                <span class="keyword">for</span>(Cell cell : result.rawCells())&#123;</span><br><span class="line">                    rowList.add(CellUtil.cloneRow(cell));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //将获取到的关注的人的微博rowKey发送到uid的邮箱</span><br><span class="line">        <span class="keyword">if</span>(rowList.size()&lt;=0) <span class="built_in">return</span>;</span><br><span class="line">        Table email = conn.getTable(TableName.valueOf(TABLE_RECEIVE_CONTENT_EMAIL));</span><br><span class="line">        List&lt;Put&gt; putList = new ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(byte[] rk : rowList)&#123;</span><br><span class="line">            Put put = new Put(Bytes.toBytes(uid));</span><br><span class="line">            String rowKey = Bytes.toString(rk);</span><br><span class="line">            String attendUID = rowKey.substring(0, rowKey.indexOf(<span class="string">"_"</span>));</span><br><span class="line">            long timestamp = Long.parseLong(rowKey.substring(rowKey.indexOf(<span class="string">"_"</span>) + 1));</span><br><span class="line">            //将微博rowkey添加到指定单元格中</span><br><span class="line">            put.addColumn(Bytes.toBytes(<span class="string">"info"</span>), Bytes.toBytes(attendUID), timestamp, rk);</span><br><span class="line">            putList.add(put);</span><br><span class="line">        &#125;</span><br><span class="line">        email.put(putList);</span><br><span class="line">    &#125; catch (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        <span class="keyword">if</span>(conn!=null)&#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-取消关注"><a href="#7-取消关注" class="headerlink" title="7 取消关注"></a>7 取消关注</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 取消关注</span><br><span class="line"> * 1 在微博用户关系表中，对当前主动操作的用户删除对应的取关的好友</span><br><span class="line"> * 2 在微博用户关系表中，对被取关注的人删除粉丝（本人）</span><br><span class="line"> * 3 从收件箱中删除取关的人的微博的rowKey</span><br><span class="line"> *</span><br><span class="line"> * @param uid 本人id</span><br><span class="line"> * @param attends 要取消的关注的人的id</span><br><span class="line"> */</span><br><span class="line">public void removeAttends(String uid,String... attends)&#123;</span><br><span class="line">    Connection conn = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        conn = ConnectionFactory.createConnection(conf);</span><br><span class="line">        // 取关和得粉丝-1</span><br><span class="line">        Table relationTable = conn.getTable(TableName.valueOf(TABLE_RELATION));</span><br><span class="line">        List&lt;Delete&gt; deleteList = new ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(String att_uid : attends)&#123;</span><br><span class="line">            Delete deleteAtt = new Delete(Bytes.toBytes(uid));</span><br><span class="line">            deleteAtt.addColumn(Bytes.toBytes(<span class="string">"attend"</span>),Bytes.toBytes(att_uid));</span><br><span class="line">            Delete deleteFan = new Delete(Bytes.toBytes(att_uid));</span><br><span class="line">            deleteFan.addColumn(Bytes.toBytes(<span class="string">"fan"</span>),Bytes.toBytes(uid));</span><br><span class="line">            deleteList.add(deleteAtt);</span><br><span class="line">            deleteList.add(deleteFan);</span><br><span class="line">        &#125;</span><br><span class="line">        relationTable.delete(deleteList);</span><br><span class="line">        //收件箱删除关注的人的微博</span><br><span class="line">        Table email = conn.getTable(TableName.valueOf(TABLE_RECEIVE_CONTENT_EMAIL));</span><br><span class="line">        List&lt;Delete&gt; deleteCons = new ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(String att_uid : attends)&#123;</span><br><span class="line">            Delete deleteCon = new Delete(Bytes.toBytes(uid));</span><br><span class="line">            deleteCon.addColumn(Bytes.toBytes(<span class="string">"info"</span>),Bytes.toBytes(att_uid));</span><br><span class="line">            deleteCons.add(deleteCon);</span><br><span class="line">        &#125;</span><br><span class="line">        email.delete(deleteCons);</span><br><span class="line">    &#125; catch (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        <span class="keyword">if</span>(conn != null)&#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-获取微博的实际内容"><a href="#8-获取微博的实际内容" class="headerlink" title="8 获取微博的实际内容"></a>8 获取微博的实际内容</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取微博的实际内容</span><br><span class="line"> * 1 从微博收件箱中获取所有关注的人发布的微博的rowKey</span><br><span class="line"> * 2 根据得到的rowKey去微博内容表中得到数据</span><br><span class="line"> * 3 将得到的数据封装到Message对象中</span><br><span class="line"> *</span><br><span class="line"> * @param uid 本人id</span><br><span class="line"> * @<span class="built_in">return</span> 微博信息</span><br><span class="line"> */</span><br><span class="line">public List&lt;Message&gt; getAttendsContent(String uid)&#123;</span><br><span class="line">    Connection connection = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        connection = ConnectionFactory.createConnection(conf);</span><br><span class="line">        Table relationTable = connection.getTable(TableName.valueOf(TABLE_RECEIVE_CONTENT_EMAIL));</span><br><span class="line">        // 1 从收件箱中取得微博rowKey</span><br><span class="line">        Get get = new Get(Bytes.toBytes(uid));</span><br><span class="line">        //设置最大版本号</span><br><span class="line">        //get.setMaxVersions(5);</span><br><span class="line">        List&lt;byte[]&gt; rowKeys = new ArrayList&lt;&gt;();</span><br><span class="line">        Result result = relationTable.get(get);</span><br><span class="line">        <span class="keyword">for</span>(Cell cell : result.rawCells())&#123;</span><br><span class="line">            rowKeys.add(CellUtil.cloneValue(cell));</span><br><span class="line">        &#125;</span><br><span class="line">        //2 根据取出的所有的rowKey去微博内容表中检索数据</span><br><span class="line">        Table contentTable = connection.getTable(TableName.valueOf(TABLE_CONTENT));</span><br><span class="line">        List&lt;Get&gt; getList = new ArrayList&lt;&gt;();</span><br><span class="line">        //根据rowKey取出对应微博的具体内容</span><br><span class="line">        <span class="keyword">for</span>(byte[] rk : rowKeys)&#123;</span><br><span class="line">            Get g = new Get(rk);</span><br><span class="line">            getList.add(g);</span><br><span class="line">        &#125;</span><br><span class="line">        Result[] results = contentTable.get(getList);</span><br><span class="line">        List&lt;Message&gt; messageList = new ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(Result re : results)&#123;</span><br><span class="line">            <span class="keyword">for</span>(Cell cell : re.rawCells())&#123;</span><br><span class="line">                Message message = new Message();</span><br><span class="line">                String rowKey = Bytes.toString(CellUtil.cloneRow(cell));</span><br><span class="line">                String userid = rowKey.substring(0,rowKey.indexOf(<span class="string">"_"</span>));</span><br><span class="line">                String timestamp = rowKey.substring(rowKey.indexOf(<span class="string">"_"</span>)+1);</span><br><span class="line">                String content = Bytes.toString(CellUtil.cloneValue(cell));</span><br><span class="line">                message.setUid(userid);</span><br><span class="line">                message.setTimestamp(timestamp);</span><br><span class="line">                message.setContent(content);</span><br><span class="line">                messageList.add(message);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> messageList;</span><br><span class="line">    &#125; catch (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        <span class="keyword">if</span>(connection != null)&#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                connection.close();</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-测试"><a href="#9-测试" class="headerlink" title="9 测试"></a>9 测试</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 发布微博内容</span><br><span class="line"> * 添加关注</span><br><span class="line"> * 取消关注</span><br><span class="line"> * 展示内容</span><br><span class="line"> */</span><br><span class="line">public void testPublishContent(WeiBo wb)&#123;</span><br><span class="line">    wb.publishContent(<span class="string">"0001"</span>, <span class="string">"哈哈哈哈哈！"</span>);</span><br><span class="line">    wb.publishContent(<span class="string">"0001"</span>, <span class="string">"愁啊愁！"</span>);</span><br><span class="line">&#125;</span><br><span class="line">public void testAddAttend(WeiBo wb)&#123;</span><br><span class="line">    wb.publishContent(<span class="string">"0008"</span>, <span class="string">"勿忘国耻"</span>);</span><br><span class="line">    wb.publishContent(<span class="string">"0009"</span>, <span class="string">"踩踩踩！"</span>);</span><br><span class="line">    wb.addAttends(<span class="string">"0001"</span>, <span class="string">"0008"</span>, <span class="string">"0009"</span>);</span><br><span class="line">&#125;</span><br><span class="line">public void testRemoveAttend(WeiBo wb)&#123;</span><br><span class="line">    wb.removeAttends(<span class="string">"0001"</span>, <span class="string">"0008"</span>);</span><br><span class="line">&#125;</span><br><span class="line">public void testShowMessage(WeiBo wb)&#123;</span><br><span class="line">    List&lt;Message&gt; messages = wb.getAttendsContent(<span class="string">"0001"</span>);</span><br><span class="line">    <span class="keyword">for</span>(Message message : messages)&#123;</span><br><span class="line">        System.out.println(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    WeiBo weibo = new WeiBo();</span><br><span class="line">    System.out.println(<span class="string">"================================================================="</span>);</span><br><span class="line">   // weibo.initTable();</span><br><span class="line">    //weibo.testPublishContent(weibo);</span><br><span class="line">    //weibo.testAddAttend(weibo);</span><br><span class="line">    //weibo.testShowMessage(weibo);</span><br><span class="line">    //weibo.testRemoveAttend(weibo);</span><br><span class="line">    weibo.testShowMessage(weibo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/09/20/bigdata-19/" data-id="ck0s5r210000sdovjv77ahcje" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "Hbase“微博小项目”——代码实现",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-09-20",
+        "dateCreated": "2019-09-20",
+        "dateModified": "2019-09-20",
+        "url": "http://yoursite.com/2019/09/20/bigdata-19/",
+        "description": "大数据学习第十九天（1）
+代码实现1 获取配置conf123456789101112private static Configuration conf = HBaseConfiguration.create();static&#123;    conf.set("hbase.zookeeper.property.clientPort", "2181");    conf.set("hbase.zo"
+        "wordCount": 4088
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/09/20/firefoxUpdate/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Cen OS 6.6之升级火狐浏览器
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/09/19/bigdata-18/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Hbase的数据结构与原理</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/09/20/bigdata-19/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

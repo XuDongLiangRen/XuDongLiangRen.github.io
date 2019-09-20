@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>MapReduce小结 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第九天 MapReduce的一些认识Mapreduce是一个分布式运算程序的编程框架。基于Hadoop，用来数据分析。处理的数据是键值对的形式。 Map是映射，是将硬盘里的数据映射到内存中，在Mapper阶段还可以进行数据的筛选，简单的判断和合并。因为Map是分布在很多台机器上的，所以为了提高效率，在不影响结果的情况下，能把部分处理放到Mapper阶段最好。 Reduce是归约，我的理解">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MapReduce小结">
+<meta property="og:url" content="http://yoursite.com/2019/09/06/bigdata-09/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第九天 MapReduce的一些认识Mapreduce是一个分布式运算程序的编程框架。基于Hadoop，用来数据分析。处理的数据是键值对的形式。 Map是映射，是将硬盘里的数据映射到内存中，在Mapper阶段还可以进行数据的筛选，简单的判断和合并。因为Map是分布在很多台机器上的，所以为了提高效率，在不影响结果的情况下，能把部分处理放到Mapper阶段最好。 Reduce是归约，我的理解">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-07T04:07:25.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MapReduce小结">
+<meta name="twitter:description" content="大数据学习第九天 MapReduce的一些认识Mapreduce是一个分布式运算程序的编程框架。基于Hadoop，用来数据分析。处理的数据是键值对的形式。 Map是映射，是将硬盘里的数据映射到内存中，在Mapper阶段还可以进行数据的筛选，简单的判断和合并。因为Map是分布在很多台机器上的，所以为了提高效率，在不影响结果的情况下，能把部分处理放到Mapper阶段最好。 Reduce是归约，我的理解">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-09" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        MapReduce小结
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/09/06/bigdata-09/" class="article-date">
+            <time datetime="2019-09-06T00:13:14.000Z" itemprop="datePublished">2019-09-06</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第九天</p>
+<h2 id="MapReduce的一些认识"><a href="#MapReduce的一些认识" class="headerlink" title="MapReduce的一些认识"></a>MapReduce的一些认识</h2><p>Mapreduce是一个分布式运算程序的编程框架。基于Hadoop，用来数据分析。处理的数据是键值对的形式。</p>
+<p>Map是映射，是将硬盘里的数据映射到内存中，在Mapper阶段还可以进行数据的筛选，简单的判断和合并。因为Map是分布在很多台机器上的，所以为了提高效率，在不影响结果的情况下，能把部分处理放到Mapper阶段最好。</p>
+<p>Reduce是归约，我的理解是将Mapper阶段各台机器上的处理结果归总，或者说，Mapper是个筛选器，负责从海量数据了提却或者简化有用的数据，或者是数据的“预处理”，从而Reduce端可以减轻数据处理的压力。</p>
+<p>单机版程序扩展到集群来分布式运行，将极大增加程序的复杂度和开发难度，MapReduce的这种处理模式，基本消除了传统程序的复杂度，同时也会改变一些传统算法的具体实现，比如找共同好友的例子。当然，某些复杂度高的算法可能无法实现。</p>
+<p>mapreduce分布式方案考虑的问题<br>（1）运算逻辑要不要先分后合？<br>（2）程序如何分配运算任务（切片）？<br>（3）两阶段的程序如何启动？如何协调？<br>（4）整个程序运行过程中的监控？容错？重试？</p>
+<h2 id="MapReduce的一些理论"><a href="#MapReduce的一些理论" class="headerlink" title="MapReduce的一些理论"></a>MapReduce的一些理论</h2><h3 id="1-Writable序列化"><a href="#1-Writable序列化" class="headerlink" title="1.Writable序列化"></a>1.Writable序列化</h3><h3 id="2-InputFormat数据切片"><a href="#2-InputFormat数据切片" class="headerlink" title="2.InputFormat数据切片"></a>2.InputFormat数据切片</h3><h3 id="3-MapTask工作机制"><a href="#3-MapTask工作机制" class="headerlink" title="3.MapTask工作机制"></a>3.MapTask工作机制</h3><h4 id="MapTask工作机制"><a href="#MapTask工作机制" class="headerlink" title="MapTask工作机制"></a>MapTask工作机制</h4><p>（1）Read阶段：<br>Map Task通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。<br>（2）Map阶段：<br>该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value。<br>（3）Collect阶段：<br>在用户编写map()函数中，当数据处理完成后，一般会调用OutputCollector.collect()输出结果。在该函内部，它会将生成的key/value分区（调用Partitioner），并写入一个环形内存缓冲区中。<br>（4）Spill阶段：<br>即“溢写”，当环形缓冲区满后，MapReduce会将数据写到本地磁盘上，生成一个临时文件。需要注意的是，将据写入本地磁盘之前，先要对数据进行一次本地排序，并在必要时对数据进行合并、压缩等操作。<br>溢写阶段详情：<br>步骤1：利用快速排序算法对缓存区内的数据进行排序，排序方式是，先按照分区编号partition进行排序，后按照key进行排序。这样，经过排序后，数据以分区为单位聚集在一起，且同一分区内所有数据按照key有序。<br>步骤2：按照分区编号由小到大依次将每个分区中的数据写入任务工作目录下的临时文件output/spillN.out（表示当前溢写次数）中。如果用户设置了Combiner，则写入文件之前，对每个分区中的数据进行一次聚集操作。<br>步骤3：将分区数据的元信息写到内存索引数据结构SpillRecord中，其中每个分区的元信息包括在临时文件的偏移量、压缩前数据大小和压缩后数据大小。如果当期内存索引大小超过1MB，则将内存索引写到文output/spillN.out.index中。<br>（5）Combine阶段：<br>当所有数据处理完成后，MapTask对所有临时文件进行一次合并，以确保最终只会生成一个数据文件。<br>当所有数据处理完后，MapTask会将所有临时文件合并成一个大文件，并保存到文件output/file.out中，同生成相应的索引文件output/file.out.index。<br>在进行文件合并过程中，MapTask以分区为单位进行合并。对于某个分区，它将采用多轮递归合并的方式。每合并io.sort.factor（默认100）个文件，并将产生的文件重新加入待合并列表中，对文件排序后，重复以上程，直到最终得到一个大文件。<br>让每个MapTask最终只生成一个数据文件，可避免同时打开大量文件和同时读取大量小文件产生的随机读取带的开销。</p>
+<h3 id="4-Shuffle机制"><a href="#4-Shuffle机制" class="headerlink" title="4.Shuffle机制"></a>4.Shuffle机制</h3><p>1）maptask收集我们的map()方法输出的kv对，放到内存缓冲区中<br>2）从内存缓冲区不断溢出本地磁盘文件，可能会溢出多个文件<br>3）多个溢出文件会被合并成大的溢出文件<br>4）在溢出过程中，及合并的过程中，都要调用partitoner进行分组和针对key进行排序<br>5）reducetask根据自己的分区号，去各个maptask机器上取相应的结果分区数据<br>6）reducetask会取到同一个分区的来自不同maptask的结果文件，reducetask会将这些文件再进行合并（归并排序）<br>7）合并成大文件后，shuffle的过程也就结束了，后面进入reducetask的逻辑运算过程（从文件中取出一个一个的键值对group，调用用户自定义的reduce()方法）</p>
+<h4 id="partition分区"><a href="#partition分区" class="headerlink" title="partition分区"></a>partition分区</h4><p>1）默认partition分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class HashPartitioner&lt;K, V&gt; extends Partitioner&lt;K, V&gt; &#123;</span><br><span class="line">  /** Use &#123;@link Object<span class="comment">#hashCode()&#125; to partition. */</span></span><br><span class="line">  public int getPartition(K key, V value, int numReduceTasks) &#123;</span><br><span class="line">    <span class="built_in">return</span> (key.hashCode() &amp; Integer.MAX_VALUE) % numReduceTasks;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<pre><code>默认分区是根据key的hashCode对reduceTasks个数取模得到的。用户没法控制哪个key存储到哪个分区</code></pre><p>2）自定义Partitioner步骤<br>（1）自定义类继承Partitioner，重新getPartition()方法</p>
+<p>（2）在job驱动中，设置自定义partitioner： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">job.setPartitionerClass(CustomPartitioner.class)</span><br></pre></td></tr></table></figure>
+
+<p>（3）自定义partition后，要根据自定义partitioner的逻辑设置相应数量的reduce task</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">job.setNumReduceTasks(5);</span><br></pre></td></tr></table></figure>
+
+<h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><p>排序是MapReduce框架中最重要的操作之一。Map Task和Reduce Task均会对数据（按照key）进行排序。该操作属于Hadoop的默认行为。任何应用程序中的数据均会被排序，而不管逻辑上是否需要。</p>
+<p>1）排序的分类：<br>（1）部分排序：<br>MapReduce根据输入记录的键对数据集排序。保证输出的每个文件内部排序。<br>（2）全排序：<br>如何用Hadoop产生一个全局排序的文件？最简单的方法是使用一个分区。但该方法在处理大型文件时效率极低，因为一台机器必须处理所有输出文件，从而完全丧失了MapReduce所提供的并行架构。<br>替代方案：首先创建一系列排好序的文件；其次，串联这些文件；最后，生成一个全局排序的文件。主要思路是使用一个分区来描述输出的全局排序。例如：可以为上述文件创建3个分区，在第一分区中，记录的单词首字母a-g，第二分区记录单词首字母h-n, 第三分区记录单词首字母o-z。<br>（3）辅助排序：（GroupingComparator分组）<br>Mapreduce框架在记录到达reducer之前按键对记录排序，但键所对应的值并没有被排序。甚至在不同的执行轮次中，这些值的排序也不固定，因为它们来自不同的map任务且这些map任务在不同轮次中完成时间各不相同。一般来说，大多数MapReduce程序会避免让reduce函数依赖于值的排序。但是，有时也需要通过特定的方法对键进行排序和分组等以实现对值的排序。</p>
+<p>自定义排序WritableComparable<br>bean对象实现WritableComparable接口重写compareTo方法，就可以实现排序</p>
+<h4 id="GroupingCompartor分组"><a href="#GroupingCompartor分组" class="headerlink" title="GroupingCompartor分组"></a>GroupingCompartor分组</h4><p>继承WritableComparator类，重写compare方法</p>
+<h4 id="Combiner合并"><a href="#Combiner合并" class="headerlink" title="Combiner合并"></a>Combiner合并</h4><p>combiner就是一个Reducer，是在Mapper阶段运行的Reducer。就是在Reduce运行前先进行一次归约，以减轻Reducer的计算压力。</p>
+<p>继承Reducer，重写reduce方法即可。</p>
+<h4 id="数据倾斜-amp-Distributedcache"><a href="#数据倾斜-amp-Distributedcache" class="headerlink" title="数据倾斜&amp;Distributedcache"></a>数据倾斜&amp;Distributedcache</h4><p>1）数据倾斜原因<br>如果是多张表的操作都是在reduce阶段完成，reduce端的处理压力太大，map节点的运算负载则很低，资源利用率不高，且在reduce阶段极易产生数据倾斜。<br>2）解决方案<br>在map端缓存多张表，提前处理业务逻辑，这样增加map端业务，减少reduce端数据的压力，尽可能的减少数据倾斜。<br>3）具体办法：采用distributedcache<br>    （1）在mapper的setup阶段，将文件读取到缓存集合中<br>    （2）在驱动函数中加载缓存。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">job.addCacheFile(new URI(<span class="string">"file:XXXXX"</span>));// 缓存普通文件到task运行节点</span><br></pre></td></tr></table></figure>
+
+<h3 id="ReduceTask工作机制"><a href="#ReduceTask工作机制" class="headerlink" title="ReduceTask工作机制"></a>ReduceTask工作机制</h3><p>ReduceTask工作机制<br>    （1）Copy阶段：ReduceTask从各个MapTask上远程拷贝一片数据，并针对某一片数据，如果其大小超过一定阈值，则写到磁盘上，否则直接放到内存中。<br>    （2）Merge阶段：在远程拷贝数据的同时，ReduceTask启动了两个后台线程对内存和磁盘上的文件进行合并，以防止内存使用过多或磁盘上文件过多。<br>    （3）Sort阶段：按照MapReduce语义，用户编写reduce()函数输入数据是按key进行聚集的一组数据。为了将key相同的数据聚在一起，Hadoop采用了基于排序的策略。由于各个MapTask已经实现对自己的处理结果进行了局部排序，因此，ReduceTask只需对所有数据进行一次归并排序即可。<br>    （4）Reduce阶段：reduce()函数将计算结果写到HDFS上。</p>
+<p>//job.setNumReduceTasks(num);设置ReduceTask数量</p>
+<h3 id="OutputFormat"><a href="#OutputFormat" class="headerlink" title="OutputFormat"></a>OutputFormat</h3><p>（1）要在一个mapreduce程序中根据数据的不同输出两类结果到不同目录，这类灵活的输出需求可以通过自定义outputformat来实现。<br>（1）自定义outputformat，<br>（2）改写recordwriter，具体改写输出数据的方法write()</p>
+<h3 id="MapReduce数据压缩"><a href="#MapReduce数据压缩" class="headerlink" title="MapReduce数据压缩"></a>MapReduce数据压缩</h3><p>在Map输出端采用压缩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 开启map端输出压缩</span><br><span class="line">configuration.setBoolean(<span class="string">"mapreduce.map.output.compress"</span>, <span class="literal">true</span>);</span><br><span class="line">// 设置map端输出压缩方式</span><br><span class="line">configuration.setClass(<span class="string">"mapreduce.map.output.compress.codec"</span>, GzipCodec.classCompressionCodec.class);</span><br></pre></td></tr></table></figure>
+
+<p>在Reduce输出端采用压缩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 设置reduce端输出压缩开启</span><br><span class="line">FileOutputFormat.setCompressOutput(job, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">// 设置压缩的方式</span><br><span class="line">FileOutputFormat.setOutputCompressorClass(job, BZip2Codec.class); </span><br><span class="line">   //FileOutputFormat.setOutputCompressorClass(job, GzipCodec.class); </span><br><span class="line">   //FileOutputFormat.setOutputCompressorClass(job, Lz4Codec.class); </span><br><span class="line">   //FileOutputFormat.setOutputCompressorClass(job, DefaultCodec.class);</span><br></pre></td></tr></table></figure>
+
+<h3 id="计数器应用"><a href="#计数器应用" class="headerlink" title="计数器应用"></a>计数器应用</h3><p>Hadoop为每个作业维护若干内置计数器，以描述多项指标。例如，某些计数器记录已处理的字节数和记录数，使用户可监控已处理的输入数据量和已产生的输出数据量。</p>
+<p>（1）采用枚举的方式统计计数<br>enum MyCounter{MALFORORMED,NORMAL}<br>//对枚举定义的自定义计数器加1<br>context.getCounter(MyCounter.MALFORORMED).increment(1);<br>（2）采用计数器组、计数器名称的方式统计<br>context.getCounter(“counterGroup”, “countera”).increment(1);<br>组名和计数器名称随便起，但最好有意义。<br>（3）计数结果在程序运行后的控制台上查看。</p>
+<h3 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h3><p>在运行Mapreduce程序之前，往往要先对数据进行清洗，清理掉不符合用户要求的数据。清理的过程往往只需要运行mapper程序，不需要运行reduce程序。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/09/06/bigdata-09/" data-id="ck0s5r20x000pdovj4c7loozn" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "MapReduce小结",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-09-06",
+        "dateCreated": "2019-09-06",
+        "dateModified": "2019-09-07",
+        "url": "http://yoursite.com/2019/09/06/bigdata-09/",
+        "description": "大数据学习第九天
+MapReduce的一些认识Mapreduce是一个分布式运算程序的编程框架。基于Hadoop，用来数据分析。处理的数据是键值对的形式。
+Map是映射，是将硬盘里的数据映射到内存中，在Mapper阶段还可以进行数据的筛选，简单的判断和合并。因为Map是分布在很多台机器上的，所以为了提高效率，在不影响结果的情况下，能把部分处理放到Mapper阶段最好。
+Reduce是归约，我的理解"
+        "wordCount": 235
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/09/06/bigdata-10/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            hive的概念和搭建
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/09/04/bigdata-08/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">InputFormat数据切片机制</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/09/06/bigdata-09/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

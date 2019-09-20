@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>hive的概念和搭建 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第十天（1） Hive简介什么是HiveHive是基于Hadoop的一个数据仓库工具，可以讲结构化的数据映射为一张数据库表，并提供类SQL查询功能。 Hive的优缺点优点1)    操作接口采用类SQL语法，提供快速开发的能力（简单、容易上手）。2)    避免了去写MapReduce，减少开发人员的学习成本。3)    Hive的执行延迟比较高，因此Hive常用于数据分析，对实时性要求">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hive的概念和搭建">
+<meta property="og:url" content="http://yoursite.com/2019/09/06/bigdata-10/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第十天（1） Hive简介什么是HiveHive是基于Hadoop的一个数据仓库工具，可以讲结构化的数据映射为一张数据库表，并提供类SQL查询功能。 Hive的优缺点优点1)    操作接口采用类SQL语法，提供快速开发的能力（简单、容易上手）。2)    避免了去写MapReduce，减少开发人员的学习成本。3)    Hive的执行延迟比较高，因此Hive常用于数据分析，对实时性要求">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/09/06/bigdata-10/1.jpg">
+<meta property="og:updated_time" content="2019-09-07T06:01:38.874Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hive的概念和搭建">
+<meta name="twitter:description" content="大数据学习第十天（1） Hive简介什么是HiveHive是基于Hadoop的一个数据仓库工具，可以讲结构化的数据映射为一张数据库表，并提供类SQL查询功能。 Hive的优缺点优点1)    操作接口采用类SQL语法，提供快速开发的能力（简单、容易上手）。2)    避免了去写MapReduce，减少开发人员的学习成本。3)    Hive的执行延迟比较高，因此Hive常用于数据分析，对实时性要求">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/06/bigdata-10/1.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-10" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        hive的概念和搭建
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/09/06/bigdata-10/" class="article-date">
+            <time datetime="2019-09-06T00:14:21.000Z" itemprop="datePublished">2019-09-06</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第十天（1）</p>
+<h2 id="Hive简介"><a href="#Hive简介" class="headerlink" title="Hive简介"></a>Hive简介</h2><h3 id="什么是Hive"><a href="#什么是Hive" class="headerlink" title="什么是Hive"></a>什么是Hive</h3><p>Hive是基于Hadoop的一个数据仓库工具，可以讲结构化的数据映射为一张数据库表，并提供类SQL查询功能。</p>
+<h3 id="Hive的优缺点"><a href="#Hive的优缺点" class="headerlink" title="Hive的优缺点"></a>Hive的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>1)    操作接口采用类SQL语法，提供快速开发的能力（简单、容易上手）。<br>2)    避免了去写MapReduce，减少开发人员的学习成本。<br>3)    Hive的执行延迟比较高，因此Hive常用于数据分析，对实时性要求不高的场合。<br>4)    Hive优势在于处理大数据，对于处理小数据没有优势，因为Hive的执行延迟比较高。<br>5)    Hive支持用户自定义函数，用户可以根据自己的需求来实现自己的函数。</p>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>1．Hive的HQL表达能力有限<br>（1）迭代式算法无法表达<br>（2）数据挖掘方面不擅长，由于MapReduce数据处理流程的限制，效率更高的算法却无法实现。<br>2．Hive的效率比较低<br>（1）Hive自动生成的MapReduce作业，通常情况下不够智能化<br>（2）Hive调优比较困难，粒度较粗</p>
+<h3 id="Hive的特点"><a href="#Hive的特点" class="headerlink" title="Hive的特点"></a>Hive的特点</h3><p>可扩展<br>Hive可以自由的扩展集群的规模，一般情况下不需要重启服务。</p>
+<p>延展性<br>Hive支持用户自定义函数，用户可以根据自己的需求来实现自己的函数。</p>
+<p>容错<br>良好的容错性，节点出现问题SQL仍可完成执行。</p>
+<h3 id="Hive的基本组成"><a href="#Hive的基本组成" class="headerlink" title="Hive的基本组成"></a>Hive的基本组成</h3><p><img src="/2019/09/06/bigdata-10/1.jpg" alt></p>
+<p>&lt;&gt;用户接口：包括 CLI、JDBC/ODBC、WebGUI。<br>&lt;&gt;元数据存储：通常是存储在关系数据库如 mysql , derby中。<br>Hive 将元数据存储在数据库中。Hive 中的元数据包括表的名字，表的列和分区及其属性，表的属性（是否为外部表等），表的数据所在目录等。<br>&lt;&gt;解释器、编译器、优化器、执行器。<br>&lt;&gt;用户接口主要由三个：CLI、JDBC/ODBC和WebGUI。其中，CLI为shell命令行；JDBC/ODBC是Hive的JAVA实现，与传统数据库JDBC类似；WebGUI是通过浏览器访问Hive。<br>&lt;&gt;解释器、编译器、优化器完成 HQL 查询语句从词法分析、语法分析、编译、优化以及查询计划的生成。生成的查询计划存储在 HDFS 中，并在随后有 MapReduce 调用执行。</p>
+<h3 id="Hive的数据存储"><a href="#Hive的数据存储" class="headerlink" title="Hive的数据存储"></a>Hive的数据存储</h3><p>1、Hive中所有的数据都存储在 HDFS 中，没有专门的数据存储格式（可支持Text，SequenceFile，ParquetFile，RCFILE等）<br>2、只需要在创建表的时候告诉 Hive 数据中的列分隔符和行分隔符，Hive 就可以解析数据。<br>3、Hive 中包含以下数据模型：DB、Table，External Table，Partition，Bucket。<br>4、db：在hdfs中表现为${hive.metastore.warehouse.dir}目录下一个文件夹<br>5、table：在hdfs中表现所属db目录下一个文件夹<br>7、partition：在hdfs中表现为table目录下的子目录<br>8、bucket：在hdfs中表现为同一个表目录下根据hash散列之后的多个文件</p>
+<h2 id="Hive的安装部署"><a href="#Hive的安装部署" class="headerlink" title="Hive的安装部署"></a>Hive的安装部署</h2><p>写在前面。<br>安装Hive的时候为什么安装MySQL。首先，MySQL的作用是存储Hive的元数据，实际的数据仍然在文件中。<br>因为Hive默认的metadata（元数据）是存储在Derby里面的，但是有一个弊端就是同一时间只能有一个Hive实例访问，这适合做开发程序时做本地测试。<br>Hive提供了增强配置，可将数据库替换成mysql等关系型数据库，将存储数据独立出来在多个服务示例之间共享。所以需要安装MySQL。</p>
+<h3 id="Hive安装部署"><a href="#Hive安装部署" class="headerlink" title="Hive安装部署"></a>Hive安装部署</h3><p>1．Hive安装及配置</p>
+<p>上传tar 解压 配置环境</p>
+<p>（1）把apache-hive-1.2.1-bin.tar.gz上传到linux的/opt/soft目录下<br>（2）解压apache-hive-1.2.1-bin.tar.gz到/opt/module/目录下面</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf apache-hive-1.2.1-bin.tar.gz -C /opt/module/</span><br></pre></td></tr></table></figure>
+
+<p>（3）修改apache-hive-1.2.1-bin.tar.gz的名称为hive</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv apache-hive-1.2.1-bin/ hive-1.2.1</span><br></pre></td></tr></table></figure>
+
+<p>（4）修改/opt/module/hive/conf目录下的hive-env.sh.template名称为hive-env.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv hive-env.sh.template hive-env.sh</span><br></pre></td></tr></table></figure>
+
+<p>（5）配置hive-env.sh文件<br>    （a）配置HADOOP_HOME路径<br>export HADOOP_HOME=/opt/module/hadoop-2.7.2<br>    （b）配置HIVE_CONF_DIR路径<br>export HIVE_CONF_DIR=/opt/module/hive/conf</p>
+<p>2．Hadoop集群配置</p>
+<p>（1）必须启动hdfs和yarn</p>
+<p>（2）在HDFS上创建/tmp和/user/hive/warehouse两个目录并修改他们的同组权限可写</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bin/hadoop fs -mkdir /tmp</span><br><span class="line">bin/hadoop fs -mkdir -p /user/hive/warehouse</span><br><span class="line"></span><br><span class="line">bin/hadoop fs -chmod g+w /tmp</span><br><span class="line">bin/hadoop fs -chmod g+w /user/hive/warehouse</span><br></pre></td></tr></table></figure>
+
+<p>3.安装mysql</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请自行百度&lt;&gt;</span><br><span class="line">https://www.cnblogs.com/xiaxiaoxu/p/9978976.html</span><br></pre></td></tr></table></figure>
+
+<h4 id="MySql中user表中主机配置"><a href="#MySql中user表中主机配置" class="headerlink" title="MySql中user表中主机配置"></a>MySql中user表中主机配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">1．进入mysql</span><br><span class="line">[root@hadoop015 mysql-libs]<span class="comment"># mysql -uroot -p000000</span></span><br><span class="line">2．显示数据库</span><br><span class="line">mysql&gt;show databases;</span><br><span class="line">3．使用mysql数据库</span><br><span class="line">mysql&gt;use mysql;</span><br><span class="line">4．展示mysql数据库中的所有表</span><br><span class="line">mysql&gt;show tables;</span><br><span class="line">5．展示user表的结构</span><br><span class="line">mysql&gt;desc user;</span><br><span class="line">6．查询user表</span><br><span class="line">mysql&gt;select User, Host, Password from user;</span><br><span class="line">7．修改user表，把Host表内容修改为%</span><br><span class="line">mysql&gt;update user <span class="built_in">set</span> host=<span class="string">'%'</span> <span class="built_in">where</span> host=<span class="string">'localhost'</span>;</span><br><span class="line">8．删除root用户的其他host</span><br><span class="line">mysql&gt;delete from user <span class="built_in">where</span> Host=<span class="string">'hadoop015'</span>;</span><br><span class="line">mysql&gt;delete from user <span class="built_in">where</span> Host=<span class="string">'127.0.0.1'</span>;</span><br><span class="line">mysql&gt;delete from user <span class="built_in">where</span> Host=<span class="string">'::1'</span>;</span><br><span class="line">9．刷新</span><br><span class="line">mysql&gt;flush privileges;</span><br><span class="line">10．退出</span><br><span class="line">mysql&gt;quit;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Hive元数据配置到MySql"><a href="#Hive元数据配置到MySql" class="headerlink" title="Hive元数据配置到MySql"></a>Hive元数据配置到MySql</h4><p>1．在/opt/software/mysql-libs目录下解压mysql-connector-java-5.1.27.tar.gz驱动包<br>[root@hadoop102 mysql-libs]# tar -zxvf mysql-connector-java-5.1.27.tar.gz<br>2．拷贝/opt/software/mysql-libs/mysql-connector-java-5.1.27目录下的mysql-connector-java-5.1.27-bin.jar到/opt/module/hive/lib/<br>[root@hadoop102 mysql-connector-java-5.1.27]# cp mysql-connector-java-5.1.27-bin.jar /opt/module/hive/lib/<br>2.5.2 配置Metastore到MySql<br>1．在/opt/module/hive/conf目录下创建一个hive-site.xml</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[liang@hadoop011 conf]$ touch hive-site.xml</span><br><span class="line">[laing@hadoop011 conf]$ vi hive-site.xml</span><br></pre></td></tr></table></figure>
+
+<p>2．根据官方文档配置参数，拷贝数据到hive-site.xml文件中<br><a href="https://cwiki.apache.org/confluence/display/Hive/AdminManual+MetastoreAdmin" target="_blank" rel="noopener">https://cwiki.apache.org/confluence/display/Hive/AdminManual+MetastoreAdmin</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span>?&gt;</span><br><span class="line">&lt;?xml-stylesheet <span class="built_in">type</span>=<span class="string">"text/xsl"</span> href=<span class="string">"configuration.xsl"</span>?&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">	  &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;</span><br><span class="line">	  &lt;value&gt;jdbc:mysql://hadoop105:3306/metastore?createDatabaseIfNotExist=<span class="literal">true</span>&lt;/value&gt;</span><br><span class="line">	  &lt;description&gt;JDBC connect string <span class="keyword">for</span> a JDBC metastore&lt;/description&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;property&gt;</span><br><span class="line">	  &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;</span><br><span class="line">	  &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;</span><br><span class="line">	  &lt;description&gt;Driver class name <span class="keyword">for</span> a JDBC metastore&lt;/description&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;property&gt;</span><br><span class="line">	  &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;</span><br><span class="line">	  &lt;value&gt;root&lt;/value&gt;</span><br><span class="line">	  &lt;description&gt;username to use against metastore database&lt;/description&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;property&gt;</span><br><span class="line">	  &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;</span><br><span class="line">	  &lt;value&gt;root&lt;/value&gt;</span><br><span class="line">	  &lt;description&gt;password to use against metastore database&lt;/description&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3．配置完毕后，如果启动hive异常，可以重新启动虚拟机。（重启后，别忘了启动hadoop集群）</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/09/06/bigdata-10/" data-id="ck0s5r20b000cdovjshtubkix" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "hive的概念和搭建",
+        "image": "http://yoursite.com/2019/09/06/bigdata-10/1.jpg",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-09-06",
+        "dateCreated": "2019-09-06",
+        "dateModified": "2019-09-07",
+        "url": "http://yoursite.com/2019/09/06/bigdata-10/",
+        "description": "大数据学习第十天（1）
+Hive简介什么是HiveHive是基于Hadoop的一个数据仓库工具，可以讲结构化的数据映射为一张数据库表，并提供类SQL查询功能。
+Hive的优缺点优点1)    操作接口采用类SQL语法，提供快速开发的能力（简单、容易上手）。2)    避免了去写MapReduce，减少开发人员的学习成本。3)    Hive的执行延迟比较高，因此Hive常用于数据分析，对实时性要求"
+        "wordCount": 395
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/09/09/bigdata-11/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Hive的语法
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/09/06/bigdata-09/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">MapReduce小结</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/09/06/bigdata-10/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

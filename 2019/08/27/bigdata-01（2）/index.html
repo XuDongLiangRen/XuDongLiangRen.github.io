@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>linux下集群的搭建 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第一天(下) 虚拟机克隆 克隆虚拟机的配置修改主机名首先修改主机名。克隆后的主机名跟之前的主机名一样，所以需要修改主机名。 123[root@hadoop011 /]# vim /etc/sysconfig/networkNETWORKING=yesHOSTNAME=hadoop012 //012是修改后的主机名  修改为静态IP1[root@hadoop011 /]#vim /etc/">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下集群的搭建">
+<meta property="og:url" content="http://yoursite.com/2019/08/27/bigdata-01（2）/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第一天(下) 虚拟机克隆 克隆虚拟机的配置修改主机名首先修改主机名。克隆后的主机名跟之前的主机名一样，所以需要修改主机名。 123[root@hadoop011 /]# vim /etc/sysconfig/networkNETWORKING=yesHOSTNAME=hadoop012 //012是修改后的主机名  修改为静态IP1[root@hadoop011 /]#vim /etc/">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/08/27/bigdata-01（2）/clone1.jpg">
+<meta property="og:updated_time" content="2019-08-27T15:15:44.858Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux下集群的搭建">
+<meta name="twitter:description" content="大数据学习第一天(下) 虚拟机克隆 克隆虚拟机的配置修改主机名首先修改主机名。克隆后的主机名跟之前的主机名一样，所以需要修改主机名。 123[root@hadoop011 /]# vim /etc/sysconfig/networkNETWORKING=yesHOSTNAME=hadoop012 //012是修改后的主机名  修改为静态IP1[root@hadoop011 /]#vim /etc/">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/27/bigdata-01（2）/clone1.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-01（2）" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        linux下集群的搭建
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/08/27/bigdata-01（2）/" class="article-date">
+            <time datetime="2019-08-27T02:01:29.855Z" itemprop="datePublished">2019-08-27</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第一天(下)</p>
+<h2 id="虚拟机克隆"><a href="#虚拟机克隆" class="headerlink" title="虚拟机克隆"></a>虚拟机克隆</h2><p><img src="/2019/08/27/bigdata-01（2）/clone1.jpg" alt><br><img src="/2019/08/27/bigdata-01（2）/clone2.jpg" alt><br><img src="/2019/08/27/bigdata-01（2）/clone3.jpg" alt><br><img src="/2019/08/27/bigdata-01（2）/clone4.jpg" alt><br><img src="/2019/08/27/bigdata-01（2）/clone5.jpg" alt><br><img src="/2019/08/27/bigdata-01（2）/clone6.jpg" alt></p>
+<h2 id="克隆虚拟机的配置"><a href="#克隆虚拟机的配置" class="headerlink" title="克隆虚拟机的配置"></a>克隆虚拟机的配置</h2><h3 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h3><p>首先修改主机名。克隆后的主机名跟之前的主机名一样，所以需要修改主机名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 /]<span class="comment"># vim /etc/sysconfig/network</span></span><br><span class="line">NETWORKING=yes</span><br><span class="line">HOSTNAME=hadoop012 //012是修改后的主机名</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改为静态IP"><a href="#修改为静态IP" class="headerlink" title="修改为静态IP"></a>修改为静态IP</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 /]<span class="comment">#vim /etc/udev/rules.d/70-persistent-net.rules</span></span><br></pre></td></tr></table></figure>
+
+<p>进入如下页面，删除eth0该行；将eth1修改为eth0，同时复制物理ip地址。<br><img src="/2019/08/27/bigdata-01（2）/ip1.jpg" alt></p>
+<p>修改ip地址</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 /]<span class="comment">#vim /etc/sysconfig/network-scripts/ifcfg-eth0</span></span><br></pre></td></tr></table></figure>
+
+<p>需要修改的内容有5项：<br>IPADDR=192.168.1.011<br>GATEWAY=192.168.1.2<br>ONBOOT=yes<br>BOOTPROTO=static<br>DNS1=192.168.1.2</p>
+<p>修改完成后执行service network restart，并重启虚拟机（新主机名生效）。<br>另外，集群间需要关闭防火墙。</p>
+<h2 id="集群间的免密登录"><a href="#集群间的免密登录" class="headerlink" title="集群间的免密登录"></a>集群间的免密登录</h2><p>利用SSH实现集群间的免密登录。首先需要每台机器上创建密钥对。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@xdl ~]<span class="comment"># ssh-keygen -t rsa</span></span><br></pre></td></tr></table></figure>
+
+<p>执行完该命令后连敲3下回车，会有如下提示。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@xdl ~]<span class="comment"># ssh-keygen -t rsa</span></span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/root/.ssh/id_rsa): </span><br><span class="line">Created directory <span class="string">'/root/.ssh'</span>.</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase): </span><br><span class="line">Enter same passphrase again: </span><br><span class="line">Your identification has been saved <span class="keyword">in</span> /root/.ssh/id_rsa.</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> /root/.ssh/id_rsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:WOsxqeDaznCaRNVzSWSE7hAlZYE+gDJ3F3z1ruSvFAk root@xdl</span><br><span class="line">The key<span class="string">'s randomart image is:</span></span><br><span class="line"><span class="string">+---[RSA 2048]----+</span></span><br><span class="line"><span class="string">| .  .=**=..      |</span></span><br><span class="line"><span class="string">|+ o +++o.. .     |</span></span><br><span class="line"><span class="string">|.o +.+o.E   .    |</span></span><br><span class="line"><span class="string">|   .+ .= + o     |</span></span><br><span class="line"><span class="string">|  . .+. S + .    |</span></span><br><span class="line"><span class="string">| . . ..o = o     |</span></span><br><span class="line"><span class="string">|  o o . . +      |</span></span><br><span class="line"><span class="string">| . O     . .     |</span></span><br><span class="line"><span class="string">|  +.+     ...    |</span></span><br><span class="line"><span class="string">+----[SHA256]-----+</span></span><br></pre></td></tr></table></figure>
+
+<p>然后就在/root/.ssh目录下产生了两个密钥，其中id_rsa是私钥，id_rsa.pub是公钥，要实现免密登录，则需要将本台机器的公钥放到其他机器上。但是这个免密登录是单向的，如果其他机器想要访问本台机器，则本台机器需要其它机器的公钥。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@xdl .ssh]<span class="comment"># ll</span></span><br><span class="line">总用量 8</span><br><span class="line">-rw-------. 1 root root 1679 8月  27 12:47 id_rsa</span><br><span class="line">-rw-r--r--. 1 root root  390 8月  27 12:47 id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>现在我们需要将公钥放到其他机器上，一台一台配置很麻烦，我们使用shell脚本执行。</p>
+<p>首先，将任意一台机器上的公钥放到集群中的每台机器上。<br>(文件名：secret-free-expect-01.sh)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SERVERS=<span class="string">"hadoop011 hadoop012 hadoop013 hadoop014"</span> //集群中的集群名称</span><br><span class="line">PASSWORD=rootroot  //集群中的机器密码一致</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">auto_ssh_copy_id</span></span>() &#123;</span><br><span class="line">    expect -c <span class="string">"set timeout -1;</span></span><br><span class="line"><span class="string">        spawn ssh-copy-id <span class="variable">$1</span>;</span></span><br><span class="line"><span class="string">        expect &#123;</span></span><br><span class="line"><span class="string">            *(yes/no)* &#123;send -- yes\r;exp_continue;&#125;</span></span><br><span class="line"><span class="string">            *assword:* &#123;send -- <span class="variable">$2</span>\r;exp_continue;&#125;</span></span><br><span class="line"><span class="string">            eof        &#123;exit 0;&#125;</span></span><br><span class="line"><span class="string">        &#125;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">ssh_copy_id_to_all</span></span>() &#123;</span><br><span class="line">    <span class="keyword">for</span> SERVER <span class="keyword">in</span> <span class="variable">$SERVERS</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        auto_ssh_copy_id <span class="variable">$SERVER</span> <span class="variable">$PASSWORD</span></span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ssh_copy_id_to_all</span><br></pre></td></tr></table></figure>
+
+<p>将上面的shell文件放到每台机器上<br>（文件名：copy-secret-free-toall-02.sh）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SERVERS=<span class="string">"hadoop011 hadoop012 hadoop013 hadoop014"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> SERVER <span class="keyword">in</span> <span class="variable">$SERVERS</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  scp /opt/shell/secret-free-expect-01.sh root@<span class="variable">$SERVER</span>:/opt/shell/secret-free-expect-01.sh</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">然后执行每台机器上的shell文件</span><br></pre></td></tr></table></figure>
+
+<p>（文件名：exec-secret-free-atall-03.sh）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SERVERS=<span class="string">"hadoop011 hadoop012 hadoop013 hadoop014"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> SERVER <span class="keyword">in</span> <span class="variable">$SERVERS</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">     ssh root@<span class="variable">$SERVER</span> /opt/shell/secret-free-expect-01.sh</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>如果发生shell文件不可执行的错误，则是secret-free-expect-01.sh上的权限不够的问题，将文件赋权即可。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/08/27/bigdata-01（2）/" data-id="ck0s5r1zu0001dovjdr5b89vn" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "linux下集群的搭建",
+        "image": "http://yoursite.com/2019/08/27/bigdata-01（2）/clone1.jpg",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-08-27",
+        "dateCreated": "2019-08-27",
+        "dateModified": "2019-08-27",
+        "url": "http://yoursite.com/2019/08/27/bigdata-01（2）/",
+        "description": "大数据学习第一天(下)
+虚拟机克隆
+克隆虚拟机的配置修改主机名首先修改主机名。克隆后的主机名跟之前的主机名一样，所以需要修改主机名。
+123[root@hadoop011 /]# vim /etc/sysconfig/networkNETWORKING=yesHOSTNAME=hadoop012 //012是修改后的主机名
+
+修改为静态IP1[root@hadoop011 /]#vim /etc/"
+        "wordCount": 587
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/08/27/bigdata-02/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            hadoop的运行环境搭建
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/08/26/bigdata_01（1）/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">linux下网卡配置和jdk的安装</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/08/27/bigdata-01（2）/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Hbase的API操作 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第十七天 HBase API操作1 环境准备新建项目后在pom.xml中添加依赖： 12345678910111213141516171819&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.hbase&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;hbase-server&amp;lt;/artifactId&amp;gt;">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hbase的API操作">
+<meta property="og:url" content="http://yoursite.com/2019/09/18/bigdata-17/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第十七天 HBase API操作1 环境准备新建项目后在pom.xml中添加依赖： 12345678910111213141516171819&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.hbase&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;hbase-server&amp;lt;/artifactId&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-20T11:44:21.327Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hbase的API操作">
+<meta name="twitter:description" content="大数据学习第十七天 HBase API操作1 环境准备新建项目后在pom.xml中添加依赖： 12345678910111213141516171819&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.hbase&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;hbase-server&amp;lt;/artifactId&amp;gt;">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-17" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Hbase的API操作
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/09/18/bigdata-17/" class="article-date">
+            <time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第十七天</p>
+<h2 id="HBase-API操作"><a href="#HBase-API操作" class="headerlink" title="HBase API操作"></a>HBase API操作</h2><h3 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1 环境准备"></a>1 环境准备</h3><p>新建项目后在pom.xml中添加依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.hbase&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hbase-server&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.3.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.hbase&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hbase-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.3.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;jdk.tools&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;jdk.tools&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.8&lt;/version&gt;</span><br><span class="line">	&lt;scope&gt;system&lt;/scope&gt;</span><br><span class="line">	&lt;systemPath&gt;<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib/tools.jar&lt;/systemPath&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-HBaseAPI"><a href="#2-HBaseAPI" class="headerlink" title="2 HBaseAPI"></a>2 HBaseAPI</h3><h4 id="2-1-获取Configuration对象"><a href="#2-1-获取Configuration对象" class="headerlink" title="2.1 获取Configuration对象"></a>2.1 获取Configuration对象</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static Configuration conf;</span><br><span class="line">static&#123;</span><br><span class="line">	//使用HBaseConfiguration的单例方法实例化</span><br><span class="line">	conf = HBaseConfiguration.create();</span><br><span class="line">	conf.set(<span class="string">"hbase.zookeeper.quorum"</span>, <span class="string">"192.168.164.11"</span>);</span><br><span class="line">	conf.set(<span class="string">"hbase.zookeeper.property.clientPort"</span>, <span class="string">"2181"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-判断表是否存在"><a href="#2-2-判断表是否存在" class="headerlink" title="2.2 判断表是否存在"></a>2.2 判断表是否存在</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static boolean isTableExist(String tableName) throws MasterNotRunningException,ZooKeeperConnectionException, IOException&#123;</span><br><span class="line">	//在HBase中管理、访问表需要先创建HBaseAdmin对象</span><br><span class="line">	Connection connection = ConnectionFactory.createConnection(conf);</span><br><span class="line">	HBaseAdmin admin = (HBaseAdmin) connection.getAdmin();</span><br><span class="line">	<span class="built_in">return</span> admin.tableExists(tableName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-创建表"><a href="#2-3-创建表" class="headerlink" title="2.3 创建表"></a>2.3 创建表</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public static void createTable(String tableName, String... columnFamily) throws MasterNotRunningException, ZooKeeperConnectionException, IOException&#123;</span><br><span class="line">	Connection connection = ConnectionFactory.createConnection(conf);</span><br><span class="line">	HBaseAdmin admin = (HBaseAdmin) connection.getAdmin();</span><br><span class="line">	//判断表是否存在</span><br><span class="line">	<span class="keyword">if</span>(isTableExist(tableName))&#123;</span><br><span class="line">		System.out.println(<span class="string">"表"</span> + tableName + <span class="string">"已存在"</span>);</span><br><span class="line">		//System.exit(0);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		//创建表属性对象,表名需要转字节</span><br><span class="line">		HTableDescriptor descriptor = new HTableDescriptor(TableName.valueOf(tableName));</span><br><span class="line">		//创建多个列族</span><br><span class="line">		<span class="keyword">for</span>(String cf : columnFamily)&#123;</span><br><span class="line">			descriptor.addFamily(new HColumnDescriptor(cf));</span><br><span class="line">		&#125;</span><br><span class="line">		//根据对表的配置，创建表</span><br><span class="line">		admin.createTable(descriptor);</span><br><span class="line">		System.out.println(<span class="string">"表"</span> + tableName + <span class="string">"创建成功！"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4-删除表"><a href="#2-4-删除表" class="headerlink" title="2.4 删除表"></a>2.4 删除表</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void dropTable(String tableName) throws MasterNotRunningException,ZooKeeperConnectionException, IOException&#123;</span><br><span class="line">	Connection connection = ConnectionFactory.createConnection(conf);</span><br><span class="line">	HBaseAdmin admin = (HBaseAdmin) connection.getAdmin();</span><br><span class="line">	<span class="keyword">if</span>(isTableExist(tableName))&#123;</span><br><span class="line">		admin.disableTable(tableName);</span><br><span class="line">		admin.deleteTable(tableName);</span><br><span class="line">		System.out.println(<span class="string">"表"</span> + tableName + <span class="string">"删除成功！"</span>);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"表"</span> + tableName + <span class="string">"不存在！"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-5-向表中插入数据"><a href="#2-5-向表中插入数据" class="headerlink" title="2.5 向表中插入数据"></a>2.5 向表中插入数据</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void addRowData(String tableName, String rowKey, String columnFamily, String column, String value) throws IOException&#123;</span><br><span class="line">	//创建HTable对象</span><br><span class="line">	HTable hTable = new HTable(conf, tableName);</span><br><span class="line">	//向表中插入数据</span><br><span class="line">	Put put = new Put(Bytes.toBytes(rowKey));</span><br><span class="line">	//向Put对象中组装数据</span><br><span class="line">	put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(column), Bytes.toBytes(value));</span><br><span class="line">	hTable.put(put);</span><br><span class="line">	hTable.close();</span><br><span class="line">	System.out.println(<span class="string">"插入数据成功"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-6-删除多行数据"><a href="#2-6-删除多行数据" class="headerlink" title="2.6 删除多行数据"></a>2.6 删除多行数据</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public static void deleteMultiRow(String tableName, String... rows) throws IOException&#123;</span><br><span class="line">	HTable hTable = new HTable(conf, tableName);</span><br><span class="line">	List&lt;Delete&gt; deleteList = new ArrayList&lt;Delete&gt;();</span><br><span class="line">	<span class="keyword">for</span>(String row : rows)&#123;</span><br><span class="line">		Delete delete = new Delete(Bytes.toBytes(row));</span><br><span class="line">		deleteList.add(delete);</span><br><span class="line">	&#125;</span><br><span class="line">	hTable.delete(deleteList);</span><br><span class="line">	hTable.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-7-获取所有数据"><a href="#2-7-获取所有数据" class="headerlink" title="2.7 获取所有数据"></a>2.7 获取所有数据</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public static void getAllRows(String tableName) throws IOException&#123;</span><br><span class="line">	HTable hTable = new HTable(conf, tableName);</span><br><span class="line">	//得到用于扫描region的对象</span><br><span class="line">	Scan scan = new Scan();</span><br><span class="line">	//使用HTable得到resultcanner实现类的对象</span><br><span class="line">	ResultScanner resultScanner = hTable.getScanner(scan);</span><br><span class="line">	<span class="keyword">for</span>(Result result : resultScanner)&#123;</span><br><span class="line">		Cell[] cells = result.rawCells();</span><br><span class="line">		<span class="keyword">for</span>(Cell cell : cells)&#123;</span><br><span class="line">			//得到rowkey</span><br><span class="line">			System.out.println(<span class="string">"行键:"</span> + Bytes.toString(CellUtil.cloneRow(cell)));</span><br><span class="line">			//得到列族</span><br><span class="line">			System.out.println(<span class="string">"列族"</span> + Bytes.toString(CellUtil.cloneFamily(cell)));</span><br><span class="line">			System.out.println(<span class="string">"列:"</span> + Bytes.toString(CellUtil.cloneQualifier(cell)));</span><br><span class="line">			System.out.println(<span class="string">"值:"</span> + Bytes.toString(CellUtil.cloneValue(cell)));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-8-获取某一行数据"><a href="#2-8-获取某一行数据" class="headerlink" title="2.8 获取某一行数据"></a>2.8 获取某一行数据</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public static void getRow(String tableName, String rowKey) throws IOException&#123;</span><br><span class="line">	HTable table = new HTable(conf, tableName);</span><br><span class="line">	Get get = new Get(Bytes.toBytes(rowKey));</span><br><span class="line">	//get.setMaxVersions();显示所有版本</span><br><span class="line">    //get.setTimeStamp();显示指定时间戳的版本</span><br><span class="line">	Result result = table.get(get);</span><br><span class="line">	<span class="keyword">for</span>(Cell cell : result.rawCells())&#123;</span><br><span class="line">		System.out.println(<span class="string">"行键:"</span> + Bytes.toString(result.getRow()));</span><br><span class="line">		System.out.println(<span class="string">"列族"</span> + Bytes.toString(CellUtil.cloneFamily(cell)));</span><br><span class="line">		System.out.println(<span class="string">"列:"</span> + Bytes.toString(CellUtil.cloneQualifier(cell)));</span><br><span class="line">		System.out.println(<span class="string">"值:"</span> + Bytes.toString(CellUtil.cloneValue(cell)));</span><br><span class="line">		System.out.println(<span class="string">"时间戳:"</span> + cell.getTimestamp());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-9-获取某一行指定“列族-列”的数据"><a href="#2-9-获取某一行指定“列族-列”的数据" class="headerlink" title="2.9 获取某一行指定“列族:列”的数据"></a>2.9 获取某一行指定“列族:列”的数据</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static void getRowQualifier(String tableName, String rowKey, String family, String qualifier) throws IOException&#123;</span><br><span class="line">	HTable table = new HTable(conf, tableName);</span><br><span class="line">	Get get = new Get(Bytes.toBytes(rowKey));</span><br><span class="line">	get.addColumn(Bytes.toBytes(family), Bytes.toBytes(qualifier));</span><br><span class="line">	Result result = table.get(get);</span><br><span class="line">	<span class="keyword">for</span>(Cell cell : result.rawCells())&#123;</span><br><span class="line">		System.out.println(<span class="string">"行键:"</span> + Bytes.toString(result.getRow()));</span><br><span class="line">		System.out.println(<span class="string">"列族"</span> + Bytes.toString(CellUtil.cloneFamily(cell)));</span><br><span class="line">		System.out.println(<span class="string">"列:"</span> + Bytes.toString(CellUtil.cloneQualifier(cell)));</span><br><span class="line">		System.out.println(<span class="string">"值:"</span> + Bytes.toString(CellUtil.cloneValue(cell)));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/09/18/bigdata-17/" data-id="ck0s5r20g000idovj32lugxd0" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "Hbase的API操作",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-09-18",
+        "dateCreated": "2019-09-18",
+        "dateModified": "2019-09-20",
+        "url": "http://yoursite.com/2019/09/18/bigdata-17/",
+        "description": "大数据学习第十七天
+HBase API操作1 环境准备新建项目后在pom.xml中添加依赖：
+12345678910111213141516171819&lt;dependency&gt;    &lt;groupId&gt;org.apache.hbase&lt;/groupId&gt;    &lt;artifactId&gt;hbase-server&lt;/artifactId&gt;  "
+        "wordCount": 663
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/09/19/bigdata-18/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Hbase的数据结构与原理
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/09/17/question/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Hbase安装问题及解决方法</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/09/18/bigdata-17/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

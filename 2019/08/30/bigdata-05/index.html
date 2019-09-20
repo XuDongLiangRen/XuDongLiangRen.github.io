@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>MapReduce的核心思想及实例 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第五天 MapReduce核心思想1）分布式的运算程序往往需要分成至少2个阶段2）第一个阶段的maptask并发实例，完全并行运行，互不相干3）第二个阶段的reduce task并发实例互不相干，但是他们的数据依赖于上一个阶段的所有maptask并发实例的输出4）MapReduce编程模型只能包含一个map阶段和一个reduce阶段，如果用户的业务逻辑非常复杂，那就只能多个mapredu">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MapReduce的核心思想及实例">
+<meta property="og:url" content="http://yoursite.com/2019/08/30/bigdata-05/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第五天 MapReduce核心思想1）分布式的运算程序往往需要分成至少2个阶段2）第一个阶段的maptask并发实例，完全并行运行，互不相干3）第二个阶段的reduce task并发实例互不相干，但是他们的数据依赖于上一个阶段的所有maptask并发实例的输出4）MapReduce编程模型只能包含一个map阶段和一个reduce阶段，如果用户的业务逻辑非常复杂，那就只能多个mapredu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/08/30/bigdata-05/1.jpg">
+<meta property="og:updated_time" content="2019-08-30T14:03:34.016Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MapReduce的核心思想及实例">
+<meta name="twitter:description" content="大数据学习第五天 MapReduce核心思想1）分布式的运算程序往往需要分成至少2个阶段2）第一个阶段的maptask并发实例，完全并行运行，互不相干3）第二个阶段的reduce task并发实例互不相干，但是他们的数据依赖于上一个阶段的所有maptask并发实例的输出4）MapReduce编程模型只能包含一个map阶段和一个reduce阶段，如果用户的业务逻辑非常复杂，那就只能多个mapredu">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/30/bigdata-05/1.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-05" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        MapReduce的核心思想及实例
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/08/30/bigdata-05/" class="article-date">
+            <time datetime="2019-08-30T13:46:11.000Z" itemprop="datePublished">2019-08-30</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第五天</p>
+<h2 id="MapReduce核心思想"><a href="#MapReduce核心思想" class="headerlink" title="MapReduce核心思想"></a>MapReduce核心思想</h2><p><img src="/2019/08/30/bigdata-05/1.jpg" alt><br>1）分布式的运算程序往往需要分成至少2个阶段<br>2）第一个阶段的maptask并发实例，完全并行运行，互不相干<br>3）第二个阶段的reduce task并发实例互不相干，但是他们的数据依赖于上一个阶段的所有maptask并发实例的输出<br>4）MapReduce编程模型只能包含一个map阶段和一个reduce阶段，如果用户的业务逻辑非常复杂，那就只能多个mapreduce程序，串行运行</p>
+<h2 id="MapReduce进程"><a href="#MapReduce进程" class="headerlink" title="MapReduce进程"></a>MapReduce进程</h2><p>一个完整的mapreduce程序在分布式运行时有三类实例进程：<br>1）MrAppMaster：负责整个程序的过程调度及状态协调<br>2）MapTask：负责map阶段的整个数据处理流程<br>3）ReduceTask：负责reduce阶段的整个数据处理流程</p>
+<h2 id="MapReduce编程规范（八股文）"><a href="#MapReduce编程规范（八股文）" class="headerlink" title="MapReduce编程规范（八股文）"></a>MapReduce编程规范（八股文）</h2><p>用户编写的程序分成三个部分：Mapper，Reducer，Driver(提交运行mr程序的客户端)<br>1）Mapper阶段<br>    （1）用户自定义的Mapper要继承自己的父类<br>    （2）Mapper的输入数据是KV对的形式（KV的类型可自定义）<br>    （3）Mapper中的业务逻辑写在map()方法中<br>    （4）Mapper的输出数据是KV对的形式（KV的类型可自定义）<br>    （5）map()方法（maptask进程）对每一个&lt;K,V&gt;调用一次<br>2）Reducer阶段<br>    （1）用户自定义的Reducer要继承自己的父类<br>    （2）Reducer的输入数据类型对应Mapper的输出数据类型，也是KV<br>    （3）Reducer的业务逻辑写在reduce()方法中<br>    （4）Reducetask进程对每一组相同k的&lt;k,v&gt;组调用一次reduce()方法<br>3）Driver阶段<br>整个程序需要一个Drvier来进行提交，提交的是一个描述了各种必要信息的job对象</p>
+<h2 id="MapReduce程序运行流程分析"><a href="#MapReduce程序运行流程分析" class="headerlink" title="MapReduce程序运行流程分析"></a>MapReduce程序运行流程分析</h2><p><img src="/2019/08/30/bigdata-05/2.jpg" alt><br>1）在MapReduce程序读取文件的输入目录上存放相应的文件。<br>2）客户端程序在submit()方法执行前，获取待处理的数据信息，然后根据集群中参数的配置形成一个任务分配规划。<br>3）客户端提交job.split、jar包、job.xml等文件给yarn，yarn中的resourcemanager启动MRAppMaster。<br>4）MRAppMaster启动后根据本次job的描述信息，计算出需要的maptask实例数量，然后向集群申请机器启动相应数量的maptask进程。<br>5）maptask利用客户指定的inputformat来读取数据，形成输入KV对。<br>6）maptask将输入KV对传递给客户定义的map()方法，做逻辑运算<br>7）map()运算完毕后将KV对收集到maptask缓存。<br>8）maptask缓存中的KV对按照K分区排序后不断写到磁盘文件<br>9）MRAppMaster监控到所有maptask进程任务完成之后，会根据客户指定的参数启动相应数量的reducetask进程，并告知reducetask进程要处理的数据分区。<br>10）Reducetask进程启动之后，根据MRAppMaster告知的待处理数据所在位置，从若干台maptask运行所在机器上获取到若干个maptask输出结果文件，并在本地进行重新归并排序，然后按照相同key的KV为一个组，调用客户定义的reduce()方法进行逻辑运算。<br>11）Reducetask运算完毕后，调用客户指定的outputformat将结果数据输出到外部存储。</p>
+<h2 id="WordCount案例"><a href="#WordCount案例" class="headerlink" title="WordCount案例"></a>WordCount案例</h2><p>需求：在一堆给定的文本文件中统计输出每一个单词出现的总次数（本地实现）</p>
+<p>1）数据准备：<br>/opt/input/hello.txt<br>2）分析<br>    按照mapreduce编程规范，分别编写Mapper，Reducer，Driver。<br><img src="/2019/08/30/bigdata-05/3.jpg" alt><br><img src="/2019/08/30/bigdata-05/4.jpg" alt><br>3）编写程序<br>（1）定义一个mapper类</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">import org.apache.hadoop.io.IntWritable;</span><br><span class="line">import org.apache.hadoop.io.LongWritable;</span><br><span class="line">import org.apache.hadoop.io.Text;</span><br><span class="line">import org.apache.hadoop.mapreduce.Mapper;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * KEYIN:默认情况下，是mr框架所读到的一行文本的起始偏移量，Long;</span><br><span class="line"> * 在hadoop中有自己的更精简的序列化接口，所以不直接用Long，而是用LongWritable</span><br><span class="line"> * VALUEIN:默认情况下，是mr框架所读到的一行文本内容，String;此处用Text</span><br><span class="line"> * </span><br><span class="line"> * KEYOUT:是用户自定义逻辑处理完成之后输出数据中的key,在此处是单词，String；此处用Text</span><br><span class="line"> * VALUEOUT，是用户自定义逻辑处理完成之后输出数据中的value，在此处是单词次数，Integer，此处用IntWritable</span><br><span class="line"> * @author Administrator</span><br><span class="line"> */</span><br><span class="line">public class WordcountMapper extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt;&#123;</span><br><span class="line">	/**</span><br><span class="line">	 * map阶段的业务逻辑就写在自定义的map()方法中</span><br><span class="line">	 * maptask会对每一行输入数据调用一次我们自定义的map（）方法</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	protected void map(LongWritable key, Text value, Context context)</span><br><span class="line">			throws IOException, InterruptedException &#123;</span><br><span class="line">		// 1 将maptask传给我们的文本内容先转换成String</span><br><span class="line">		String line = value.toString();</span><br><span class="line">		</span><br><span class="line">		// 2 根据空格将这一行切分成单词</span><br><span class="line">		String[] words = line.split(<span class="string">" "</span>);</span><br><span class="line">		</span><br><span class="line">		// 3 将单词输出为&lt;单词，1&gt;</span><br><span class="line">		<span class="keyword">for</span>(String word:words)&#123;</span><br><span class="line">			// 将单词作为key，将次数1作为value,以便于后续的数据分发，可以根据单词分发，以便于相同单词会到相同的reducetask中</span><br><span class="line">			context.write(new Text(word), new IntWritable(1));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（2）定义一个reducer类</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import java.io.IOException;</span><br><span class="line">import org.apache.hadoop.io.IntWritable;</span><br><span class="line">import org.apache.hadoop.io.LongWritable;</span><br><span class="line">import org.apache.hadoop.io.Text;</span><br><span class="line">import org.apache.hadoop.mapreduce.Reducer;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * KEYIN , VALUEIN 对应mapper输出的KEYOUT, VALUEOUT类型</span><br><span class="line"> * </span><br><span class="line"> * KEYOUT，VALUEOUT 对应自定义reduce逻辑处理结果的输出数据类型 KEYOUT是单词 VALUEOUT是总次数</span><br><span class="line">* @author Administrator</span><br><span class="line">*/</span><br><span class="line">public class WordcountReducer extends Reducer&lt;Text, IntWritable, Text, IntWritable&gt; &#123;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * key，是一组相同单词kv对的key</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	protected void reduce(Text key, Iterable&lt;IntWritable&gt; values, Context context)</span><br><span class="line">			throws IOException, InterruptedException &#123;</span><br><span class="line"></span><br><span class="line">		int count = 0;</span><br><span class="line"></span><br><span class="line">		// 1 汇总各个key的个数</span><br><span class="line">		<span class="keyword">for</span>(IntWritable value:values)&#123;</span><br><span class="line">			count +=value.get();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		// 2输出该key的总次数</span><br><span class="line">		context.write(key, new IntWritable(count));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（3）定义一个主类，用来描述job并提交job</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import org.apache.hadoop.conf.Configuration;</span><br><span class="line">import org.apache.hadoop.fs.Path;</span><br><span class="line">import org.apache.hadoop.io.IntWritable;</span><br><span class="line">import org.apache.hadoop.io.Text;</span><br><span class="line">import org.apache.hadoop.mapreduce.Job;</span><br><span class="line">import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;</span><br><span class="line">import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 相当于一个yarn集群的客户端，</span><br><span class="line"> * 需要在此封装我们的mr程序相关运行参数，指定jar包</span><br><span class="line"> * 最后提交给yarn</span><br><span class="line"> * @author Administrator</span><br><span class="line">*/</span><br><span class="line">public class WordcountDriver &#123;</span><br><span class="line">	public static void main(String[] args) throws Exception &#123;</span><br><span class="line">		// 1 获取配置信息，或者job对象实例</span><br><span class="line">		Configuration configuration = new Configuration();</span><br><span class="line">		// 8 配置提交到yarn上运行,windows和Linux变量不一致</span><br><span class="line">//		configuration.set(<span class="string">"mapreduce.framework.name"</span>, <span class="string">"yarn"</span>);</span><br><span class="line">//		configuration.set(<span class="string">"yarn.resourcemanager.hostname"</span>, <span class="string">"hadoop103"</span>);</span><br><span class="line">		Job job = Job.getInstance(configuration);</span><br><span class="line">		</span><br><span class="line">		// 6 指定本程序的jar包所在的本地路径</span><br><span class="line">//		job.setJar(<span class="string">"/home/atguigu/wc.jar"</span>);</span><br><span class="line">		job.setJarByClass(WordcountDriver.class);</span><br><span class="line">		</span><br><span class="line">		// 2 指定本业务job要使用的mapper/Reducer业务类</span><br><span class="line">		job.setMapperClass(WordcountMapper.class);</span><br><span class="line">		job.setReducerClass(WordcountReducer.class);</span><br><span class="line">		</span><br><span class="line">		// 3 指定mapper输出数据的kv类型</span><br><span class="line">		job.setMapOutputKeyClass(Text.class);</span><br><span class="line">		job.setMapOutputValueClass(IntWritable.class);</span><br><span class="line">		</span><br><span class="line">		// 4 指定最终输出的数据的kv类型</span><br><span class="line">		job.setOutputKeyClass(Text.class);</span><br><span class="line">		job.setOutputValueClass(IntWritable.class);</span><br><span class="line">		</span><br><span class="line">		// 5 指定job的输入原始文件所在目录</span><br><span class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</span><br><span class="line">		FileOutputFormat.setOutputPath(job, new Path(args[1]));</span><br><span class="line">		</span><br><span class="line">		// 7 将job中配置的相关参数，以及job所用的java类所在的jar包， 提交给yarn去运行</span><br><span class="line">//		job.submit();</span><br><span class="line">		boolean result = job.waitForCompletion(<span class="literal">true</span>);</span><br><span class="line">		System.exit(result?0:1);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（4）在idea里设置输入参数<br>Run-&gt;Edit Configurations-&gt;Progrom arguments ,输入/opt/input/hello.txt /opt/output</p>
+<p>（5）执行WordcountDriver。<br>    如果执行结果是0则表示执行成功。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/08/30/bigdata-05/" data-id="ck0s5r20x000odovj8t12583v" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "MapReduce的核心思想及实例",
+        "image": "http://yoursite.com/2019/08/30/bigdata-05/1.jpg",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-08-30",
+        "dateCreated": "2019-08-30",
+        "dateModified": "2019-08-30",
+        "url": "http://yoursite.com/2019/08/30/bigdata-05/",
+        "description": "大数据学习第五天
+MapReduce核心思想1）分布式的运算程序往往需要分成至少2个阶段2）第一个阶段的maptask并发实例，完全并行运行，互不相干3）第二个阶段的reduce task并发实例互不相干，但是他们的数据依赖于上一个阶段的所有maptask并发实例的输出4）MapReduce编程模型只能包含一个map阶段和一个reduce阶段，如果用户的业务逻辑非常复杂，那就只能多个mapredu"
+        "wordCount": 513
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/09/03/bigdata-06/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            maprudece案例2-统计手机的上行和下载流量
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/08/29/bigdata-04/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">DataNode和NameNode工作机制</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/08/30/bigdata-05/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

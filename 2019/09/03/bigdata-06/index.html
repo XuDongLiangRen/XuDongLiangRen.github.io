@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>maprudece案例2-统计手机的上行和下载流量 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="大数据学习第六天 1）需求分析 统计每一个手机号耗费的总上行流量、下行流量、总流量 2）数据准备 部分数据展示（Tab键分割） 12345678序号   手机号   上行流量  下载流量0	13522515872	45	871	15845633583	25	8999992	18638921940	511516	8855815813	18638921884	1515148	6894198	4	150">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="maprudece案例2-统计手机的上行和下载流量">
+<meta property="og:url" content="http://yoursite.com/2019/09/03/bigdata-06/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第六天 1）需求分析 统计每一个手机号耗费的总上行流量、下行流量、总流量 2）数据准备 部分数据展示（Tab键分割） 12345678序号   手机号   上行流量  下载流量0	13522515872	45	871	15845633583	25	8999992	18638921940	511516	8855815813	18638921884	1515148	6894198	4	150">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-03T06:23:19.332Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="maprudece案例2-统计手机的上行和下载流量">
+<meta name="twitter:description" content="大数据学习第六天 1）需求分析 统计每一个手机号耗费的总上行流量、下行流量、总流量 2）数据准备 部分数据展示（Tab键分割） 12345678序号   手机号   上行流量  下载流量0	13522515872	45	871	15845633583	25	8999992	18638921940	511516	8855815813	18638921884	1515148	6894198	4	150">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-06" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        maprudece案例2-统计手机的上行和下载流量
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/09/03/bigdata-06/" class="article-date">
+            <time datetime="2019-09-03T00:18:43.000Z" itemprop="datePublished">2019-09-03</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第六天</p>
+<p>1）需求分析</p>
+<p>统计每一个手机号耗费的总上行流量、下行流量、总流量</p>
+<p>2）数据准备</p>
+<p>部分数据展示（Tab键分割）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">序号   手机号   上行流量  下载流量</span><br><span class="line">0	13522515872	45	87</span><br><span class="line">1	15845633583	25	899999</span><br><span class="line">2	18638921940	511516	885581581</span><br><span class="line">3	18638921884	1515148	6894198	</span><br><span class="line">4	15030916151	555	165615</span><br><span class="line">5	13722545688	5615	65165</span><br><span class="line">6	15033658854	6516	15561</span><br></pre></td></tr></table></figure>
+
+<p>3）分析<br>基本思路：<br>Map阶段：<br>（1）读取一行数据，切分字段<br>（2）抽取手机号、上行流量、下行流量<br>（3）以手机号为key，bean对象为value输出，即context.write(手机号,bean);<br>Reduce阶段：<br>（1）累加上行流量和下行流量得到总流量。<br>（2）实现自定义的bean来封装流量信息，并将bean作为map输出的key来传输<br>（3）MR程序在处理数据的过程中会对数据排序(map输出的kv对传输到reduce之前，会排序)，排序的依据是map输出的key<br>        所以，我们如果要实现自己需要的排序规则，则可以考虑将排序因素放到key中，让key实现接口：WritableComparable。<br>然后重写key的compareTo方法。</p>
+<p>4）编写mapreduce程序<br>（1）编写流量统计的bean对象</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">package com.atguigu.mr.flowsum;</span><br><span class="line">import java.io.DataInput;</span><br><span class="line">import java.io.DataOutput;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import org.apache.hadoop.io.Writable;</span><br><span class="line"></span><br><span class="line">// bean对象要实例化</span><br><span class="line">public class FlowBean implements Writable &#123;</span><br><span class="line"></span><br><span class="line">	private long upFlow;</span><br><span class="line">	private long downFlow;</span><br><span class="line">	private long sumFlow;</span><br><span class="line"></span><br><span class="line">	// 反序列化时，需要反射调用空参构造函数，所以必须有</span><br><span class="line">	public <span class="function"><span class="title">FlowBean</span></span>() &#123;</span><br><span class="line">		super();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public FlowBean(long upFlow, long downFlow) &#123;</span><br><span class="line">		super();</span><br><span class="line">		this.upFlow = upFlow;</span><br><span class="line">		this.downFlow = downFlow;</span><br><span class="line">		this.sumFlow = upFlow + downFlow;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public long <span class="function"><span class="title">getSumFlow</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> sumFlow;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setSumFlow(long sumFlow) &#123;</span><br><span class="line">		this.sumFlow = sumFlow;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public long <span class="function"><span class="title">getUpFlow</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> upFlow;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setUpFlow(long upFlow) &#123;</span><br><span class="line">		this.upFlow = upFlow;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public long <span class="function"><span class="title">getDownFlow</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> downFlow;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setDownFlow(long downFlow) &#123;</span><br><span class="line">		this.downFlow = downFlow;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 序列化方法</span><br><span class="line">	 * </span><br><span class="line">	 * @param out</span><br><span class="line">	 * @throws IOException</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	public void write(DataOutput out) throws IOException &#123;</span><br><span class="line">		out.writeLong(upFlow);</span><br><span class="line">		out.writeLong(downFlow);</span><br><span class="line">		out.writeLong(sumFlow);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 反序列化方法 </span><br><span class="line">注意反序列化的顺序和序列化的顺序完全一致</span><br><span class="line">	 * </span><br><span class="line">	 * @param <span class="keyword">in</span></span><br><span class="line">	 * @throws IOException</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	public void readFields(DataInput <span class="keyword">in</span>) throws IOException &#123;</span><br><span class="line">		upFlow = in.readLong();</span><br><span class="line">		downFlow = in.readLong();</span><br><span class="line">		sumFlow = in.readLong();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public String <span class="function"><span class="title">toString</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> upFlow + <span class="string">"\t"</span> + downFlow + <span class="string">"\t"</span> + sumFlow;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（2）编写mapreduce主程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">package com.atguigu.mr.flowsum;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import org.apache.hadoop.conf.Configuration;</span><br><span class="line">import org.apache.hadoop.fs.Path;</span><br><span class="line">import org.apache.hadoop.io.LongWritable;</span><br><span class="line">import org.apache.hadoop.io.Text;</span><br><span class="line">import org.apache.hadoop.mapreduce.Job;</span><br><span class="line">import org.apache.hadoop.mapreduce.Mapper;</span><br><span class="line">import org.apache.hadoop.mapreduce.Reducer;</span><br><span class="line">import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;</span><br><span class="line">import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</span><br><span class="line"></span><br><span class="line">public class FlowCount &#123;</span><br><span class="line"></span><br><span class="line">	static class FlowCountMapper extends Mapper&lt;LongWritable, Text, Text, FlowBean&gt; &#123;</span><br><span class="line"></span><br><span class="line">		@Override</span><br><span class="line">		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException &#123;</span><br><span class="line">			// 1 将一行内容转成string</span><br><span class="line">			String ling = value.toString();</span><br><span class="line"></span><br><span class="line">			// 2 切分字段</span><br><span class="line">			String[] fields = ling.split(<span class="string">"\t"</span>);</span><br><span class="line"></span><br><span class="line">			// 3 取出手机号码</span><br><span class="line">			String phoneNum = fields[1];</span><br><span class="line"></span><br><span class="line">			// 4 取出上行流量和下行流量</span><br><span class="line">			long upFlow = Long.parseLong(fields[fields.length - 2]);</span><br><span class="line">			long downFlow = Long.parseLong(fields[fields.length - 1]);</span><br><span class="line"></span><br><span class="line">			// 5 写出数据</span><br><span class="line">			context.write(new Text(phoneNum), new FlowBean(upFlow, downFlow));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	static class FlowCountReducer extends Reducer&lt;Text, FlowBean, Text, FlowBean&gt; &#123;</span><br><span class="line">		@Override</span><br><span class="line">		protected void reduce(Text key, Iterable&lt;FlowBean&gt; values, Context context)</span><br><span class="line">				throws IOException, InterruptedException &#123;</span><br><span class="line">			long sum_upFlow = 0;</span><br><span class="line">			long sum_downFlow = 0;</span><br><span class="line"></span><br><span class="line">			// 1 遍历所用bean，将其中的上行流量，下行流量分别累加</span><br><span class="line">			<span class="keyword">for</span> (FlowBean bean : values) &#123;</span><br><span class="line">				sum_upFlow += bean.getUpFlow();</span><br><span class="line">				sum_downFlow += bean.getDownFlow();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			// 2 封装对象</span><br><span class="line">			FlowBean resultBean = new FlowBean(sum_upFlow, sum_downFlow);</span><br><span class="line">			context.write(key, resultBean);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) throws Exception &#123;</span><br><span class="line">		// 1 获取配置信息，或者job对象实例</span><br><span class="line">		Configuration configuration = new Configuration();</span><br><span class="line">		configuration.set(<span class="string">"fs.defaultFS"</span>,<span class="string">"hdfs://hadoop011:9000"</span>); //指定集群的NameNode的地址</span><br><span class="line">//		configuration.set(<span class="string">"mapreduce.framework.name"</span>, <span class="string">"yarn"</span>);</span><br><span class="line">//		configuration.set(<span class="string">"yarn.resourcemanager.hostname"</span>, <span class="string">"hadoop013"</span>);</span><br><span class="line"></span><br><span class="line">		Job job = Job.getInstance(configuration);</span><br><span class="line"></span><br><span class="line">		// 6 指定本程序的jar包所在的本地路径</span><br><span class="line">		job.setJarByClass(FlowCount.class);</span><br><span class="line"></span><br><span class="line">		// 2 指定本业务job要使用的mapper/Reducer业务类</span><br><span class="line">		job.setMapperClass(FlowCountMapper.class);</span><br><span class="line">		job.setReducerClass(FlowCountReducer.class);</span><br><span class="line"></span><br><span class="line">		// 3 指定mapper输出数据的kv类型</span><br><span class="line">		job.setMapOutputKeyClass(Text.class);</span><br><span class="line">		job.setMapOutputValueClass(FlowBean.class);</span><br><span class="line"></span><br><span class="line">		// 4 指定最终输出的数据的kv类型</span><br><span class="line">		job.setOutputKeyClass(Text.class);</span><br><span class="line">		job.setOutputValueClass(FlowBean.class);</span><br><span class="line"></span><br><span class="line">		// 5 指定job的输入原始文件所在目录</span><br><span class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</span><br><span class="line">		FileOutputFormat.setOutputPath(job, new Path(args[1]));</span><br><span class="line"></span><br><span class="line">		// 7  提交运行</span><br><span class="line">//		job.submit();</span><br><span class="line">		boolean result = job.waitForCompletion(<span class="literal">true</span>);</span><br><span class="line">		System.exit(result ? 0 : 1);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<pre><code>在idea上配置好输入参数（程序的读取文件目录和输出目录），并指定集群的NameNode的地址。
+操控集群执行，可以正常得出结果。但是在配置yarn的参数后，提示报classNotFindException,
+找不到FlowCountMapper和FlowCountReducer。目前还没有解决。</code></pre>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/09/03/bigdata-06/" data-id="ck0s5r2060009dovjp66mu20p" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": ""
+        },
+        "headline": "maprudece案例2-统计手机的上行和下载流量",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2019-09-03",
+        "dateCreated": "2019-09-03",
+        "dateModified": "2019-09-03",
+        "url": "http://yoursite.com/2019/09/03/bigdata-06/",
+        "description": "大数据学习第六天
+1）需求分析
+统计每一个手机号耗费的总上行流量、下行流量、总流量
+2）数据准备
+部分数据展示（Tab键分割）
+12345678序号   手机号   上行流量  下载流量0	13522515872	45	871	15845633583	25	8999992	18638921940	511516	8855815813	18638921884	1515148	6894198	4	150"
+        "wordCount": 680
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/09/03/bigdata-07/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            partition，GroupingComparator和多表合并
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/08/30/bigdata-05/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">MapReduce的核心思想及实例</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19（2）/" class="title">Hbase“微博小项目”——总结</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:56:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/firefoxUpdate/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/firefoxUpdate/" class="title">Cen OS 6.6之升级火狐浏览器</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T11:21:06.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/20/bigdata-19/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/20/bigdata-19/" class="title">Hbase“微博小项目”——代码实现</a></p>
+                            <p class="item-date"><time datetime="2019-09-20T09:49:32.000Z" itemprop="datePublished">2019-09-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/19/bigdata-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/19/bigdata-18/1.jpg)" alt="Hbase的数据结构与原理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/19/bigdata-18/" class="title">Hbase的数据结构与原理</a></p>
+                            <p class="item-date"><time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
+                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/09/03/bigdata-06/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
