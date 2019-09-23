@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第十九天（2） 小结代码方面1. Connection和HBaseAdmin类似MySQL，客户端想要访问Hbase也要建立连接。 Connection是是客户端到Hbase的连接。被设计成了工厂模式，通过ConnectionFactory.cteate（）获取。（猜测也会有连接池） HBaseAdmin是管理员，命名空间和表的操作都需要通过管理员来完成。 2. NamespaceDes">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-20T12:38:44.618Z">
+<meta property="og:updated_time" content="2019-09-23T07:24:39.529Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hbase“微博小项目”——总结">
 <meta name="twitter:description" content="大数据学习第十九天（2） 小结代码方面1. Connection和HBaseAdmin类似MySQL，客户端想要访问Hbase也要建立连接。 Connection是是客户端到Hbase的连接。被设计成了工厂模式，通过ConnectionFactory.cteate（）获取。（猜测也会有连接池） HBaseAdmin是管理员，命名空间和表的操作都需要通过管理员来完成。 2. NamespaceDes">
@@ -80,7 +80,7 @@
                                 </li>
                             
                                 <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/yourdiy">分类1</a>
+                                    <a class="main-nav-list-link" href="/yourdiy">index.yourdiy</a>
                                 </li>
                             
                         </ul>
@@ -178,7 +178,7 @@
 <p>命名空间描述类<br>表描述类<br>列族描述类</p>
 <p>管理员操作命名空间和表需要对应的一些信息，这三类存储了命名空间，表和列族的信息。</p>
 <h4 id="3-Table，Get，Scan，Put，Cell，Result，ResultScanner，Delete"><a href="#3-Table，Get，Scan，Put，Cell，Result，ResultScanner，Delete" class="headerlink" title="3. Table，Get，Scan，Put，Cell，Result，ResultScanner，Delete"></a>3. Table，Get，Scan，Put，Cell，Result，ResultScanner，Delete</h4><p>Table 一个指向HBase的某个表的指针。</p>
-<p>Get Scan 用于获取数据时对数据限制。Get侧重少量数据。Scan侧重多一些的数据。</p>
+<p>Get Scan 用于获取数据时对数据限制。Get获取一行数据数据。Scan获取一定范围的数据。</p>
 <p>Result ResultScanner 分别时楼上两个的获取结果。</p>
 <p>Cell 单元格。</p>
 <p>Put Delete 存数据和删数据的描述。</p>
@@ -191,7 +191,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/09/20/bigdata-19（2）/" data-id="ck0s5r20h000jdovjkqaj4yz9" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/09/20/bigdata-19（2）/" data-id="ck0whivr5000ij8vja1tpk0ed" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -259,7 +259,7 @@
         "@type": "BlogPosting",
         "author": {
             "@type": "Person",
-            "name": ""
+            "name": "徐栋梁"
         },
         "headline": "Hbase“微博小项目”——总结",
         "image": "http://yoursite.com",
@@ -267,7 +267,7 @@
         "genre": "",
         "datePublished": "2019-09-20",
         "dateCreated": "2019-09-20",
-        "dateModified": "2019-09-20",
+        "dateModified": "2019-09-23",
         "url": "http://yoursite.com/2019/09/20/bigdata-19（2）/",
         "description": "大数据学习第十九天（2）
 小结代码方面1. Connection和HBaseAdmin类似MySQL，客户端想要访问Hbase也要建立连接。
@@ -354,6 +354,16 @@ HBaseAdmin是管理员，命名空间和表的操作都需要通过管理员来�
         
 <nav id="article-nav">
     
+        <a href="/2019/09/23/bigdata-20/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            bigdata-20
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
     
         <a href="/2019/09/20/firefoxUpdate/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
@@ -375,6 +385,26 @@ HBaseAdmin是管理员，命名空间和表的操作都需要通过管理员来�
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/23/bigdata-20/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/09/23/bigdata-20/" class="title">bigdata-20</a></p>
+                            <p class="item-date"><time datetime="2019-09-23T14:06:56.000Z" itemprop="datePublished">2019-09-23</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -456,26 +486,6 @@ HBaseAdmin是管理员，命名空间和表的操作都需要通过管理员来�
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/09/18/bigdata-17/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2019/09/18/bigdata-17/" class="title">Hbase的API操作</a></p>
-                            <p class="item-date"><time datetime="2019-09-18T13:17:37.000Z" itemprop="datePublished">2019-09-18</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -488,7 +498,7 @@ HBaseAdmin是管理员，命名空间和表的操作都需要通过管理员来�
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -531,7 +541,7 @@ HBaseAdmin是管理员，命名空间和表的操作都需要通过管理员来�
                 <h1 class="logo-wrap">
                     <a href="/" class="logo"></a>
                 </h1>
-                <p>&copy; 2019 徐栋梁的博客</p>
+                <p>&copy; 2019 徐栋梁</p>
                 <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
             </div>
             <div class="footer-plugins">

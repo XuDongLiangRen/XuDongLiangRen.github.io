@@ -6,26 +6,22 @@
     
 
     
-    <title>InputFormat数据切片机制 | 徐栋梁的博客</title>
+    <title>c2 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content>
-    
-    <meta name="description" content="大数据学习第八天 FileInputFormat切片机制1）job提交流程源码详解 1234567891011121314151617181920212223242526waitForCompletion()submit();// 1建立连接	connect();		// 1）创建提交job的代理	new Cluster(getConfiguration());	//（1）判断是本地yarn还是远">
+    <meta name="description" content="大数据小白成长日记">
 <meta name="keywords" content="hadoop">
-<meta property="og:type" content="article">
-<meta property="og:title" content="InputFormat数据切片机制">
-<meta property="og:url" content="http://yoursite.com/2019/09/04/bigdata-08/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="c2">
+<meta property="og:url" content="http://yoursite.com/c2/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据学习第八天 FileInputFormat切片机制1）job提交流程源码详解 1234567891011121314151617181920212223242526waitForCompletion()submit();// 1建立连接	connect();		// 1）创建提交job的代理	new Cluster(getConfiguration());	//（1）判断是本地yarn还是远">
+<meta property="og:description" content="大数据小白成长日记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/09/04/bigdata-08/1.jpg">
-<meta property="og:updated_time" content="2019-09-05T00:41:00.589Z">
+<meta property="og:updated_time" content="2019-09-20T13:59:12.648Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="InputFormat数据切片机制">
-<meta name="twitter:description" content="大数据学习第八天 FileInputFormat切片机制1）job提交流程源码详解 1234567891011121314151617181920212223242526waitForCompletion()submit();// 1建立连接	connect();		// 1）创建提交job的代理	new Cluster(getConfiguration());	//（1）判断是本地yarn还是远">
-<meta name="twitter:image" content="http://yoursite.com/2019/09/04/bigdata-08/1.jpg">
+<meta name="twitter:title" content="c2">
+<meta name="twitter:description" content="大数据小白成长日记">
     
 
     
@@ -138,60 +134,35 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    未分类
+    <em class="page-title-link" data-url="/c2/index.html">c2</em>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-bigdata-08" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="page-" class="article article-single article-type-page" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        InputFormat数据切片机制
+        c2
         </h1>
     
 
             </header>
         
         
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <a href="/2019/09/04/bigdata-08/" class="article-date">
-            <time datetime="2019-09-04T14:41:38.000Z" itemprop="datePublished">2019-09-04</time>
-        </a>
-    </div>
-
-		
-
-                
-            </div>
-        
         
         <div class="article-entry" itemprop="articleBody">
-            <p>大数据学习第八天</p>
-<h2 id="FileInputFormat切片机制"><a href="#FileInputFormat切片机制" class="headerlink" title="FileInputFormat切片机制"></a>FileInputFormat切片机制</h2><p>1）job提交流程源码详解</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">waitForCompletion()</span><br><span class="line">submit();</span><br><span class="line">// 1建立连接</span><br><span class="line">	connect();	</span><br><span class="line">	// 1）创建提交job的代理</span><br><span class="line">	new Cluster(getConfiguration());</span><br><span class="line">	//（1）判断是本地yarn还是远程</span><br><span class="line">	initialize(jobTrackAddr, conf); </span><br><span class="line">	// 2 提交job</span><br><span class="line">	submitter.submitJobInternal(Job.this, cluster)</span><br><span class="line">	// 1）创建给集群提交数据的Stag路径</span><br><span class="line">	Path jobStagingArea = JobSubmissionFiles.getStagingDir(cluster, conf);</span><br><span class="line">	// 2）获取jobid ，并创建job路径</span><br><span class="line">	JobID jobId = submitClient.getNewJobID();</span><br><span class="line">	// 3）拷贝jar包到集群</span><br><span class="line">    copyAndConfigureFiles(job, submitJobDir);	</span><br><span class="line">	rUploader.uploadFiles(job, jobSubmitDir);</span><br><span class="line">    // 4）计算切片，生成切片规划文件</span><br><span class="line">    writeSplits(job, submitJobDir);</span><br><span class="line">	maps = writeNewSplits(job, jobSubmitDir);</span><br><span class="line">	input.getSplits(job);</span><br><span class="line">    // 5）向Stag路径写xml配置文件</span><br><span class="line">    writeConf(conf, submitJobFile);</span><br><span class="line">	conf.writeXml(out);</span><br><span class="line">    // 6）提交job,返回提交状态</span><br><span class="line">status = submitClient.submitJob(jobId, submitJobDir.toString(), job.getCredentials());</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2019/09/04/bigdata-08/1.jpg" alt></p>
-<p>2）FileInputFormat源码解析(input.getSplits(job))<br>    （1）找到你数据存储的目录。<br>    （2）开始遍历处理（规划切片）目录下的每一个文件<br>    （3）遍历第一个文件ss.txt<br>        a）获取文件大小fs.sizeOf(ss.txt);<br>        b）计算切片大小computeSliteSize(Math.max(minSize,Math.max(maxSize,blocksize)))=blocksize=128M<br>c）默认情况下，切片大小=blocksize<br>        d）开始切，形成第1个切片：ss.txt—0:128M 第2个切片ss.txt—128:256M 第3个切片ss.txt—256M:300M（每次切片时，都要判断切完剩下的部分是否大于块的1.1倍，不大于1.1倍就划分一块切片）<br>        e）将切片信息写到一个切片规划文件中<br>        f）整个切片的核心过程在getSplit()方法中完成。<br>g）数据切片只是在逻辑上对输入数据进行分片，并不会再磁盘上将其切分成分片进行存储。        InputSplit只记录了分片的元数据信息，比如起始位置、长度以及所在的节点列表等。<br>h）注意：block是HDFS上物理上存储的存储的数据，切片是对数据逻辑上的划分。<br>    （4）提交切片规划文件到yarn上，yarn上的MrAppMaster就可以根据切片规划文件计算开启maptask个数。<br>3）FileInputFormat中默认的切片机制：<br>    （1）简单地按照文件的内容长度进行切片<br>    （2）切片大小，默认等于block大小<br>    （3）切片时不考虑数据集整体，而是逐个针对每一个文件单独切片<br>比如待处理数据有两个文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">file1.txt    320M</span><br><span class="line">file2.txt    10M</span><br></pre></td></tr></table></figure>
-
-<p>经过FileInputFormat的切片机制运算后，形成的切片信息如下：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">file1.txt.split1--0~128</span><br><span class="line">file1.txt.split2--128~256</span><br><span class="line">file1.txt.split3--256~320</span><br><span class="line">file2.txt.split1--0~10M</span><br></pre></td></tr></table></figure>
-
-<p>4）FileInputFormat切片大小的参数配置<br>（1）通过分析源码，在FileInputFormat中，计算切片大小的逻辑：Math.max(minSize, Math.min(maxSize, blockSize));<br>切片主要由这几个值来运算决定<br>mapreduce.input.fileinputformat.split.minsize=1 默认值为1<br>mapreduce.input.fileinputformat.split.maxsize= Long.MAXValue 默认值Long.MAXValue<br>因此，默认情况下，切片大小=blocksize。<br>maxsize（切片最大值）：参数如果调得比blocksize小，则会让切片变小，而且就等于配置的这个参数的值。<br>minsize （切片最小值）：参数调的比blockSize大，则可以让切片变得比blocksize还大。<br>5）获取切片信息API</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 根据文件类型获取切片信息</span><br><span class="line">FileSplit inputSplit = (FileSplit) context.getInputSplit();</span><br><span class="line">// 获取切片的文件名称</span><br><span class="line">String name = inputSplit.getPath().getName();</span><br></pre></td></tr></table></figure>
+            
         </div>
         <footer class="article-footer">
             
 
 
 
-    <a data-url="http://yoursite.com/2019/09/04/bigdata-08/" data-id="ck0whivqz000bj8vjnblu8irp" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/c2/index.html" data-id="ck0whivqt0004j8vj2x7e500x" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -261,18 +232,16 @@
             "@type": "Person",
             "name": "徐栋梁"
         },
-        "headline": "InputFormat数据切片机制",
-        "image": "http://yoursite.com/2019/09/04/bigdata-08/1.jpg",
-        "keywords": "",
-        "genre": "",
-        "datePublished": "2019-09-04",
-        "dateCreated": "2019-09-04",
-        "dateModified": "2019-09-05",
-        "url": "http://yoursite.com/2019/09/04/bigdata-08/",
-        "description": "大数据学习第八天
-FileInputFormat切片机制1）job提交流程源码详解
-1234567891011121314151617181920212223242526waitForCompletion()submit();// 1建立连接	connect();		// 1）创建提交job的代理	new Cluster(getConfiguration());	//（1）判断是本地yarn还是远"
-        "wordCount": 255
+        "headline": "c2",
+        "image": "http://yoursite.com",
+        
+        
+        "datePublished": "2019-09-20",
+        "dateCreated": "2019-09-20",
+        "dateModified": "2019-09-20",
+        "url": "http://yoursite.com/c2/index.html",
+        "description": ""
+        "wordCount": 1
     }
 </script>
 
@@ -348,29 +317,6 @@ FileInputFormat切片机制1）job提交流程源码详解
             
         </ul>
     </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2019/09/06/bigdata-09/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            MapReduce小结
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
-    
-        <a href="/2019/09/03/bigdata-07/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">partition，GroupingComparator和多表合并</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
-        </a>
-    
-</nav>
-
     
     <div class="widgets-container">
         
@@ -558,7 +504,7 @@ FileInputFormat切片机制1）job提交流程源码详解
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'http://yoursite.com/2019/09/04/bigdata-08/';
+    var disqus_url = 'http://yoursite.com/c2/index.html';
     
     (function() {
     var dsq = document.createElement('script');
