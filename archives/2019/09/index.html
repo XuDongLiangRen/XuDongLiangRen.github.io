@@ -181,12 +181,17 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2019/09/24/bigdata-21/">bigdata-21</a>
+        <a href="/2019/09/24/bigdata-21/">关于HBase删除数据的一些细节</a>
         </h1>
     
 
         <p class="article-excerpt">
-            
+            大数据学习第21天
+HBase删除数据HBase的删除过程分为单行删除、多行删除和原子性操作
+1.单行删除不会立即删除，而是先在指定存储单元上标记删除，等到下一次region合并或者分裂的时候才会移除数据
+删除行的时候，可以指定列簇、列或者列中具体数据进行删除。没有任何指定的情况下会删除整行数据。
+如果使用 addFamily 函数，则会删除改行中的指定列簇中的所有数据。
+如果使用 addColu
         </p>
     </div>
 </article>
@@ -227,12 +232,16 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2019/09/23/bigdata-20/">bigdata-20</a>
+        <a href="/2019/09/23/bigdata-20/">Hbase和MySQL的比较</a>
         </h1>
     
 
         <p class="article-excerpt">
-            
+            大数据学习第20天
+Hbase和MySQL的比较（个人理解）
+表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。
+个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。
+而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会
         </p>
     </div>
 </article>
@@ -726,7 +735,7 @@ zookeeper客户端命令行操作12345678910111213141516171819202122232425262728
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/09/24/bigdata-21/" class="title">bigdata-21</a></p>
+                            <p class="item-title"><a href="/2019/09/24/bigdata-21/" class="title">关于HBase删除数据的一些细节</a></p>
                             <p class="item-date"><time datetime="2019-09-24T11:28:50.000Z" itemprop="datePublished">2019-09-24</time></p>
                         </div>
                     </li>
@@ -746,7 +755,7 @@ zookeeper客户端命令行操作12345678910111213141516171819202122232425262728
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/09/23/bigdata-20/" class="title">bigdata-20</a></p>
+                            <p class="item-title"><a href="/2019/09/23/bigdata-20/" class="title">Hbase和MySQL的比较</a></p>
                             <p class="item-date"><time datetime="2019-09-23T14:06:56.000Z" itemprop="datePublished">2019-09-23</time></p>
                         </div>
                     </li>
@@ -830,7 +839,7 @@ zookeeper客户端命令行操作12345678910111213141516171819202122232425262728
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
         </div>
     </div>
 

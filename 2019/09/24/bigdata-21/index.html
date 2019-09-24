@@ -6,24 +6,24 @@
     
 
     
-    <title>bigdata-21 | 徐栋梁的博客</title>
+    <title>关于HBase删除数据的一些细节 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
         <meta name="keywords" content="Hbase">
     
-    <meta name="description" content="大数据小白成长日记">
+    <meta name="description" content="大数据学习第21天 HBase删除数据HBase的删除过程分为单行删除、多行删除和原子性操作 1.单行删除不会立即删除，而是先在指定存储单元上标记删除，等到下一次region合并或者分裂的时候才会移除数据 删除行的时候，可以指定列簇、列或者列中具体数据进行删除。没有任何指定的情况下会删除整行数据。 如果使用 addFamily 函数，则会删除改行中的指定列簇中的所有数据。 如果使用 addColu">
 <meta name="keywords" content="Hbase">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bigdata-21">
+<meta property="og:title" content="关于HBase删除数据的一些细节">
 <meta property="og:url" content="http://yoursite.com/2019/09/24/bigdata-21/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据小白成长日记">
+<meta property="og:description" content="大数据学习第21天 HBase删除数据HBase的删除过程分为单行删除、多行删除和原子性操作 1.单行删除不会立即删除，而是先在指定存储单元上标记删除，等到下一次region合并或者分裂的时候才会移除数据 删除行的时候，可以指定列簇、列或者列中具体数据进行删除。没有任何指定的情况下会删除整行数据。 如果使用 addFamily 函数，则会删除改行中的指定列簇中的所有数据。 如果使用 addColu">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T12:08:51.443Z">
+<meta property="og:updated_time" content="2019-09-24T13:29:44.693Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bigdata-21">
-<meta name="twitter:description" content="大数据小白成长日记">
+<meta name="twitter:title" content="关于HBase删除数据的一些细节">
+<meta name="twitter:description" content="大数据学习第21天 HBase删除数据HBase的删除过程分为单行删除、多行删除和原子性操作 1.单行删除不会立即删除，而是先在指定存储单元上标记删除，等到下一次region合并或者分裂的时候才会移除数据 删除行的时候，可以指定列簇、列或者列中具体数据进行删除。没有任何指定的情况下会删除整行数据。 如果使用 addFamily 函数，则会删除改行中的指定列簇中的所有数据。 如果使用 addColu">
     
 
     
@@ -144,7 +144,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-        bigdata-21
+        关于HBase删除数据的一些细节
         </h1>
     
 
@@ -171,14 +171,33 @@
         
         
         <div class="article-entry" itemprop="articleBody">
-            
+            <p>大数据学习第21天</p>
+<h2 id="HBase删除数据"><a href="#HBase删除数据" class="headerlink" title="HBase删除数据"></a>HBase删除数据</h2><p>HBase的删除过程分为单行删除、多行删除和原子性操作</p>
+<h4 id="1-单行删除"><a href="#1-单行删除" class="headerlink" title="1.单行删除"></a>1.单行删除</h4><p>不会立即删除，而是先在指定存储单元上标记删除，等到下一次region合并或者分裂的时候才会移除数据</p>
+<p>删除行的时候，可以指定列簇、列或者列中具体数据进行删除。没有任何指定的情况下会删除整行数据。</p>
+<p>如果使用 addFamily 函数，则会删除改行中的指定列簇中的所有数据。</p>
+<p>如果使用 addColumns 函数，则会删除该行中的指定列中所有的数据。</p>
+<p>如果使用 addColumn() 函数则会删除改行中指定列的最大本版本的KeyValue数据。</p>
+<p>如果 setTimeStamp 则会删除指定版本的数据。</p>
+<h4 id="2-多行删除"><a href="#2-多行删除" class="headerlink" title="2.多行删除"></a>2.多行删除</h4><p>多行删除其实也就是多次单行删除</p>
+<p>省去不表</p>
+<p>3.原子性操作</p>
+<p>HTable表提供一个CAS原子操作: checkAndDelete()函数 在多个客户端对一行数据进行修改 保证数据的一致性。</p>
+<p>checkAndDelete()函数有两个，两者的差别就在于是否含有一个比较器。不含有比较器的函数效果与有比较器并且比较器的标志为CompareOp.EQUAL的效果是相同的。该函数的意思为，当函数中指定的值小于等于指定的值时，则进行删除操作。</p>
+<h2 id="2-Hbase删除原理"><a href="#2-Hbase删除原理" class="headerlink" title="2. Hbase删除原理"></a>2. Hbase删除原理</h2><p>HBase 的删除操作并不会立即将数据从磁盘上删除，这主要是因为 HBase 的数据通常被保存在 HDFS 之中，而 HDFS 只允许新增或者追加数据文件，所以删除操作主要是对要被删除的数据打上标记。</p>
+<p>HFile 中保存了已经排序过的 KeyValue 数据，KeyValue 类的数据结构如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    keylength,</span><br><span class="line">    valuelength,</span><br><span class="line">    key: &#123;</span><br><span class="line">        rowLength,</span><br><span class="line">        row (i.e., the rowkey),</span><br><span class="line">        columnfamilylength,</span><br><span class="line">        columnfamily,</span><br><span class="line">        columnqualifier,</span><br><span class="line">        timestamp,</span><br><span class="line">        keytype (e.g., Put, Delete, DeleteColumn, DeleteFamily)</span><br><span class="line">    &#125;</span><br><span class="line">    value</span><br><span class="line">｝</span><br></pre></td></tr></table></figure>
+
+<p>当执行删除操作时，HBase 新插入一条相同的 KeyValue 数据，但是使 keytype=Delete，这便意味着数据被删除了，直到发生 Major_compaction 操作时，数据才会被真正的从磁盘上删除。</p>
+<p>引自<a href="https://blog.csdn.net/t894690230/article/details/80515426。" target="_blank" rel="noopener">https://blog.csdn.net/t894690230/article/details/80515426。</a></p>
+
         </div>
         <footer class="article-footer">
             
 
 
 
-    <a data-url="http://yoursite.com/2019/09/24/bigdata-21/" data-id="ck0xtotj4001ip0vjp4jbuyrr" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/09/24/bigdata-21/" data-id="ck0xvn2kt001g04vj4x4jwdfx" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -248,7 +267,7 @@
             "@type": "Person",
             "name": "徐栋梁"
         },
-        "headline": "bigdata-21",
+        "headline": "关于HBase删除数据的一些细节",
         "image": "http://yoursite.com",
         "keywords": "Hbase",
         "genre": "大数据",
@@ -256,8 +275,13 @@
         "dateCreated": "2019-09-24",
         "dateModified": "2019-09-24",
         "url": "http://yoursite.com/2019/09/24/bigdata-21/",
-        "description": ""
-        "wordCount": 1
+        "description": "大数据学习第21天
+HBase删除数据HBase的删除过程分为单行删除、多行删除和原子性操作
+1.单行删除不会立即删除，而是先在指定存储单元上标记删除，等到下一次region合并或者分裂的时候才会移除数据
+删除行的时候，可以指定列簇、列或者列中具体数据进行删除。没有任何指定的情况下会删除整行数据。
+如果使用 addFamily 函数，则会删除改行中的指定列簇中的所有数据。
+如果使用 addColu"
+        "wordCount": 167
     }
 </script>
 
@@ -316,7 +340,7 @@
     
         <a href="/2019/09/23/bigdata-20/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">bigdata-20</p>
+        <p class="article-nav-title">Hbase和MySQL的比较</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -350,7 +374,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/09/24/bigdata-21/" class="title">bigdata-21</a></p>
+                            <p class="item-title"><a href="/2019/09/24/bigdata-21/" class="title">关于HBase删除数据的一些细节</a></p>
                             <p class="item-date"><time datetime="2019-09-24T11:28:50.000Z" itemprop="datePublished">2019-09-24</time></p>
                         </div>
                     </li>
@@ -370,7 +394,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/09/23/bigdata-20/" class="title">bigdata-20</a></p>
+                            <p class="item-title"><a href="/2019/09/23/bigdata-20/" class="title">Hbase和MySQL的比较</a></p>
                             <p class="item-date"><time datetime="2019-09-23T14:06:56.000Z" itemprop="datePublished">2019-09-23</time></p>
                         </div>
                     </li>
@@ -454,7 +478,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
         </div>
     </div>
 
