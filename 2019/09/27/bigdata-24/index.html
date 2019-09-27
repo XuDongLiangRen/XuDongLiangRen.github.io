@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Scala的模式匹配（上） | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Scala">
+    
+    <meta name="description" content="大数据学习第24天 Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如下： 12345678for (ch &amp;lt;- &quot;+-!&quot;) &amp;#123;  sign = ch match &amp;#123;    case &apos;+&apos; =&amp;gt; 1    case &apos;-&apos; =&amp;gt; -1    case _ =&amp;gt; 0  &amp;#125;  println(sign)&amp;#12">
+<meta name="keywords" content="Scala">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scala的模式匹配（上）">
+<meta property="og:url" content="http://yoursite.com/2019/09/27/bigdata-24/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第24天 Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如下： 12345678for (ch &amp;lt;- &quot;+-!&quot;) &amp;#123;  sign = ch match &amp;#123;    case &apos;+&apos; =&amp;gt; 1    case &apos;-&apos; =&amp;gt; -1    case _ =&amp;gt; 0  &amp;#125;  println(sign)&amp;#12">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-27T14:39:28.813Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Scala的模式匹配（上）">
+<meta name="twitter:description" content="大数据学习第24天 Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如下： 12345678for (ch &amp;lt;- &quot;+-!&quot;) &amp;#123;  sign = ch match &amp;#123;    case &apos;+&apos; =&amp;gt; 1    case &apos;-&apos; =&amp;gt; -1    case _ =&amp;gt; 0  &amp;#125;  println(sign)&amp;#12">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/大数据/">大数据</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-24" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Scala的模式匹配（上）
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/09/27/bigdata-24/" class="article-date">
+            <time datetime="2019-09-27T14:19:40.000Z" itemprop="datePublished">2019-09-27</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Scala/">Scala</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第24天</p>
+<h2 id="Scala的模式匹配"><a href="#Scala的模式匹配" class="headerlink" title="Scala的模式匹配"></a>Scala的模式匹配</h2><h4 id="1-Switch语句"><a href="#1-Switch语句" class="headerlink" title="1 Switch语句"></a>1 Switch语句</h4><p>Scala里的匹配关键字是match，语句如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (ch &lt;- <span class="string">"+-!"</span>) &#123;</span><br><span class="line">  sign = ch match &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'+'</span> =&gt; 1</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'-'</span> =&gt; -1</span><br><span class="line">    <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">  &#125;</span><br><span class="line">  println(sign)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>case _ 是默认匹配。不用break，有返回值。可以match任何类型。没有匹配到抛出MatchError。</p>
+<h4 id="2-守卫"><a href="#2-守卫" class="headerlink" title="2 守卫"></a>2 守卫</h4><p>像if表达式一样，match也提供守卫功能，守卫可以是任何Boolean条件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (ch &lt;- <span class="string">"+-3!"</span>) &#123;</span><br><span class="line">  var sign = 0</span><br><span class="line">  var digit = 0</span><br><span class="line"></span><br><span class="line">  ch match &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'+'</span> =&gt; sign = 1</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'-'</span> =&gt; sign = -1</span><br><span class="line">    <span class="keyword">case</span> _ <span class="keyword">if</span> Character.isDigit(ch) =&gt; digit = Character.digit(ch, 10)</span><br><span class="line">    <span class="keyword">case</span> _ =&gt; sign = 0</span><br><span class="line">  &#125;</span><br><span class="line">  println(ch + <span class="string">" "</span> + sign + <span class="string">" "</span> + digit)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-模式中的变量"><a href="#3-模式中的变量" class="headerlink" title="3 模式中的变量"></a>3 模式中的变量</h4><p>如果case关键字后面跟着一个变量名，那么匹配的表达式会被赋值给那个变量。</p>
+<p>Scala中变量必须以小写字母开头，常量用大写字母，如果常量用小写字母开头需要加反引号。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">val str = <span class="string">"+-3!"</span></span><br><span class="line">// 返回str的一组索引Range</span><br><span class="line"><span class="keyword">for</span> (i &lt;- str.indices) &#123;</span><br><span class="line">  var sign = 0</span><br><span class="line">  var digit = 0</span><br><span class="line"></span><br><span class="line">  str(i) match &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'+'</span> =&gt; sign = 1</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'-'</span> =&gt; sign = -1</span><br><span class="line">    <span class="keyword">case</span> ch <span class="keyword">if</span> Character.isDigit(ch) =&gt; digit = Character.digit(ch, 10)</span><br><span class="line">    <span class="keyword">case</span> _ =&gt; </span><br><span class="line">  &#125;</span><br><span class="line">  println(str(i) + <span class="string">" "</span> + sign + <span class="string">" "</span> + digit)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-类型模式"><a href="#4-类型模式" class="headerlink" title="4 类型模式"></a>4 类型模式</h4><p>可以对表达式的类型进行匹配。</p>
+<p>匹配操作发生在运行期，所以不能比对一个泛型类型，但是可以使用通配符。<br>但是对于数组来说，类型信息保存完好，你完全可以匹配Array[Int]</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (obj &lt;- Array(42, <span class="string">"42"</span>, BigInt(42), BigInt, 42.0)) &#123;</span><br><span class="line"></span><br><span class="line">  val result = obj match &#123;</span><br><span class="line">    <span class="keyword">case</span> x: Int =&gt; x</span><br><span class="line">    <span class="keyword">case</span> s: String =&gt; s.toInt</span><br><span class="line">    <span class="keyword">case</span> _: BigInt =&gt; Int.MaxValue</span><br><span class="line">    <span class="keyword">case</span> BigInt =&gt; -1</span><br><span class="line">    <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  println(result)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Map(42 -&gt; <span class="string">"Fred"</span>)也映射到Map[String, Int]，显然不对，运行期已经没有类型信息</span><br><span class="line"><span class="keyword">for</span> (obj &lt;- Array(Map(<span class="string">"Fred"</span> -&gt; 42), Map(42 -&gt; <span class="string">"Fred"</span>), Array(42), Array(<span class="string">"Fred"</span>))) &#123;</span><br><span class="line"></span><br><span class="line">  val result = obj match &#123;</span><br><span class="line">    <span class="keyword">case</span> m: Map[String, Int] =&gt; <span class="string">"It's a Map[String, Int]"</span></span><br><span class="line">    // Warning: Won‘t work because of <span class="built_in">type</span> erasure</span><br><span class="line">    <span class="keyword">case</span> m: Map[_, _] =&gt; <span class="string">"It's a map"</span></span><br><span class="line">    <span class="keyword">case</span> a: Array[Int] =&gt; <span class="string">"It's an Array[Int]"</span></span><br><span class="line">    <span class="keyword">case</span> a: Array[_] =&gt; <span class="string">"It's an array of something other than Int"</span></span><br><span class="line">  &#125;</span><br><span class="line">  println(result)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-匹配数组、列表、元组"><a href="#5-匹配数组、列表、元组" class="headerlink" title="5 匹配数组、列表、元组"></a>5 匹配数组、列表、元组</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// 匹配数组</span><br><span class="line"><span class="keyword">for</span> (arr &lt;- Array(Array(0), Array(1, 0), Array(0, 1, 0), Array(1, 1, 0))) &#123;</span><br><span class="line"></span><br><span class="line">  val result = arr match &#123;</span><br><span class="line">    <span class="keyword">case</span> Array(0) =&gt; <span class="string">"0"</span></span><br><span class="line">    <span class="keyword">case</span> Array(x, y) =&gt; x + <span class="string">" "</span> + y</span><br><span class="line">    <span class="keyword">case</span> Array(0, _*) =&gt; <span class="string">"0 ..."</span></span><br><span class="line">    <span class="keyword">case</span> _ =&gt; <span class="string">"something else"</span></span><br><span class="line">  &#125;</span><br><span class="line">  println(result)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 匹配列表</span><br><span class="line"><span class="keyword">for</span> (lst &lt;- Array(List(0), List(1, 0), List(0, 0, 0), List(1, 0, 0))) &#123;</span><br><span class="line"></span><br><span class="line">  val result = lst match &#123;</span><br><span class="line">    <span class="keyword">case</span> 0 :: Nil =&gt; <span class="string">"0"</span></span><br><span class="line">    <span class="keyword">case</span> x :: y :: Nil =&gt; x + <span class="string">" "</span> + y</span><br><span class="line">    <span class="keyword">case</span> 0 :: tail =&gt; <span class="string">"0 ..."</span></span><br><span class="line">    <span class="keyword">case</span> _ =&gt; <span class="string">"something else"</span></span><br><span class="line">  &#125;</span><br><span class="line">  println(result)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 匹配元组</span><br><span class="line"><span class="keyword">for</span> (pair &lt;- Array((0, 1), (1, 0), (1, 1)) &#123;</span><br><span class="line">  val result = pair match &#123;</span><br><span class="line">    <span class="keyword">case</span> (0, _) =&gt; <span class="string">"0 ..."</span></span><br><span class="line">    <span class="keyword">case</span> (y, 0) =&gt; y + <span class="string">" 0"</span></span><br><span class="line">    <span class="keyword">case</span> _ =&gt; <span class="string">"neither is 0"</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  println(result)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-提取器"><a href="#6-提取器" class="headerlink" title="6 提取器"></a>6 提取器</h4><p>模式如何匹配数组、列表和元组的，这个背后的机制叫做提取器，一个对象如果带有从对象中提取值的unapply和unapplySeq方法，apply方法接受构造参数，生成对象；而unapply方法接受对象，提取值，是一个反向操作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">val arr = Array(0, 1)</span><br><span class="line"></span><br><span class="line">val Array(x,y) = arr</span><br><span class="line"></span><br><span class="line">val Array(z,_*) = arr</span><br><span class="line"></span><br><span class="line">arr match &#123;</span><br><span class="line">  <span class="keyword">case</span> Array(0, x) =&gt; x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Array.unapplySeq(arr)</span><br><span class="line"></span><br><span class="line">// 正则表达式对象</span><br><span class="line">val pattern = <span class="string">"([0-9]+) ([a-z]+)"</span>.r</span><br><span class="line"></span><br><span class="line"><span class="string">"99 bottles"</span> match &#123;</span><br><span class="line">  <span class="keyword">case</span> pattern(num, item) =&gt; (num.toInt, item)</span><br><span class="line">&#125;</span><br><span class="line">// 直接unapplySeq</span><br><span class="line">pattern.unapplySeq(<span class="string">"99 bottles"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// unapply 提取值</span><br><span class="line">object Name &#123;</span><br><span class="line">  def unapply(input: String) : Option[(String,String)] = &#123;</span><br><span class="line">    val pos = input.indexOf(<span class="string">" "</span>)</span><br><span class="line">    <span class="keyword">if</span> (pos == -1) None</span><br><span class="line">    <span class="keyword">else</span> Some((input.substring(0, pos), input.substring(pos + 1)))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val author = <span class="string">"Cay Horstmann"</span></span><br><span class="line"></span><br><span class="line">val Name(first, last) = author // calls Name.unapply(author)</span><br><span class="line">first</span><br><span class="line">last</span><br><span class="line"></span><br><span class="line">// 匹配上了</span><br><span class="line">Name.unapply(author)</span><br><span class="line">// 没有匹配上</span><br><span class="line">Name.unapply(<span class="string">"Anonymous"</span>)</span><br><span class="line"></span><br><span class="line">// 单个提取</span><br><span class="line">object Number &#123;</span><br><span class="line">  def unapply(input: String): Option[Int] =</span><br><span class="line">    try &#123;</span><br><span class="line">      Some(input.trim.toInt)</span><br><span class="line">    &#125; catch &#123;</span><br><span class="line">      <span class="keyword">case</span> ex: NumberFormatException =&gt; None</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val Number(n) = <span class="string">"1729"</span></span><br><span class="line"></span><br><span class="line">// boolean测试,判断Horstmann</span><br><span class="line">object IsCompound &#123;</span><br><span class="line">  def unapply(input: String) = &#123;println(input); !input.contains(<span class="string">" "</span>)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">author match &#123;</span><br><span class="line">  <span class="keyword">case</span> Name(first, IsCompound()) =&gt; println(<span class="string">"compound"</span>)</span><br><span class="line">  // Matches <span class="keyword">if</span> the author is Peter van der Linden</span><br><span class="line">  <span class="keyword">case</span> Name(first, last) =&gt; println(<span class="string">"simple"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Use @ to <span class="built_in">bind</span> an identifier to the match</span><br><span class="line">// 相当于一个守卫</span><br><span class="line">author match &#123;</span><br><span class="line">  <span class="keyword">case</span> Name(first, last @ IsCompound()) =&gt; println(last);last.split(<span class="string">"\\s+"</span>).length</span><br><span class="line">  // Matches <span class="keyword">if</span> the author is Peter van der Linden</span><br><span class="line">  <span class="keyword">case</span> Name(first, last) =&gt; 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// unapplySeq 提取序列</span><br><span class="line">object NameSeq &#123;</span><br><span class="line">  def unapplySeq(input: String): Option[Seq[String]] =</span><br><span class="line">    <span class="keyword">if</span> (input.trim == <span class="string">""</span>) None <span class="keyword">else</span> Some(input.trim.split(<span class="string">"\\s+"</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val authorseq = <span class="string">"Peter van der Linden"</span></span><br><span class="line"></span><br><span class="line">// 将提取的序列与模式进行数量和字段上的比较。</span><br><span class="line">authorseq match &#123;</span><br><span class="line">  <span class="keyword">case</span> NameSeq(first, last) =&gt; authorseq</span><br><span class="line">  <span class="keyword">case</span> NameSeq(first, middle, last) =&gt; first + <span class="string">" "</span> + last</span><br><span class="line">  <span class="keyword">case</span> NameSeq(first, <span class="string">"van"</span>, <span class="string">"der"</span>, last) =&gt; <span class="string">"Hello Peter!"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-声明变量中的模式"><a href="#7-声明变量中的模式" class="headerlink" title="7 声明变量中的模式"></a>7 声明变量中的模式</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">val (x, y) = (1, 2)</span><br><span class="line"></span><br><span class="line">val (q, r) = BigInt(10) /% 3</span><br><span class="line"></span><br><span class="line">val arr = Array(1, 7, 2, 9)</span><br><span class="line"></span><br><span class="line">val Array(first, second, _*) = arr</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-For表达式中的模式"><a href="#8-For表达式中的模式" class="headerlink" title="8 For表达式中的模式"></a>8 For表达式中的模式</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import scala.collection.JavaConverters._</span><br><span class="line">// Converts Java Properties to a Scala map—just to get an interesting example</span><br><span class="line"><span class="keyword">for</span> ((k, v) &lt;- System.getProperties.asScala)</span><br><span class="line">  println(k + <span class="string">" -&gt; "</span> + v)</span><br><span class="line"></span><br><span class="line">// 忽略匹配失败的项目，打出所有value为空的条目</span><br><span class="line"><span class="keyword">for</span> ((k, <span class="string">""</span>) &lt;- System.getProperties.asScala)</span><br><span class="line">  println(k)</span><br><span class="line"></span><br><span class="line">// 通过守卫提取所有V等于空的属性。</span><br><span class="line"><span class="keyword">for</span> ((k, v) &lt;- System.getProperties.asScala <span class="keyword">if</span> v == <span class="string">""</span>) </span><br><span class="line">  println(k)</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-样例类"><a href="#9-样例类" class="headerlink" title="9 样例类"></a>9 样例类</h4><p>样例类首先是类，除此之外它是为模式匹配而优化的类，样例类用<br>case关键字进行声明</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">abstract class Amount</span><br><span class="line"><span class="keyword">case</span> class Dollar(value: Double) extends Amount</span><br><span class="line"><span class="keyword">case</span> class Currency(value: Double, unit: String) extends Amount</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> object Nothing extends Amount</span><br><span class="line"></span><br><span class="line">val dollar = Dollar(1000.0)</span><br><span class="line"></span><br><span class="line">dollar.value</span><br><span class="line"></span><br><span class="line">dollar.toString</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (amt &lt;- Array(Dollar(1000.0), Currency(1000.0, <span class="string">"EUR"</span>), Nothing)) &#123;</span><br><span class="line">  val result = amt match &#123;</span><br><span class="line">    <span class="keyword">case</span> Dollar(v) =&gt; <span class="string">"$"</span> + v</span><br><span class="line">    <span class="keyword">case</span> Currency(_, u) =&gt; <span class="string">"Oh noes, I got "</span> + u</span><br><span class="line">    <span class="keyword">case</span> Nothing =&gt; <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  // Note that amt is printed nicely, thanks to the generated toString</span><br><span class="line">  println(amt + <span class="string">": "</span> + result)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-Copy方法和待命参数"><a href="#10-Copy方法和待命参数" class="headerlink" title="10 Copy方法和待命参数"></a>10 Copy方法和待命参数</h4><p>copy 创建一个与现有对象值相同的新对象，并可以通过带名参数来修改某些属性.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">abstract class Amount</span><br><span class="line"><span class="keyword">case</span> class Dollar(value: Double) extends Amount</span><br><span class="line"><span class="keyword">case</span> class Currency(value: Double, unit: String) extends Amount</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> object Nothing extends Amount</span><br><span class="line"></span><br><span class="line">val amt = Currency(29.95, <span class="string">"EUR"</span>)</span><br><span class="line">val price = amt.copy(value = 19.95)</span><br><span class="line">println(price)</span><br><span class="line">println(amt.copy(unit = <span class="string">"CHF"</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="11-Case语句中的中置表达式"><a href="#11-Case语句中的中置表达式" class="headerlink" title="11 Case语句中的中置表达式"></a>11 Case语句中的中置表达式</h4><p>如果 unapply 方法产出一个元组，你可以在case 语句中使用中置表示法。比如可以匹配一个List 序列，可以如下表示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> class Currency(value: Double, unit: String)</span><br><span class="line"></span><br><span class="line">val amt = Currency(1000.0, <span class="string">"EUR"</span>)</span><br><span class="line"></span><br><span class="line">// 中置表达式</span><br><span class="line">amt match &#123; <span class="keyword">case</span> a Currency u =&gt; a + <span class="string">" "</span> + u &#125;</span><br><span class="line"></span><br><span class="line">val lst = List(1, 7, 2, 9)</span><br><span class="line">lst match &#123; </span><br><span class="line">  <span class="keyword">case</span> h :: t =&gt; h + t.length </span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">lst match &#123; </span><br><span class="line">  <span class="keyword">case</span> ::(h, t) =&gt; println(h); println(t)</span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">// :: 将元素添加到List最前面</span><br><span class="line"></span><br><span class="line">// 从前往后匹配</span><br><span class="line">List(1, 7, 2, 9) match &#123; </span><br><span class="line">  <span class="keyword">case</span> first :: second :: rest =&gt; println(first); println(second); println(rest)</span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">List(1, 7, 2, 9) match &#123; </span><br><span class="line">  <span class="keyword">case</span> ::(first, ::(second, rest)) =&gt; println(first); println(second); println(rest)</span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">List(List(1, 7), List(2, 9)) match &#123; </span><br><span class="line">  <span class="keyword">case</span> (first :: second) :: rest1 =&gt; println(first); println(second); println(rest1)</span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Infix notation works with any binary unapply--doesn’t have to </span><br><span class="line">// come from <span class="keyword">case</span> class</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> object +: &#123;</span><br><span class="line">  def unapply[T](input: List[T]) = </span><br><span class="line">    <span class="keyword">if</span> (input.isEmpty) None <span class="keyword">else</span> Some((input.head, input.tail))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">1 +: 7 +: 2 +: 9 +: Nil match &#123; </span><br><span class="line">  <span class="keyword">case</span> first +: second +: rest =&gt; println(first); println(second); println(rest)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/09/27/bigdata-24/" data-id="ck128gdo7002pb8vjgww3by64" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "Scala的模式匹配（上）",
+        "image": "http://yoursite.com",
+        "keywords": "Scala",
+        "genre": "大数据",
+        "datePublished": "2019-09-27",
+        "dateCreated": "2019-09-27",
+        "dateModified": "2019-09-27",
+        "url": "http://yoursite.com/2019/09/27/bigdata-24/",
+        "description": "大数据学习第24天
+Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如下：
+12345678for (ch &lt;- "+-!") &#123;  sign = ch match &#123;    case '+' =&gt; 1    case '-' =&gt; -1    case _ =&gt; 0  &#125;  println(sign)&#12"
+        "wordCount": 1956
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/09/26/bigdata-23/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Scala的数据结构</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/27/bigdata-24/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/27/bigdata-24/" class="title">Scala的模式匹配（上）</a></p>
+                            <p class="item-date"><time datetime="2019-09-27T14:19:40.000Z" itemprop="datePublished">2019-09-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/26/bigdata-23/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/26/bigdata-23/1.jpg)" alt="Scala的数据结构" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/26/bigdata-23/" class="title">Scala的数据结构</a></p>
+                            <p class="item-date"><time datetime="2019-09-26T14:06:51.000Z" itemprop="datePublished">2019-09-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/25/bigdata-22/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/25/bigdata-22/" class="title">Scala安装、基础语法学习</a></p>
+                            <p class="item-date"><time datetime="2019-09-25T13:46:41.000Z" itemprop="datePublished">2019-09-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/24/bigdata-21/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/24/bigdata-21/" class="title">关于HBase删除数据的一些细节</a></p>
+                            <p class="item-date"><time datetime="2019-09-24T11:28:50.000Z" itemprop="datePublished">2019-09-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/23/bigdata-20/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/23/bigdata-20/" class="title">Hbase和MySQL的比较</a></p>
+                            <p class="item-date"><time datetime="2019-09-23T14:06:56.000Z" itemprop="datePublished">2019-09-23</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">29</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Hbase/" style="font-size: 17.5px;">Hbase</a> <a href="/tags/Scala/" style="font-size: 12.5px;">Scala</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 15px;">hive</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://baidu.com">baidu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/09/27/bigdata-24/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
