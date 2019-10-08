@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第24天 Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如下： 12345678for (ch &amp;lt;- &quot;+-!&quot;) &amp;#123;  sign = ch match &amp;#123;    case &apos;+&apos; =&amp;gt; 1    case &apos;-&apos; =&amp;gt; -1    case _ =&amp;gt; 0  &amp;#125;  println(sign)&amp;#12">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-27T14:39:28.813Z">
+<meta property="og:updated_time" content="2019-10-07T14:19:46.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scala的模式匹配（上）">
 <meta name="twitter:description" content="大数据学习第24天 Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如下： 12345678for (ch &amp;lt;- &quot;+-!&quot;) &amp;#123;  sign = ch match &amp;#123;    case &apos;+&apos; =&amp;gt; 1    case &apos;-&apos; =&amp;gt; -1    case _ =&amp;gt; 0  &amp;#125;  println(sign)&amp;#12">
@@ -204,13 +204,23 @@
 
 <h4 id="11-Case语句中的中置表达式"><a href="#11-Case语句中的中置表达式" class="headerlink" title="11 Case语句中的中置表达式"></a>11 Case语句中的中置表达式</h4><p>如果 unapply 方法产出一个元组，你可以在case 语句中使用中置表示法。比如可以匹配一个List 序列，可以如下表示</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> class Currency(value: Double, unit: String)</span><br><span class="line"></span><br><span class="line">val amt = Currency(1000.0, <span class="string">"EUR"</span>)</span><br><span class="line"></span><br><span class="line">// 中置表达式</span><br><span class="line">amt match &#123; <span class="keyword">case</span> a Currency u =&gt; a + <span class="string">" "</span> + u &#125;</span><br><span class="line"></span><br><span class="line">val lst = List(1, 7, 2, 9)</span><br><span class="line">lst match &#123; </span><br><span class="line">  <span class="keyword">case</span> h :: t =&gt; h + t.length </span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">lst match &#123; </span><br><span class="line">  <span class="keyword">case</span> ::(h, t) =&gt; println(h); println(t)</span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">// :: 将元素添加到List最前面</span><br><span class="line"></span><br><span class="line">// 从前往后匹配</span><br><span class="line">List(1, 7, 2, 9) match &#123; </span><br><span class="line">  <span class="keyword">case</span> first :: second :: rest =&gt; println(first); println(second); println(rest)</span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">List(1, 7, 2, 9) match &#123; </span><br><span class="line">  <span class="keyword">case</span> ::(first, ::(second, rest)) =&gt; println(first); println(second); println(rest)</span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">List(List(1, 7), List(2, 9)) match &#123; </span><br><span class="line">  <span class="keyword">case</span> (first :: second) :: rest1 =&gt; println(first); println(second); println(rest1)</span><br><span class="line">  <span class="keyword">case</span> _ =&gt; 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Infix notation works with any binary unapply--doesn’t have to </span><br><span class="line">// come from <span class="keyword">case</span> class</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> object +: &#123;</span><br><span class="line">  def unapply[T](input: List[T]) = </span><br><span class="line">    <span class="keyword">if</span> (input.isEmpty) None <span class="keyword">else</span> Some((input.head, input.tail))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">1 +: 7 +: 2 +: 9 +: Nil match &#123; </span><br><span class="line">  <span class="keyword">case</span> first +: second +: rest =&gt; println(first); println(second); println(rest)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="12-匹配嵌套结构"><a href="#12-匹配嵌套结构" class="headerlink" title="12 匹配嵌套结构"></a>12 匹配嵌套结构</h4><p>样例类经常被用于嵌套结构。例如，某个商店售卖的物品，有时，会将多个物品一起打折出售，我们有以下抽象：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">abstract class Item</span><br><span class="line"><span class="keyword">case</span> class Article(description: String, price: Double) extends Item</span><br><span class="line"><span class="keyword">case</span> class Bundle(description: String, discount: Double, items: Item*) extends Item</span><br><span class="line"></span><br><span class="line">val special = Bundle(<span class="string">"Father's day special"</span>, 20.0,</span><br><span class="line">  Article(<span class="string">"Scala for the Impatient"</span>, 39.95),</span><br><span class="line">  Bundle(<span class="string">"Anchor Distillery Sampler"</span>, 10.0,</span><br><span class="line">  Article(<span class="string">"Old Potrero Straight Rye Whiskey"</span>, 79.95),</span><br><span class="line">  Article(<span class="string">"Junípero Gin"</span>, 32.95)))</span><br><span class="line"></span><br><span class="line">//下面的代码将descr 绑定到第一个Article 的描述。</span><br><span class="line">special match &#123;</span><br><span class="line"><span class="keyword">case</span> Bundle(_, _, Article(descr, _), _*) =&gt; descr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//可以通过@表示法将嵌套的值绑定到变量。_*绑定剩余Item 到rest</span><br><span class="line">special match &#123;</span><br><span class="line"><span class="keyword">case</span> Bundle(_, _, art @ Article(_, _), rest @ _*) =&gt; (art, rest) &#125;</span><br><span class="line"></span><br><span class="line">special match &#123;</span><br><span class="line"><span class="keyword">case</span> Bundle(_, _, art @ Article(_, _), rest) =&gt; (art, rest) &#125;</span><br><span class="line"></span><br><span class="line">//可以计算某个 Item 价格的函数：</span><br><span class="line">def price(it: Item): Double = it match &#123;</span><br><span class="line"><span class="keyword">case</span> Article(_, p) =&gt; p </span><br><span class="line"><span class="keyword">case</span> Bundle(_, disc, its @ _*) =&gt; its.map(price _).sum - disc &#125;</span><br><span class="line">price(special)</span><br></pre></td></tr></table></figure>
+
+<h4 id="13-密封类"><a href="#13-密封类" class="headerlink" title="13 密封类"></a>13 密封类</h4><p>如果想让case类的所有子类都必须在申明该类的相同的文件中定义，可以将样例类的通用超类声明为sealed，叫做密封类，密封就是外部用户不能在其他文件中定义子类。</p>
+<h4 id="14-模拟枚举"><a href="#14-模拟枚举" class="headerlink" title="14 模拟枚举"></a>14 模拟枚举</h4><p>样例类可以模拟出枚举类型，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sealed abstract class TrafficLightColor </span><br><span class="line"><span class="keyword">case</span> object Red extends TrafficLightColor </span><br><span class="line"><span class="keyword">case</span> object Yellow extends TrafficLightColor </span><br><span class="line"><span class="keyword">case</span> object Green extends TrafficLightColor</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (color &lt;- Array(Red, Yellow, Green)) </span><br><span class="line">  println( </span><br><span class="line">    color match &#123; </span><br><span class="line">      <span class="keyword">case</span> Red =&gt; <span class="string">"stop"</span> </span><br><span class="line">      <span class="keyword">case</span> Yellow =&gt; <span class="string">"hurry up"</span> </span><br><span class="line">      <span class="keyword">case</span> Green =&gt; <span class="string">"go"</span> </span><br><span class="line">      &#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-15-偏函数"><a href="#5-15-偏函数" class="headerlink" title="5.15 偏函数"></a>5.15 偏函数</h4><p>偏函数之所以“偏”，原因在于它们并不处理所有可能的输入，而只处理那些能与至少一个case 语句匹配的输入。<br>在偏函数中只能使用case 语句，而整个函数必须用花括号包围。这与普通的函数字面量不同，普通函数字面量可以用花括号，也可以用圆括号包围。<br>如果偏函数被调用，而函数的输入却与所有语句都不匹配，系统就会抛出一个MatchError运行时错误。可以用isDefineAt方法测试特定输入是否与偏函数匹配，以避免错误。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val f: PartialFunction[Char, Int] = &#123; <span class="keyword">case</span> <span class="string">'+'</span> =&gt; 1 ; <span class="keyword">case</span> <span class="string">'-'</span> =&gt; -1 &#125; </span><br><span class="line">f(<span class="string">'-'</span>) </span><br><span class="line">f.isDefinedAt(<span class="string">'0'</span>) </span><br><span class="line">f(<span class="string">'0'</span>)</span><br></pre></td></tr></table></figure>
         </div>
         <footer class="article-footer">
             
 
 
 
-    <a data-url="http://yoursite.com/2019/09/27/bigdata-24/" data-id="ck128gdo7002pb8vjgww3by64" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/09/27/bigdata-24/" data-id="ck1hxip0f0035o8vj52fsddip" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -286,12 +296,12 @@
         "genre": "大数据",
         "datePublished": "2019-09-27",
         "dateCreated": "2019-09-27",
-        "dateModified": "2019-09-27",
+        "dateModified": "2019-10-07",
         "url": "http://yoursite.com/2019/09/27/bigdata-24/",
         "description": "大数据学习第24天
 Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如下：
 12345678for (ch &lt;- "+-!") &#123;  sign = ch match &#123;    case '+' =&gt; 1    case '-' =&gt; -1    case _ =&gt; 0  &#125;  println(sign)&#12"
-        "wordCount": 1956
+        "wordCount": 2309
     }
 </script>
 
@@ -347,6 +357,16 @@ Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如
         
 <nav id="article-nav">
     
+        <a href="/2019/09/28/bigdata-25/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            高阶函数、类和对象
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
     
         <a href="/2019/09/26/bigdata-23/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
@@ -368,6 +388,66 @@ Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/08/bigdata-27/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/08/bigdata-27/" class="title">特质</a></p>
+                            <p class="item-date"><time datetime="2019-10-08T13:00:04.000Z" itemprop="datePublished">2019-10-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/29/bigdata-26/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/29/bigdata-26/" class="title">bigdata-26</a></p>
+                            <p class="item-date"><time datetime="2019-09-29T07:19:02.000Z" itemprop="datePublished">2019-09-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/28/bigdata-25/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/28/bigdata-25/" class="title">高阶函数、类和对象</a></p>
+                            <p class="item-date"><time datetime="2019-09-28T14:06:44.000Z" itemprop="datePublished">2019-09-28</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -409,66 +489,6 @@ Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/09/25/bigdata-22/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/09/25/bigdata-22/" class="title">Scala安装、基础语法学习</a></p>
-                            <p class="item-date"><time datetime="2019-09-25T13:46:41.000Z" itemprop="datePublished">2019-09-25</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/09/24/bigdata-21/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/09/24/bigdata-21/" class="title">关于HBase删除数据的一些细节</a></p>
-                            <p class="item-date"><time datetime="2019-09-24T11:28:50.000Z" itemprop="datePublished">2019-09-24</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/09/23/bigdata-20/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/09/23/bigdata-20/" class="title">Hbase和MySQL的比较</a></p>
-                            <p class="item-date"><time datetime="2019-09-23T14:06:56.000Z" itemprop="datePublished">2019-09-23</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -478,7 +498,7 @@ Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">29</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">32</span></li></ul>
         </div>
     </div>
 
@@ -488,7 +508,7 @@ Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
         </div>
     </div>
 
@@ -498,7 +518,7 @@ Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li></ul>
         </div>
     </div>
 
@@ -508,7 +528,7 @@ Scala的模式匹配1 Switch语句Scala里的匹配关键字是match，语句如
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Hbase/" style="font-size: 17.5px;">Hbase</a> <a href="/tags/Scala/" style="font-size: 12.5px;">Scala</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 15px;">hive</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
+            <a href="/tags/Hbase/" style="font-size: 17.5px;">Hbase</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 12.5px;">hive</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
         </div>
     </div>
 

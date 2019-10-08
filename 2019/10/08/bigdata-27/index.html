@@ -6,24 +6,24 @@
     
 
     
-    <title>Hbase和MySQL的比较 | 徐栋梁的博客</title>
+    <title>特质 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="Hbase">
+        <meta name="keywords" content="Scala">
     
-    <meta name="description" content="大数据学习第20天 Hbase和MySQL的比较（个人理解） 表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。 个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。 而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会">
-<meta name="keywords" content="Hbase">
+    <meta name="description" content="大数据学习第27天 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi">
+<meta name="keywords" content="Scala">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hbase和MySQL的比较">
-<meta property="og:url" content="http://yoursite.com/2019/09/23/bigdata-20/index.html">
+<meta property="og:title" content="特质">
+<meta property="og:url" content="http://yoursite.com/2019/10/08/bigdata-27/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据学习第20天 Hbase和MySQL的比较（个人理解） 表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。 个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。 而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会">
+<meta property="og:description" content="大数据学习第27天 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T13:06:38.973Z">
+<meta property="og:updated_time" content="2019-10-08T14:17:23.180Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hbase和MySQL的比较">
-<meta name="twitter:description" content="大数据学习第20天 Hbase和MySQL的比较（个人理解） 表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。 个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。 而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会">
+<meta name="twitter:title" content="特质">
+<meta name="twitter:description" content="大数据学习第27天 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi">
     
 
     
@@ -137,14 +137,14 @@
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-bigdata-20" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-bigdata-27" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        Hbase和MySQL的比较
+        特质
         </h1>
     
 
@@ -154,8 +154,8 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2019/09/23/bigdata-20/" class="article-date">
-            <time datetime="2019-09-23T14:06:56.000Z" itemprop="datePublished">2019-09-23</time>
+        <a href="/2019/10/08/bigdata-27/" class="article-date">
+            <time datetime="2019-10-08T13:00:04.000Z" itemprop="datePublished">2019-10-08</time>
         </a>
     </div>
 
@@ -164,28 +164,44 @@
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Hbase/">Hbase</a>
+        <a class="tag-link" href="/tags/Scala/">Scala</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>大数据学习第20天</p>
-<h2 id="Hbase和MySQL的比较（个人理解）"><a href="#Hbase和MySQL的比较（个人理解）" class="headerlink" title="Hbase和MySQL的比较（个人理解）"></a>Hbase和MySQL的比较（个人理解）</h2><ol>
-<li><p>表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。</p>
-<p>个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。</p>
-<p>而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会报错，只是会创建新的列。</p>
-<p>那么在审核方面就比较严格了，如果真是这样，那就太难为测试人员了。我猜应该会有约束的。</p>
-</li>
-<li><p>框架。Hbase自带的API，跟JDBC一样，太难用。于是找了半天，看看有没有类似MyBatis的框架。</p>
-<p>然后找到了个叫Phoenix的。然而：</p>
-<p> Apache Phoenix 是HBase的SQL驱动，Phoenix 使得Hbase 支持通过JDBC的方式进行访问，并将你的SQL查询转换成Hbase的扫描和相应的动作。</p>
-<p>可能得自己封装了。</p>
-</li>
-<li><p>想到再补。。。。。。</p>
-</li>
-</ol>
+            <p>大数据学习第27天</p>
+<h2 id="特质"><a href="#特质" class="headerlink" title="特质"></a>特质</h2><h4 id="1-特质的理解"><a href="#1-特质的理解" class="headerlink" title="1 特质的理解"></a>1 特质的理解</h4><p>Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。<br>特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。</p>
+<h4 id="2-当作接口使用的特质"><a href="#2-当作接口使用的特质" class="headerlink" title="2 当作接口使用的特质"></a>2 当作接口使用的特质</h4><p>特质中没有实现的方法就是抽象方法。<br>类通过extends继承特质，通过with可以继承多个特质。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class ConsoleLogger extends Logger with Cloneable with Serializable</span><br></pre></td></tr></table></figure>
+
+<p>Logger with Cloneable with Serializable 是一个整体，extends这个整体。<br>所有的java接口都可以当作特质使用。</p>
+<h4 id="3-带有具体实现的特质"><a href="#3-带有具体实现的特质" class="headerlink" title="3 带有具体实现的特质"></a>3 带有具体实现的特质</h4><p>特质的方法不一定时抽象的。</p>
+<p>使用上：使SavingAccount得到列一个具体的log方法（minix）混入，并不是通过继承得来。</p>
+<h4 id="4-带特质的对象"><a href="#4-带特质的对象" class="headerlink" title="4 带特质的对象"></a>4 带特质的对象</h4><p>在构建对象时混入某个具体的特质，覆盖掉抽象方法，提供具体实现。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val acct = new SavingsAccount with ConsoleLogger</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-叠加在一起的特质"><a href="#5-叠加在一起的特质" class="headerlink" title="5 叠加在一起的特质"></a>5 叠加在一起的特质</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val acct1 = new SavingsAccount with TimestampLogger with ShortLogger </span><br><span class="line">val acct2 = new SavingsAccount with ShortLogger with TimestampLogger</span><br></pre></td></tr></table></figure>
+
+<p>super并不是指继承关系，而是指加载的顺序。</p>
+<p>继承多个相同父特质的类，会从右到左依次调用特质的方法。super指的是继承特质左边的特质，从源码时无法判断super.method会执行哪里的方法。</p>
+<p>如果想要调用具体特质的方法，可以指定：<br>super[ConleLogger].log(…)</p>
+<h4 id="6-在特质中重写抽象方法"><a href="#6-在特质中重写抽象方法" class="headerlink" title="6 在特质中重写抽象方法"></a>6 在特质中重写抽象方法</h4><p>可以重写父特质的抽象方法，提供新的抽象方法.比如重写抽象方法时使用super调用前一层特质的方法，Scala会认为这样的方法是抽象的。</p>
+<h4 id="7-当做富接口使用的特质"><a href="#7-当做富接口使用的特质" class="headerlink" title="7 当做富接口使用的特质"></a>7 当做富接口使用的特质</h4><p>富接口，既有实现方法又有抽象方法。</p>
+<h4 id="8-特质中的具体字段"><a href="#8-特质中的具体字段" class="headerlink" title="8 特质中的具体字段"></a>8 特质中的具体字段</h4><p>特质中可以定义具体字段，如果初始化了就是具体字段，如果不初始化就是抽象字段。</p>
+<p>混入该特质的类就具有了该字段，字段不是继承，而是简单的加入类。是自己的字段</p>
+<h4 id="9-特质中的抽象字段"><a href="#9-特质中的抽象字段" class="headerlink" title="9 特质中的抽象字段"></a>9 特质中的抽象字段</h4><p>特质中未被初始化的字段在具体的子类中必须被重写。</p>
+<h4 id="10-特质构造顺序"><a href="#10-特质构造顺序" class="headerlink" title="10 特质构造顺序"></a>10 特质构造顺序</h4><p>特质也可以有构造器，由字段的初始化和其他特质体重的语句构成.</p>
+<p>构造器以如下的顺序执行：<br>· 首先调用超类的构造器<br>· 特质构造器在超类构造器之后、类构造器之前执行<br>· 特质由左到右被构造<br>· 每个特质当中，父特质先被构造<br>· 如果多个特质共有一个父特质，而那个父特质已经被构造，则不会被再次构造<br>· 所有的特质构造完毕，子类被构造</p>
+<h4 id="11-初始化特质中的字段"><a href="#11-初始化特质中的字段" class="headerlink" title="11 初始化特质中的字段"></a>11 初始化特质中的字段</h4><p>特质不能有构造器参数，每个特质都有一个无参数的构造器。缺少构造器参数是特质与类之间唯一的技术差别。除此之外，特质可以具备类的所有特性，比如具体的和抽象的字段，以及超类。</p>
+<h4 id="12-扩展类的特质"><a href="#12-扩展类的特质" class="headerlink" title="12 扩展类的特质"></a>12 扩展类的特质</h4><p>特质和特质的继承层次比较常见，特质也可以扩展类，这个类将成为混入该特质的超类。</p>
+<p>如果一个类既想扩展一个类，又想混入特质，那拓展的类需要时特质的超类的子类。</p>
+<p>如果我们的类扩展自一个不想关的类，那么就不可能混入这个特质了。</p>
+<h4 id="13-自身类型"><a href="#13-自身类型" class="headerlink" title="13 自身类型"></a>13 自身类型</h4><p>特质除了扩展类还可以通过添加自身类型来达到相同的效果。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">trait LoggedException extends ConsoleLogger &#123;</span><br><span class="line"> this: Exception =&gt; // or this: &#123; def getMessage() : String &#125; =&gt;</span><br><span class="line"> def <span class="function"><span class="title">log</span></span>() &#123; <span class="built_in">log</span>(getMessage()) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过this:类型=&gt; 来定义自身类型，在特质的方法中，可以调用该自身类型的任何方法。<br>他也要求了所有使用该特质的类必须是指定类型的子类。</p>
 
         </div>
         <footer class="article-footer">
@@ -193,7 +209,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/09/23/bigdata-20/" data-id="ck1hxioz6001do8vjheo80clr" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/10/08/bigdata-27/" data-id="ck1hxioza001mo8vjt91o9cn0" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -263,20 +279,18 @@
             "@type": "Person",
             "name": "徐栋梁"
         },
-        "headline": "Hbase和MySQL的比较",
+        "headline": "特质",
         "image": "http://yoursite.com",
-        "keywords": "Hbase",
+        "keywords": "Scala",
         "genre": "大数据",
-        "datePublished": "2019-09-23",
-        "dateCreated": "2019-09-23",
-        "dateModified": "2019-09-24",
-        "url": "http://yoursite.com/2019/09/23/bigdata-20/",
-        "description": "大数据学习第20天
-Hbase和MySQL的比较（个人理解）
-表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。
-个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。
-而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会"
-        "wordCount": 10
+        "datePublished": "2019-10-08",
+        "dateCreated": "2019-10-08",
+        "dateModified": "2019-10-08",
+        "url": "http://yoursite.com/2019/10/08/bigdata-27/",
+        "description": "大数据学习第27天
+特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。
+2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi"
+        "wordCount": 182
     }
 </script>
 
@@ -332,20 +346,10 @@ Hbase和MySQL的比较（个人理解）
         
 <nav id="article-nav">
     
-        <a href="/2019/09/24/bigdata-21/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            关于HBase删除数据的一些细节
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2019/09/20/bigdata-19（2）/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2019/09/29/bigdata-26/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">Hbase“微博小项目”——总结</p>
+        <p class="article-nav-title">bigdata-26</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -563,7 +567,7 @@ Hbase和MySQL的比较（个人理解）
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'http://yoursite.com/2019/09/23/bigdata-20/';
+    var disqus_url = 'http://yoursite.com/2019/10/08/bigdata-27/';
     
     (function() {
     var dsq = document.createElement('script');

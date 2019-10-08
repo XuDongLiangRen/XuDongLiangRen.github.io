@@ -6,24 +6,24 @@
     
 
     
-    <title>Hbase和MySQL的比较 | 徐栋梁的博客</title>
+    <title>bigdata-26 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="Hbase">
+        <meta name="keywords" content="Scala">
     
-    <meta name="description" content="大数据学习第20天 Hbase和MySQL的比较（个人理解） 表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。 个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。 而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会">
-<meta name="keywords" content="Hbase">
+    <meta name="description" content="大数据学习第26天">
+<meta name="keywords" content="Scala">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hbase和MySQL的比较">
-<meta property="og:url" content="http://yoursite.com/2019/09/23/bigdata-20/index.html">
+<meta property="og:title" content="bigdata-26">
+<meta property="og:url" content="http://yoursite.com/2019/09/29/bigdata-26/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据学习第20天 Hbase和MySQL的比较（个人理解） 表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。 个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。 而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会">
+<meta property="og:description" content="大数据学习第26天">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T13:06:38.973Z">
+<meta property="og:updated_time" content="2019-10-07T14:20:25.906Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hbase和MySQL的比较">
-<meta name="twitter:description" content="大数据学习第20天 Hbase和MySQL的比较（个人理解） 表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。 个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。 而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会">
+<meta name="twitter:title" content="bigdata-26">
+<meta name="twitter:description" content="大数据学习第26天">
     
 
     
@@ -137,14 +137,14 @@
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-bigdata-20" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-bigdata-26" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        Hbase和MySQL的比较
+        bigdata-26
         </h1>
     
 
@@ -154,8 +154,8 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2019/09/23/bigdata-20/" class="article-date">
-            <time datetime="2019-09-23T14:06:56.000Z" itemprop="datePublished">2019-09-23</time>
+        <a href="/2019/09/29/bigdata-26/" class="article-date">
+            <time datetime="2019-09-29T07:19:02.000Z" itemprop="datePublished">2019-09-29</time>
         </a>
     </div>
 
@@ -164,28 +164,14 @@
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Hbase/">Hbase</a>
+        <a class="tag-link" href="/tags/Scala/">Scala</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>大数据学习第20天</p>
-<h2 id="Hbase和MySQL的比较（个人理解）"><a href="#Hbase和MySQL的比较（个人理解）" class="headerlink" title="Hbase和MySQL的比较（个人理解）"></a>Hbase和MySQL的比较（个人理解）</h2><ol>
-<li><p>表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。</p>
-<p>个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。</p>
-<p>而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会报错，只是会创建新的列。</p>
-<p>那么在审核方面就比较严格了，如果真是这样，那就太难为测试人员了。我猜应该会有约束的。</p>
-</li>
-<li><p>框架。Hbase自带的API，跟JDBC一样，太难用。于是找了半天，看看有没有类似MyBatis的框架。</p>
-<p>然后找到了个叫Phoenix的。然而：</p>
-<p> Apache Phoenix 是HBase的SQL驱动，Phoenix 使得Hbase 支持通过JDBC的方式进行访问，并将你的SQL查询转换成Hbase的扫描和相应的动作。</p>
-<p>可能得自己封装了。</p>
-</li>
-<li><p>想到再补。。。。。。</p>
-</li>
-</ol>
+            <p>大数据学习第26天</p>
 
         </div>
         <footer class="article-footer">
@@ -193,7 +179,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/09/23/bigdata-20/" data-id="ck1hxioz6001do8vjheo80clr" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/09/29/bigdata-26/" data-id="ck1hxiozd001so8vj8saavig7" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -263,20 +249,17 @@
             "@type": "Person",
             "name": "徐栋梁"
         },
-        "headline": "Hbase和MySQL的比较",
+        "headline": "bigdata-26",
         "image": "http://yoursite.com",
-        "keywords": "Hbase",
+        "keywords": "Scala",
         "genre": "大数据",
-        "datePublished": "2019-09-23",
-        "dateCreated": "2019-09-23",
-        "dateModified": "2019-09-24",
-        "url": "http://yoursite.com/2019/09/23/bigdata-20/",
-        "description": "大数据学习第20天
-Hbase和MySQL的比较（个人理解）
-表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。
-个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。
-而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会"
-        "wordCount": 10
+        "datePublished": "2019-09-29",
+        "dateCreated": "2019-09-29",
+        "dateModified": "2019-10-07",
+        "url": "http://yoursite.com/2019/09/29/bigdata-26/",
+        "description": "大数据学习第26天
+"
+        "wordCount": 1
     }
 </script>
 
@@ -332,20 +315,20 @@ Hbase和MySQL的比较（个人理解）
         
 <nav id="article-nav">
     
-        <a href="/2019/09/24/bigdata-21/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2019/10/08/bigdata-27/" id="article-nav-newer" class="article-nav-link-wrap">
         <strong class="article-nav-caption">下一篇</strong>
         <p class="article-nav-title">
         
-            关于HBase删除数据的一些细节
+            特质
         
         </p>
         <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
     </a>
     
     
-        <a href="/2019/09/20/bigdata-19（2）/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2019/09/28/bigdata-25/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">Hbase“微博小项目”——总结</p>
+        <p class="article-nav-title">高阶函数、类和对象</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -563,7 +546,7 @@ Hbase和MySQL的比较（个人理解）
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'http://yoursite.com/2019/09/23/bigdata-20/';
+    var disqus_url = 'http://yoursite.com/2019/09/29/bigdata-26/';
     
     (function() {
     var dsq = document.createElement('script');

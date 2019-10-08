@@ -6,24 +6,24 @@
     
 
     
-    <title>Hbase和MySQL的比较 | 徐栋梁的博客</title>
+    <title>高阶函数、类和对象 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="Hbase">
+        <meta name="keywords" content="Scala">
     
-    <meta name="description" content="大数据学习第20天 Hbase和MySQL的比较（个人理解） 表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。 个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。 而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会">
-<meta name="keywords" content="Hbase">
+    <meta name="description" content="大数据学习第25天 高阶函数1 作为参数的函数函数可以作为参数进行传递 12def plus(x: Double) = 3 * x Array(3.14, 1.42, 2.0).map(plus)  既然是变量，那么就该有类型，那么方法的类型是：（参数类型…）=&amp;gt; 返回类型 2 匿名函数可以通过函数表达式设置匿名函数： 1234567val triple = (x: Double) =&amp;gt">
+<meta name="keywords" content="Scala">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hbase和MySQL的比较">
-<meta property="og:url" content="http://yoursite.com/2019/09/23/bigdata-20/index.html">
+<meta property="og:title" content="高阶函数、类和对象">
+<meta property="og:url" content="http://yoursite.com/2019/09/28/bigdata-25/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据学习第20天 Hbase和MySQL的比较（个人理解） 表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。 个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。 而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会">
+<meta property="og:description" content="大数据学习第25天 高阶函数1 作为参数的函数函数可以作为参数进行传递 12def plus(x: Double) = 3 * x Array(3.14, 1.42, 2.0).map(plus)  既然是变量，那么就该有类型，那么方法的类型是：（参数类型…）=&amp;gt; 返回类型 2 匿名函数可以通过函数表达式设置匿名函数： 1234567val triple = (x: Double) =&amp;gt">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T13:06:38.973Z">
+<meta property="og:updated_time" content="2019-10-08T00:27:03.801Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hbase和MySQL的比较">
-<meta name="twitter:description" content="大数据学习第20天 Hbase和MySQL的比较（个人理解） 表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。 个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。 而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会">
+<meta name="twitter:title" content="高阶函数、类和对象">
+<meta name="twitter:description" content="大数据学习第25天 高阶函数1 作为参数的函数函数可以作为参数进行传递 12def plus(x: Double) = 3 * x Array(3.14, 1.42, 2.0).map(plus)  既然是变量，那么就该有类型，那么方法的类型是：（参数类型…）=&amp;gt; 返回类型 2 匿名函数可以通过函数表达式设置匿名函数： 1234567val triple = (x: Double) =&amp;gt">
     
 
     
@@ -137,14 +137,14 @@
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-bigdata-20" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-bigdata-25" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        Hbase和MySQL的比较
+        高阶函数、类和对象
         </h1>
     
 
@@ -154,8 +154,8 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2019/09/23/bigdata-20/" class="article-date">
-            <time datetime="2019-09-23T14:06:56.000Z" itemprop="datePublished">2019-09-23</time>
+        <a href="/2019/09/28/bigdata-25/" class="article-date">
+            <time datetime="2019-09-28T14:06:44.000Z" itemprop="datePublished">2019-09-28</time>
         </a>
     </div>
 
@@ -164,28 +164,46 @@
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Hbase/">Hbase</a>
+        <a class="tag-link" href="/tags/Scala/">Scala</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>大数据学习第20天</p>
-<h2 id="Hbase和MySQL的比较（个人理解）"><a href="#Hbase和MySQL的比较（个人理解）" class="headerlink" title="Hbase和MySQL的比较（个人理解）"></a>Hbase和MySQL的比较（个人理解）</h2><ol>
-<li><p>表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。</p>
-<p>个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。</p>
-<p>而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会报错，只是会创建新的列。</p>
-<p>那么在审核方面就比较严格了，如果真是这样，那就太难为测试人员了。我猜应该会有约束的。</p>
-</li>
-<li><p>框架。Hbase自带的API，跟JDBC一样，太难用。于是找了半天，看看有没有类似MyBatis的框架。</p>
-<p>然后找到了个叫Phoenix的。然而：</p>
-<p> Apache Phoenix 是HBase的SQL驱动，Phoenix 使得Hbase 支持通过JDBC的方式进行访问，并将你的SQL查询转换成Hbase的扫描和相应的动作。</p>
-<p>可能得自己封装了。</p>
-</li>
-<li><p>想到再补。。。。。。</p>
-</li>
-</ol>
+            <p>大数据学习第25天</p>
+<h2 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h2><h4 id="1-作为参数的函数"><a href="#1-作为参数的函数" class="headerlink" title="1 作为参数的函数"></a>1 作为参数的函数</h4><p>函数可以作为参数进行传递</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def plus(x: Double) = 3 * x </span><br><span class="line">Array(3.14, 1.42, 2.0).map(plus)</span><br></pre></td></tr></table></figure>
+
+<p>既然是变量，那么就该有类型，那么方法的类型是：（参数类型…）=&gt; 返回类型</p>
+<h4 id="2-匿名函数"><a href="#2-匿名函数" class="headerlink" title="2 匿名函数"></a>2 匿名函数</h4><p>可以通过函数表达式设置匿名函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">val triple = (x: Double) =&gt; 3 * x</span><br><span class="line"><span class="comment">## 使用方法： </span></span><br><span class="line">Array(3.14, 1.42, 2.0).map(triple) </span><br><span class="line"><span class="comment">## 包含在()中</span></span><br><span class="line">Array(3.14, 1.42, 2.0).map((x: Double) =&gt; 3 * x)</span><br><span class="line">// 包含在&#123;&#125;中 </span><br><span class="line">Array(3.14, 1.42, 2.0) map &#123; (x: Double) =&gt; 3 * x &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-高阶函数"><a href="#3-高阶函数" class="headerlink" title="3 高阶函数"></a>3 高阶函数</h4><p>能接受函数作为参数的函数叫做 高阶函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def valueAtOneQuarter(f: (Double) =&gt; Double) = f(0.25)</span><br></pre></td></tr></table></figure>
+
+<p>参数可以是任意接受Double类型参数并返回Double的函数。<br>函数的类型为：（参数类型）=&gt; 参数类型</p>
+<p>fun的类型为（（Double）=&gt;Double）=&gt;Double<br>高阶函数也可以返回函数： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def mulBy(factor : Double) = (x : Double) =&gt; factor * x </span><br><span class="line">val quintuple = mulBy(5)   <span class="comment">## 等同于 </span></span><br><span class="line">val quintuple = (x : Double) =&gt; 5 * x quintuple(20)</span><br></pre></td></tr></table></figure>
+
+<p>mulBy的类型为（Double）=&gt; ((Double)=&gt;Double)</p>
+<h4 id="4-类型推断"><a href="#4-类型推断" class="headerlink" title="4 类型推断"></a>4 类型推断</h4><p>匿名函数参数的类型推断</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 传入函数表达式 </span><br><span class="line">valueAtOneQuarter((x: Double) =&gt; 3 * x) </span><br><span class="line">// 参数推断省去类型信息 </span><br><span class="line">valueAtOneQuarter((x) =&gt; 3 * x) </span><br><span class="line">// 单个参数可以省去括号 </span><br><span class="line">valueAtOneQuarter(x =&gt; 3 * x) </span><br><span class="line">// 如果变量旨在=&gt;右边只出现一次，可以用_来代替 </span><br><span class="line">valueAtOneQuarter(3 * _)</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-闭包"><a href="#5-闭包" class="headerlink" title="5 闭包"></a>5 闭包</h4><p>闭包就是一个函数把外部的那些不属于自己的对象也包含(闭合)进来了。</p>
+<p>闭包机制使用起来就像是一个函数样板。</p>
+<p>def mulBy(factor : Double) = (x : Double) =&gt; factor * x</p>
+<p>1) 匿名函数(x : Double) =&gt; factor * x 嵌套在函数mulBy中。<br>2) 匿名函数(x : Double) =&gt; factor * x 使用了外部变量、mulBy的局部变量factor。不是全局变量<br>3) 函数mulBy返回了引用局部变量的匿名函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val triple = mulBy(3) </span><br><span class="line">val half = mulBy(0.5) </span><br><span class="line">println(triple(14) + <span class="string">" "</span> + half(14))</span><br></pre></td></tr></table></figure>
+
+<p>triple、half这两个函数就叫闭包，闭包由代码和代码用到的任何非局部变量定义构成。<br>注意：有权访问另一个函数作用域内变量。</p>
+<h4 id="6-柯里化"><a href="#6-柯里化" class="headerlink" title="6 柯里化"></a>6 柯里化</h4><p>函数编程中，接受多个参数的函数都可以转化为接受单个参数的函数，这个转化过程就叫柯里化，柯里化就是证明了函数只需要一个参数而已。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 传统定义两个参数 </span><br><span class="line">def mul(x:Int, y: Int) = x * y mul(6,7) </span><br><span class="line">// 柯里化定义，使用到了闭包 </span><br><span class="line">def mulOneAtATime(x: Int) = (y: Int) =&gt; x * y mulOneAtATime(6)(7) </span><br><span class="line">// Scala中可以简写 </span><br><span class="line">def mulOneAtATime(x: Int)(y: Int) = x * y</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-控制对象"><a href="#7-控制对象" class="headerlink" title="7 控制对象"></a>7 控制对象</h4><p>控制抽象是一类函数：1、参数是函数。2、函数参数没有输入值也没有返回值。</p>
+<p>例子： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def runInThread(block: () =&gt; Unit) &#123; </span><br><span class="line">    new Thread &#123; </span><br><span class="line">        override def <span class="function"><span class="title">run</span></span>() &#123; block() &#125; </span><br><span class="line">    &#125;.start()</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">// 传入函数 </span><br><span class="line">runInThread &#123; () =&gt; println(<span class="string">"Hi"</span>) ; </span><br><span class="line">Thread.sleep(10000); println(<span class="string">"Bye"</span>) &#125; </span><br><span class="line"></span><br><span class="line">//() = &gt; 有些多余，可以使用换名调用来表示，省略（）保留=&gt; </span><br><span class="line">// 这种叫控制抽象函数 (看上去像是编程语言关键字的函数) </span><br><span class="line">def runInThread(block: =&gt; Unit) &#123; </span><br><span class="line">    new Thread &#123; </span><br><span class="line">        override def <span class="function"><span class="title">run</span></span>() &#123; block &#125; </span><br><span class="line">    &#125;.start() </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">// 优雅的传入 </span><br><span class="line">runInThread &#123; println(<span class="string">"Hi"</span>) ; Thread.sleep(1000); println(<span class="string">"Bye"</span>) &#125;</span><br></pre></td></tr></table></figure>
+
 
         </div>
         <footer class="article-footer">
@@ -193,7 +211,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/09/23/bigdata-20/" data-id="ck1hxioz6001do8vjheo80clr" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/09/28/bigdata-25/" data-id="ck1hxiozb001po8vju6k8ygk5" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -263,20 +281,22 @@
             "@type": "Person",
             "name": "徐栋梁"
         },
-        "headline": "Hbase和MySQL的比较",
+        "headline": "高阶函数、类和对象",
         "image": "http://yoursite.com",
-        "keywords": "Hbase",
+        "keywords": "Scala",
         "genre": "大数据",
-        "datePublished": "2019-09-23",
-        "dateCreated": "2019-09-23",
-        "dateModified": "2019-09-24",
-        "url": "http://yoursite.com/2019/09/23/bigdata-20/",
-        "description": "大数据学习第20天
-Hbase和MySQL的比较（个人理解）
-表。最直接的说法是Hbase是列存储，具体点就是列族存储，但是到底是个怎么列存储还是优点迷。MySQL是行存储，但是MySQL内部原理还真是一点都不懂。
-个人最直接的感受就是表的问题。HBase的表设计应该要比MySQL的表设计起来要难。
-而且，就我目前所学，猜测，即使Hbase的表设计好了，在写代码的时候，如果某个列写错了，那样也不会"
-        "wordCount": 10
+        "datePublished": "2019-09-28",
+        "dateCreated": "2019-09-28",
+        "dateModified": "2019-10-08",
+        "url": "http://yoursite.com/2019/09/28/bigdata-25/",
+        "description": "大数据学习第25天
+高阶函数1 作为参数的函数函数可以作为参数进行传递
+12def plus(x: Double) = 3 * x Array(3.14, 1.42, 2.0).map(plus)
+
+既然是变量，那么就该有类型，那么方法的类型是：（参数类型…）=&gt; 返回类型
+2 匿名函数可以通过函数表达式设置匿名函数：
+1234567val triple = (x: Double) =&gt"
+        "wordCount": 466
     }
 </script>
 
@@ -332,20 +352,20 @@ Hbase和MySQL的比较（个人理解）
         
 <nav id="article-nav">
     
-        <a href="/2019/09/24/bigdata-21/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2019/09/29/bigdata-26/" id="article-nav-newer" class="article-nav-link-wrap">
         <strong class="article-nav-caption">下一篇</strong>
         <p class="article-nav-title">
         
-            关于HBase删除数据的一些细节
+            bigdata-26
         
         </p>
         <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
     </a>
     
     
-        <a href="/2019/09/20/bigdata-19（2）/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2019/09/27/bigdata-24/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">Hbase“微博小项目”——总结</p>
+        <p class="article-nav-title">Scala的模式匹配（上）</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -563,7 +583,7 @@ Hbase和MySQL的比较（个人理解）
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'http://yoursite.com/2019/09/23/bigdata-20/';
+    var disqus_url = 'http://yoursite.com/2019/09/28/bigdata-25/';
     
     (function() {
     var dsq = document.createElement('script');
