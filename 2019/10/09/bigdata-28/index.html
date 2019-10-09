@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>类型参数和Akka实例 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Scala">
+    
+    <meta name="description" content="大数据学习第28天 类型参数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979">
+<meta name="keywords" content="Scala">
+<meta property="og:type" content="article">
+<meta property="og:title" content="类型参数和Akka实例">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/bigdata-28/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第28天 类型参数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-09T11:40:19.754Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="类型参数和Akka实例">
+<meta name="twitter:description" content="大数据学习第28天 类型参数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/大数据/">大数据</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-28" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        类型参数和Akka实例
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/10/09/bigdata-28/" class="article-date">
+            <time datetime="2019-10-09T11:34:26.000Z" itemprop="datePublished">2019-10-09</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Scala/">Scala</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第28天</p>
+<h2 id="类型参数"><a href="#类型参数" class="headerlink" title="类型参数"></a>类型参数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">//类型参数</span><br><span class="line">//类和特质都可以带类型参数，用方括号来定义类型参数，可以用类型参数来定义变量、方法参数和返回值</span><br><span class="line">//函数和方法也可以有类型参数</span><br><span class="line"></span><br><span class="line">package object para&#123;</span><br><span class="line">  def printPair[T,S](t:(T,S)) = println(t._1.getClass+<span class="string">"----"</span>+t._2.getClass)</span><br><span class="line"></span><br><span class="line">  def makeFriends(p:Pair7[Person]) = p.first+<span class="string">" and "</span>+p.second+<span class="string">" are now friends"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//****************** 对偶 *****************</span><br><span class="line"><span class="keyword">case</span> class Pair(val first:String,val second:String)&#123;</span><br><span class="line">  def makeTuple = (first,second)</span><br><span class="line">  override def toString: String = <span class="string">"("</span>+first+<span class="string">","</span>+second+<span class="string">")"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//****************** 泛型对偶 *****************</span><br><span class="line"><span class="keyword">case</span> class Pair2[T](val first:T,val second:T)&#123;</span><br><span class="line">  def makeTuple = (first,second)</span><br><span class="line"></span><br><span class="line">  override def toString: String = <span class="string">"("</span>+first+<span class="string">","</span>+second+<span class="string">")"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//****************** 泛型对偶[类型变量上限] *****************</span><br><span class="line"><span class="keyword">case</span> class Pair3[T &lt;: Comparable[T]](val first : T,val second :T)&#123;</span><br><span class="line">  //希望传入的类型能够用CompareTo比较大小</span><br><span class="line">  def smaller = <span class="keyword">if</span> (first.compareTo(second)&lt;0) first <span class="keyword">else</span> second</span><br><span class="line">  def mkdirTuple = (first,second)</span><br><span class="line"></span><br><span class="line">  override def toString: String = <span class="string">"("</span>+first+<span class="string">","</span>+second+<span class="string">")"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//****************** 泛型对偶[视图限定] *****************</span><br><span class="line"><span class="keyword">case</span> class Pair4[T &lt;% Comparable[T]](val first:T,val second :T)&#123;</span><br><span class="line">  //希望传入的类型能够用commpareTo比较大小，RichInt实现列 需要一个隐式转化让Int可以转化成RichInt</span><br><span class="line">  def smaller = <span class="keyword">if</span> (first.compareTo(second)&lt;0) first <span class="keyword">else</span> second</span><br><span class="line">  def mkdirTuple = (first,second)</span><br><span class="line"></span><br><span class="line">  override def toString: String = <span class="string">"("</span>+first+<span class="string">","</span>+second+<span class="string">")"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//****************** 泛型对偶【类型变量下限】 *************</span><br><span class="line">class Person(name : String)&#123;</span><br><span class="line">  override def toString: String = name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Student(name : String) extends Person(name:String)</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> class Pair5[T](val first:T,val second : T)&#123;</span><br><span class="line">  def replaceFirst[R &gt;: T](newFirst : R) = new Pair5(newFirst,second)</span><br><span class="line"></span><br><span class="line">  override def toString: String = <span class="string">"("</span>+first+<span class="string">","</span>+second+<span class="string">")"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//****************** 泛型对偶【上下文界定】 *************</span><br><span class="line"><span class="keyword">case</span> class Pair6[T : Ordering](val first:T,val second:T)&#123;</span><br><span class="line">  //希望传入一个存在一个类型为Ordering[T]的隐式值的可比较类型参数</span><br><span class="line">  def smaller(implicit ord : Ordering[T])= &#123;</span><br><span class="line">    println(ord)</span><br><span class="line">    <span class="keyword">if</span>(ord.compare(first,second)&lt;0) first <span class="keyword">else</span> second</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//****************** 泛型对偶【协变】 *************</span><br><span class="line">//用自己替换需要自己父亲的位置是允许的</span><br><span class="line"><span class="keyword">case</span> class Pair7[+T](val first: T, val second: T)</span><br><span class="line"></span><br><span class="line">object Main12 extends App&#123;</span><br><span class="line">  //生成String，String类型的Tuple</span><br><span class="line">  //para.printPair(Pair(<span class="string">"China"</span>,<span class="string">"960"</span>).makeTuple)</span><br><span class="line">  //println(Pair(<span class="string">"China"</span>,<span class="string">"960"</span>).makeTuple)</span><br><span class="line"></span><br><span class="line">  //生成任意类型对偶</span><br><span class="line">  //println(Pair2[Double](0.05,1.25).makeTuple)</span><br><span class="line">  //////////////////para.printPair(Pair2(55,<span class="string">"sss"</span>).makeTuple)//有个问题</span><br><span class="line"></span><br><span class="line">  //打印对比结果</span><br><span class="line">  //println(Pair3(<span class="string">"abc"</span>,<span class="string">"def"</span>).smaller)</span><br><span class="line">  //println(Pair3(<span class="string">"960.5"</span>,<span class="string">"950.2"</span>).smaller)</span><br><span class="line"></span><br><span class="line">  //比较两个整数的大小</span><br><span class="line">  //println(Pair4(12,13).smaller)</span><br><span class="line"></span><br><span class="line">  //学生组队</span><br><span class="line">  //val studentPair = Pair5(new Student(<span class="string">"Fred"</span>),new Student(<span class="string">"Wilma"</span>))</span><br><span class="line">  //studentPair.replaceFirst(new Person(<span class="string">"Barney"</span>))</span><br><span class="line"></span><br><span class="line">  //学生组队</span><br><span class="line">  val studentPair = Pair5(new Person(<span class="string">"Fred"</span>),new Person(<span class="string">"Wilma"</span>))</span><br><span class="line">  studentPair.replaceFirst(new Student(<span class="string">"Barney"</span>))</span><br><span class="line"></span><br><span class="line">  // 上下文界定</span><br><span class="line">  //println(Pair6(<span class="string">"china"</span>,<span class="string">"usa"</span>).smaller)</span><br><span class="line"></span><br><span class="line">  // 协变 希望子类也能成为朋友</span><br><span class="line">  //    println(makeFriends( Pair7(new Person(<span class="string">"Barney"</span>),new Person(<span class="string">"Lucy"</span>)) ))</span><br><span class="line">  //    println(makeFriends( Pair7(new Student(<span class="string">"Fred"</span>),new Student(<span class="string">"Wilma"</span>)) ))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Akka实例"><a href="#Akka实例" class="headerlink" title="Akka实例"></a>Akka实例</h2><p>WorkerInfo.scala</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class WorkerInfo(val id : String, val workerHost : String, val memory : String, val cores : String) &#123;</span><br><span class="line"></span><br><span class="line">  var lastHeartbeat : Long = System.currentTimeMillis()</span><br><span class="line"></span><br><span class="line">  override def toString = s<span class="string">"WorkerInfo(<span class="variable">$id</span>, <span class="variable">$workerHost</span>, <span class="variable">$memory</span>, <span class="variable">$cores</span>)"</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ActorMessage.scala</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> class RegisterWorker(val id : String, val workerHost : String, val memory : String, val cores : String)</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> class HeartBeat(val id : String)</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> class CheckOfTimeOutWorker()</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> class RegisteredWorker(val workerHost : String)</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> class SendHeartBeat()</span><br></pre></td></tr></table></figure>
+
+<p>Master.scala</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">import akka.actor.&#123;Actor, ActorSystem, Props&#125;</span><br><span class="line"></span><br><span class="line">import com.typesafe.config.ConfigFactory</span><br><span class="line"></span><br><span class="line">import scala.collection.mutable</span><br><span class="line">import scala.concurrent.duration._</span><br><span class="line">import scala.concurrent.ExecutionContext.Implicits.global</span><br><span class="line"></span><br><span class="line">class Master extends Actor&#123;</span><br><span class="line"></span><br><span class="line">  //保存WorkerID和Work信息的map</span><br><span class="line">  val idToWorker = new mutable.HashMap[String, WorkerInfo]</span><br><span class="line"></span><br><span class="line">  //保存所有Worker信息的Set</span><br><span class="line">  val workers = new mutable.HashSet[WorkerInfo]</span><br><span class="line"></span><br><span class="line">  //Worker超时时间</span><br><span class="line">  val WORKER_TIMEOUT = 10 * 1000</span><br><span class="line"></span><br><span class="line">  //构造方法执行完执行一次</span><br><span class="line">  override def preStart(): Unit = &#123;</span><br><span class="line"></span><br><span class="line">    //启动定时器，定时执行</span><br><span class="line">    context.system.scheduler.schedule(5 millis, WORKER_TIMEOUT millis, self, CheckOfTimeOutWorker)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //该方法会被反复执行，用于接收消息，通过<span class="keyword">case</span> class模式匹配接收消息</span><br><span class="line">  override def receive: Receive = &#123;</span><br><span class="line"></span><br><span class="line">    //Worker向Master发送的注册消息</span><br><span class="line">    <span class="keyword">case</span> RegisterWorker(id, workerHost, memory, cores) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span>(!idToWorker.contains(id)) &#123;</span><br><span class="line">        val worker = new WorkerInfo(id, workerHost, memory, cores)</span><br><span class="line">        workers.add(worker)</span><br><span class="line">        idToWorker(id) = worker</span><br><span class="line">        println(<span class="string">"new register worker: "</span>+worker)</span><br><span class="line">        sender ! RegisteredWorker(worker.id)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //Worker向Master发送的心跳消息</span><br><span class="line">    <span class="keyword">case</span> HeartBeat(workerId) =&gt; &#123;</span><br><span class="line">      val workerInfo = idToWorker(workerId)</span><br><span class="line">      println(<span class="string">"get heartbeat message from: "</span>+workerInfo)</span><br><span class="line">      workerInfo.lastHeartbeat = System.currentTimeMillis()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //Master自己向自己发送的定期检查超时Worker的消息</span><br><span class="line">    <span class="keyword">case</span> CheckOfTimeOutWorker =&gt; &#123;</span><br><span class="line">      val currentTime = System.currentTimeMillis()</span><br><span class="line">      val toRemove = workers.filter(w =&gt; currentTime - w.lastHeartbeat &gt; WORKER_TIMEOUT).toArray</span><br><span class="line">      <span class="keyword">for</span>(worker &lt;- toRemove)&#123;</span><br><span class="line">        workers -= worker</span><br><span class="line">        idToWorker.remove(worker.id)</span><br><span class="line">      &#125;</span><br><span class="line">      println(<span class="string">"worker size: "</span> + workers.size)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object Master &#123;</span><br><span class="line"></span><br><span class="line">  //程序执行入口</span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line"></span><br><span class="line">    val host = <span class="string">"localhost"</span></span><br><span class="line">    val port = 8888</span><br><span class="line"></span><br><span class="line">    //创建ActorSystem的必要参数</span><br><span class="line"></span><br><span class="line">    val configStr =</span><br><span class="line">      s<span class="string">""</span><span class="string">"</span></span><br><span class="line"><span class="string">         |akka.actor.provider = "</span>akka.remote.RemoteActorRefProvider<span class="string">"</span></span><br><span class="line"><span class="string">         |akka.remote.netty.tcp.hostname = "</span><span class="variable">$host</span><span class="string">"</span></span><br><span class="line"><span class="string">         |akka.remote.netty.tcp.port = "</span><span class="variable">$port</span><span class="string">"</span></span><br><span class="line"><span class="string">       "</span><span class="string">""</span>.stripMargin</span><br><span class="line"></span><br><span class="line">    val config = ConfigFactory.parseString(configStr)</span><br><span class="line"></span><br><span class="line">    //ActorSystem是单例的，用来创建Actor</span><br><span class="line">    val actorSystem = ActorSystem.create(<span class="string">"MasterActorSystem"</span>, config)</span><br><span class="line"></span><br><span class="line">    //启动Actor，Master会被实例化，生命周期方法会被调用</span><br><span class="line">    actorSystem.actorOf(Props[Master], <span class="string">"Master"</span>)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Worker.scala</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">import java.util.UUID</span><br><span class="line"></span><br><span class="line">import akka.actor.&#123;Actor, ActorSelection, ActorSystem, Props&#125;</span><br><span class="line">import com.typesafe.config.ConfigFactory</span><br><span class="line">import scala.concurrent.duration._</span><br><span class="line">import scala.concurrent.ExecutionContext.Implicits.global</span><br><span class="line"></span><br><span class="line">class Worker extends Actor&#123;</span><br><span class="line"></span><br><span class="line">  //Worker端持有Master端的引用（代理对象）</span><br><span class="line">  var master: ActorSelection = null</span><br><span class="line"></span><br><span class="line">  //生成一个UUID，作为Worker的标识</span><br><span class="line">  val id = UUID.randomUUID().toString</span><br><span class="line"></span><br><span class="line">  //构造方法执行完执行一次</span><br><span class="line">  override def preStart(): Unit = &#123;</span><br><span class="line"></span><br><span class="line">    //Worker向MasterActorSystem发送建立连接请求</span><br><span class="line">    master = context.system.actorSelection(<span class="string">"akka.tcp://MasterActorSystem@localhost:8888/user/Master"</span>)</span><br><span class="line"></span><br><span class="line">    //Worker向Master发送注册消息</span><br><span class="line">    master ! RegisterWorker(id, <span class="string">"localhost"</span>, <span class="string">"10240"</span>, <span class="string">"8"</span>)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //该方法会被反复执行，用于接收消息，通过<span class="keyword">case</span> class模式匹配接收消息</span><br><span class="line">  override def receive: Receive = &#123;</span><br><span class="line"></span><br><span class="line">    //Master向Worker的反馈信息</span><br><span class="line">    <span class="keyword">case</span> RegisteredWorker(masterUrl) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">      //启动定时任务，向Master发送心跳</span><br><span class="line">      context.system.scheduler.schedule(0 millis, 5000 millis, self, SendHeartBeat)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> SendHeartBeat =&gt; &#123;</span><br><span class="line"></span><br><span class="line">      println(<span class="string">"worker send heartbeat"</span>)</span><br><span class="line">      master ! HeartBeat(id)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object Worker &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line"></span><br><span class="line">    val clientPort = 8889</span><br><span class="line"></span><br><span class="line">    //创建WorkerActorSystem的必要参数</span><br><span class="line">    val configStr =</span><br><span class="line">      s<span class="string">""</span><span class="string">"</span></span><br><span class="line"><span class="string">         |akka.actor.provider = "</span>akka.remote.RemoteActorRefProvider<span class="string">"</span></span><br><span class="line"><span class="string">         |akka.remote.netty.tcp.port = <span class="variable">$clientPort</span></span></span><br><span class="line"><span class="string">       "</span><span class="string">""</span>.stripMargin</span><br><span class="line"></span><br><span class="line">    val config = ConfigFactory.parseString(configStr)</span><br><span class="line"></span><br><span class="line">    val actorSystem = ActorSystem(<span class="string">"WorkerActorSystem"</span>, config)</span><br><span class="line"></span><br><span class="line">    //启动Actor，Master会被实例化，生命周期方法会被调用</span><br><span class="line">    actorSystem.actorOf(Props[Worker], <span class="string">"Worker"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/10/09/bigdata-28/" data-id="ck1j7c1150034pkvjtx5fpaht" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "类型参数和Akka实例",
+        "image": "http://yoursite.com",
+        "keywords": "Scala",
+        "genre": "大数据",
+        "datePublished": "2019-10-09",
+        "dateCreated": "2019-10-09",
+        "dateModified": "2019-10-09",
+        "url": "http://yoursite.com/2019/10/09/bigdata-28/",
+        "description": "大数据学习第28天
+类型参数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979"
+        "wordCount": 1615
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/10/08/bigdata-27/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">特质与隐式转换和隐式参数</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/09/bigdata-28/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/09/bigdata-28/" class="title">类型参数和Akka实例</a></p>
+                            <p class="item-date"><time datetime="2019-10-09T11:34:26.000Z" itemprop="datePublished">2019-10-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/08/bigdata-27/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/08/bigdata-27/" class="title">特质与隐式转换和隐式参数</a></p>
+                            <p class="item-date"><time datetime="2019-10-08T13:00:04.000Z" itemprop="datePublished">2019-10-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/29/bigdata-26/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/29/bigdata-26/1.jpg)" alt="包和引入、继承" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/29/bigdata-26/" class="title">包和引入、继承</a></p>
+                            <p class="item-date"><time datetime="2019-09-29T07:19:02.000Z" itemprop="datePublished">2019-09-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/28/bigdata-25/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/28/bigdata-25/1.jpg)" alt="高阶函数、类和对象" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/28/bigdata-25/" class="title">高阶函数、类和对象</a></p>
+                            <p class="item-date"><time datetime="2019-09-28T14:06:44.000Z" itemprop="datePublished">2019-09-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/27/bigdata-24/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/09/27/bigdata-24/" class="title">Scala的模式匹配（上）</a></p>
+                            <p class="item-date"><time datetime="2019-09-27T14:19:40.000Z" itemprop="datePublished">2019-09-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">33</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Hbase/" style="font-size: 17.5px;">Hbase</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 12.5px;">hive</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://baidu.com">baidu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/10/09/bigdata-28/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

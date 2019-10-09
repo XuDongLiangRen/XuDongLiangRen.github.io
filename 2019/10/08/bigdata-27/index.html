@@ -6,7 +6,7 @@
     
 
     
-    <title>特质 | 徐栋梁的博客</title>
+    <title>特质与隐式转换和隐式参数 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
@@ -15,14 +15,14 @@
     <meta name="description" content="大数据学习第27天 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi">
 <meta name="keywords" content="Scala">
 <meta property="og:type" content="article">
-<meta property="og:title" content="特质">
+<meta property="og:title" content="特质与隐式转换和隐式参数">
 <meta property="og:url" content="http://yoursite.com/2019/10/08/bigdata-27/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第27天 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-08T14:17:23.180Z">
+<meta property="og:updated_time" content="2019-10-09T11:33:49.955Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="特质">
+<meta name="twitter:title" content="特质与隐式转换和隐式参数">
 <meta name="twitter:description" content="大数据学习第27天 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi">
     
 
@@ -144,7 +144,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-        特质
+        特质与隐式转换和隐式参数
         </h1>
     
 
@@ -202,6 +202,27 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">trait LoggedException extends ConsoleLogger &#123;</span><br><span class="line"> this: Exception =&gt; // or this: &#123; def getMessage() : String &#125; =&gt;</span><br><span class="line"> def <span class="function"><span class="title">log</span></span>() &#123; <span class="built_in">log</span>(getMessage()) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>通过this:类型=&gt; 来定义自身类型，在特质的方法中，可以调用该自身类型的任何方法。<br>他也要求了所有使用该特质的类必须是指定类型的子类。</p>
+<h2 id="隐式转换和隐式参数"><a href="#隐式转换和隐式参数" class="headerlink" title="隐式转换和隐式参数"></a>隐式转换和隐式参数</h2><h4 id="1-隐式转换"><a href="#1-隐式转换" class="headerlink" title="1 隐式转换"></a>1 隐式转换</h4><p>隐式转换函数是以implicit关键字声明的带有单个参数的函数。这种函数将会自动应用，讲值从一种类型转换为另一种类型。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implicit def int2Fraction(n: Int) = Fraction(n, 1) </span><br><span class="line">val result = 3 * Fraction(4, 5) // Calls int2Fraction(3)</span><br></pre></td></tr></table></figure>
+
+<p>整数3首先通过int2Fraction函数转换成了Fraction类型。转换函数可以起任何名称，a2b是约定俗成。</p>
+<h4 id="2-利用隐式转化丰富类库功能"><a href="#2-利用隐式转化丰富类库功能" class="headerlink" title="2 利用隐式转化丰富类库功能"></a>2 利用隐式转化丰富类库功能</h4><p>如果需要为一个类增加一个方法，可以通过隐式转换来实现。</p>
+<p>思路就是创建一个新类，参数是旧类，新类的方法对旧类操作。然后再提供一个旧类到新类的隐式转换，那么旧类就增加了新类的方法。</p>
+<h4 id="3-引入隐式转换"><a href="#3-引入隐式转换" class="headerlink" title="3 引入隐式转换"></a>3 引入隐式转换</h4><p>Scala会考虑如下的隐式转换函数：</p>
+<p>1）位于源或目标类型的伴生对象中的隐式函数。<br>2）位于当前作用域可以 以单个标识符指代的隐式函数。</p>
+<p>如果隐式转换函数定义在其它类中，需要引入该类，并能直接以该隐式函数名称调用。将引入局部化以避免不想要的转换发生。</p>
+<h4 id="4-隐式转换规则"><a href="#4-隐式转换规则" class="headerlink" title="4 隐式转换规则"></a>4 隐式转换规则</h4><p>隐式转换一般发生在三种情况下：<br>1) 当表达式的类型和预期类型不一致的时候。<br>2) 当对象访问一个不存在的成员时。<br>3) 当对象调用某个方法，而该方法的参数声明和传入参数不匹配时。</p>
+<p>有三种情况，编译器不会尝试进行隐式转换。<br>1) 如果代码能够在不使用隐式转换的前提下编译通过，则不会使用隐式转换。<br>2) 编译器不会尝试同时执行多个转换。<br>3) 存在二义性的转换是错误的。</p>
+<h4 id="5-隐式参数"><a href="#5-隐式参数" class="headerlink" title="5 隐式参数"></a>5 隐式参数</h4><p>函数和方法可以带有一个标记为implicit的参数列表，如果在调用的时候不传入该参数，编译器会查找该缺省值。</p>
+<p>一般从两个地方进行查找：<br>1) 在当前作用域所有可以用单个标识符指代的满足类型要求的val和def<br>2) 该值需要声明为implicit<br>3) 与所要求类型相关联的类型的伴生对象，相关联的类型包括所要求的类型本身、以及他的类型参数。</p>
+<h4 id="6-利用隐式参数进行隐式转换"><a href="#6-利用隐式参数进行隐式转换" class="headerlink" title="6 利用隐式参数进行隐式转换"></a>6 利用隐式参数进行隐式转换</h4><p>考虑下面一个函数，编译时通不过的，类型参数不能确定是一个带有&lt;操作符的类型。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def smaller[T](a: T, b: T) = <span class="keyword">if</span> (a &lt; b) a <span class="keyword">else</span> b</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过隐式参数将定义改写如下： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def smaller[T](a: T, b: T)(implicit order: T =&gt; Ordered[T]) = <span class="keyword">if</span> (a &lt; b) a <span class="keyword">else</span> b</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-上下文界定"><a href="#7-上下文界定" class="headerlink" title="7 上下文界定"></a>7 上下文界定</h4><p>上下文界定的是类型参数。</p>
+<p>上下文界定的形式为T:M，其中M是另一个泛型类，它要求必须存在一个类型为M[T]的隐式值。</p>
 
         </div>
         <footer class="article-footer">
@@ -209,7 +230,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/10/08/bigdata-27/" data-id="ck1hxioza001mo8vjt91o9cn0" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/10/08/bigdata-27/" data-id="ck1j7c104001tpkvjvhsfydrh" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -279,18 +300,18 @@
             "@type": "Person",
             "name": "徐栋梁"
         },
-        "headline": "特质",
+        "headline": "特质与隐式转换和隐式参数",
         "image": "http://yoursite.com",
         "keywords": "Scala",
         "genre": "大数据",
         "datePublished": "2019-10-08",
         "dateCreated": "2019-10-08",
-        "dateModified": "2019-10-08",
+        "dateModified": "2019-10-09",
         "url": "http://yoursite.com/2019/10/08/bigdata-27/",
         "description": "大数据学习第27天
 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。
 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi"
-        "wordCount": 182
+        "wordCount": 307
     }
 </script>
 
@@ -346,10 +367,20 @@
         
 <nav id="article-nav">
     
+        <a href="/2019/10/09/bigdata-28/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            类型参数和Akka实例
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
     
         <a href="/2019/09/29/bigdata-26/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">bigdata-26</p>
+        <p class="article-nav-title">包和引入、继承</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -371,6 +402,26 @@
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2019/10/09/bigdata-28/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/09/bigdata-28/" class="title">类型参数和Akka实例</a></p>
+                            <p class="item-date"><time datetime="2019-10-09T11:34:26.000Z" itemprop="datePublished">2019-10-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2019/10/08/bigdata-27/" class="thumbnail">
     
     
@@ -383,7 +434,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/10/08/bigdata-27/" class="title">特质</a></p>
+                            <p class="item-title"><a href="/2019/10/08/bigdata-27/" class="title">特质与隐式转换和隐式参数</a></p>
                             <p class="item-date"><time datetime="2019-10-08T13:00:04.000Z" itemprop="datePublished">2019-10-08</time></p>
                         </div>
                     </li>
@@ -394,7 +445,7 @@
                             <a href="/2019/09/29/bigdata-26/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/2019/09/29/bigdata-26/1.jpg)" alt="包和引入、继承" class="thumbnail-image"></span>
     
     
 </a>
@@ -403,7 +454,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/09/29/bigdata-26/" class="title">bigdata-26</a></p>
+                            <p class="item-title"><a href="/2019/09/29/bigdata-26/" class="title">包和引入、继承</a></p>
                             <p class="item-date"><time datetime="2019-09-29T07:19:02.000Z" itemprop="datePublished">2019-09-29</time></p>
                         </div>
                     </li>
@@ -414,7 +465,7 @@
                             <a href="/2019/09/28/bigdata-25/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/2019/09/28/bigdata-25/1.jpg)" alt="高阶函数、类和对象" class="thumbnail-image"></span>
     
     
 </a>
@@ -448,26 +499,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/09/26/bigdata-23/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/2019/09/26/bigdata-23/1.jpg)" alt="Scala的数据结构" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/09/26/bigdata-23/" class="title">Scala的数据结构</a></p>
-                            <p class="item-date"><time datetime="2019-09-26T14:06:51.000Z" itemprop="datePublished">2019-09-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -477,7 +508,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">32</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">33</span></li></ul>
         </div>
     </div>
 
@@ -487,7 +518,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
         </div>
     </div>
 
@@ -497,7 +528,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li></ul>
         </div>
     </div>
 
