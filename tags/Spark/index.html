@@ -6,24 +6,21 @@
     
 
     
-    <title>hadoop搭建小结 | 徐栋梁的博客</title>
+    <title>标签: Spark | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="hadoop">
-    
-    <meta name="description" content="大数据学习第三天 小结完全分布式的hadoop集群需要配置的文件1.核心文件配置core-site.xml hadoop的核心配置文件，需要指定Hdfs中NameNode的地址，以及hadoop运行时产生文件的储存目录。 2.Hdfs的配置hadoop-env.sh hdfs的环境文件。指定jdk路径。hdfs-site.xml hdfs的配置文件。指定副本数量和secondaryNameNode">
+    <meta name="description" content="大数据小白成长日记">
 <meta name="keywords" content="hadoop">
-<meta property="og:type" content="article">
-<meta property="og:title" content="hadoop搭建小结">
-<meta property="og:url" content="http://yoursite.com/2019/08/28/bigdata-03/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="徐栋梁的博客">
+<meta property="og:url" content="http://yoursite.com/tags/Spark/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据学习第三天 小结完全分布式的hadoop集群需要配置的文件1.核心文件配置core-site.xml hadoop的核心配置文件，需要指定Hdfs中NameNode的地址，以及hadoop运行时产生文件的储存目录。 2.Hdfs的配置hadoop-env.sh hdfs的环境文件。指定jdk路径。hdfs-site.xml hdfs的配置文件。指定副本数量和secondaryNameNode">
+<meta property="og:description" content="大数据小白成长日记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T12:00:05.245Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hadoop搭建小结">
-<meta name="twitter:description" content="大数据学习第三天 小结完全分布式的hadoop集群需要配置的文件1.核心文件配置core-site.xml hadoop的核心配置文件，需要指定Hdfs中NameNode的地址，以及hadoop运行时产生文件的储存目录。 2.Hdfs的配置hadoop-env.sh hdfs的环境文件。指定jdk路径。hdfs-site.xml hdfs的配置文件。指定副本数量和secondaryNameNode">
+<meta name="twitter:title" content="徐栋梁的博客">
+<meta name="twitter:description" content="大数据小白成长日记">
     
 
     
@@ -132,161 +129,76 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/大数据/">大数据</a>
+    <i class="icon fa fa-tag"></i>标签: <em>Spark</em>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-bigdata-03" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
+                            
+
+    
+    
         
-            <header class="article-header">
-                
+        
+        <section class="archives-wrap">
+            <div class="archive-year-wrap">
+                <a href="/archives/2019" class="archive-year"><i class="icon fa fa-calendar-o"></i>2019</a>
+            </div>
+            <div class="archives">
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <a href="/2019/10/10/bigdata-29/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+        
+<span class="comment-counter">
+    <i class="fa fa-comments-o"></i>
+    
+        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/10/bigdata-29/">0</span>
+    
+</span>
+
+
+    
+</a>
+
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/大数据/">大数据</a>
+            </div>
+            <div class="date"><time datetime="2019-10-10T13:39:24.000Z" itemprop="datePublished">2019-10-10</time></div>
+        </div>
+        
     
         <h1 class="article-title" itemprop="name">
-        hadoop搭建小结
+        <a href="/2019/10/10/bigdata-29/">Spark的概述与安装</a>
         </h1>
     
 
-            </header>
-        
-        
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <a href="/2019/08/28/bigdata-03/" class="article-date">
-            <time datetime="2019-08-28T12:29:14.000Z" itemprop="datePublished">2019-08-28</time>
-        </a>
+        <p class="article-excerpt">
+            大数据学习第29天
+SparkSpark是一种大数据的计算引擎，Spark具有MapReduce的优点，但是Spark的计算结果保存在内存中，所以速度比MapReduce快，且Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。
+Spark安装解压配置登录Spark管理界面查看集群状态（主节点）：http://hadoop011:8080/配置好需要分发到其他主机上。
+
+        </p>
     </div>
-
-		
-
-                
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/hadoop/">hadoop</a>
-    </div>
-
-            </div>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-            <p>大数据学习第三天</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="完全分布式的hadoop集群需要配置的文件"><a href="#完全分布式的hadoop集群需要配置的文件" class="headerlink" title="完全分布式的hadoop集群需要配置的文件"></a>完全分布式的hadoop集群需要配置的文件</h3><h4 id="1-核心文件配置"><a href="#1-核心文件配置" class="headerlink" title="1.核心文件配置"></a>1.核心文件配置</h4><p>core-site.xml hadoop的核心配置文件，需要指定Hdfs中NameNode的地址，以及hadoop运行时产生文件的储存目录。</p>
-<h4 id="2-Hdfs的配置"><a href="#2-Hdfs的配置" class="headerlink" title="2.Hdfs的配置"></a>2.Hdfs的配置</h4><p>hadoop-env.sh hdfs的环境文件。指定jdk路径。<br>hdfs-site.xml hdfs的配置文件。指定副本数量和secondaryNameNode的地址。<br>slaves datanode名单。</p>
-<h4 id="3-yarn的配置"><a href="#3-yarn的配置" class="headerlink" title="3.yarn的配置"></a>3.yarn的配置</h4><p>yarn-env.sh yarn的环境文件。指定jdk路径。<br>yarn-site.xml yarn的配置文件。指定reducr获取数据的方法以及ResourceManager的地址。</p>
-<h4 id="4-mapreduce的配置"><a href="#4-mapreduce的配置" class="headerlink" title="4.mapreduce的配置"></a>4.mapreduce的配置</h4><p>mapred-env.sh mapreduce的环境文件。指定jdk路径。<br>mapred-site.xml mapreduce的配置文件。指定mr运行在yarn上。</p>
-<p>配置文件完成后，分发到各台机器上。然后需要在NameNode节点所在的主机上对namenode格式化，执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
-
-<p>命令，格式化后，会在${hadoop.tmp.dir}/dfs/name/current 下产生VERSION文件,</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 current]<span class="comment"># cat VERSION </span></span><br><span class="line"><span class="comment">#Wed Aug 28 09:35:06 CST 2019</span></span><br><span class="line">namespaceID=600928658</span><br><span class="line">clusterID=CID-443f041f-3902-4fcb-b897-8b90f310519a</span><br><span class="line">cTime=0</span><br><span class="line">storageType=NAME_NODE</span><br><span class="line">blockpoolID=BP-1004773799-192.168.164.11-1566956106924</span><br><span class="line">layoutVersion=-63</span><br></pre></td></tr></table></figure>
-
-<p>当集群第一次启动的时候，会先启动NameNode，将里面的参数加载到内存，然后集群中slaves文件中的DataNode节点启动，根据配置文件找到NameNode，在NameNode上注册，然后获取必要的参数加载到内存并保存到磁盘中。<br>DataNode都启动后，SecondaryNameNode节点启动。</p>
-<h3 id="关于多次格式化导致启动失败解决方案"><a href="#关于多次格式化导致启动失败解决方案" class="headerlink" title="关于多次格式化导致启动失败解决方案"></a>关于多次格式化导致启动失败解决方案</h3><p>NameNode每格式化一次，都会创建新的blockPoolId和clusterId，而DataNode的blockPoolId和clusterId参数不会跟着改变。所以导致NameNode启动失败。<br>解决方法：1.删除集群中DataNode机器${hadoop.tmp.dir}/dfs/data文件夹，然后重新格式化。<br>2.复制DataNode的blockPoolId和clusterId参数到NameNode上。</p>
-
-        </div>
-        <footer class="article-footer">
-            
-
-
-
-    <a data-url="http://yoursite.com/2019/08/28/bigdata-03/" data-id="ck1krpmfo0007qovj7uxibal4" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-        </footer>
-    </div>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "author": {
-            "@type": "Person",
-            "name": "徐栋梁"
-        },
-        "headline": "hadoop搭建小结",
-        "image": "http://yoursite.com",
-        "keywords": "hadoop",
-        "genre": "大数据",
-        "datePublished": "2019-08-28",
-        "dateCreated": "2019-08-28",
-        "dateModified": "2019-09-24",
-        "url": "http://yoursite.com/2019/08/28/bigdata-03/",
-        "description": "大数据学习第三天
-小结完全分布式的hadoop集群需要配置的文件1.核心文件配置core-site.xml hadoop的核心配置文件，需要指定Hdfs中NameNode的地址，以及hadoop运行时产生文件的储存目录。
-2.Hdfs的配置hadoop-env.sh hdfs的环境文件。指定jdk路径。hdfs-site.xml hdfs的配置文件。指定副本数量和secondaryNameNode"
-        "wordCount": 77
-    }
-</script>
-
 </article>
-
-    <section id="comments">
     
-        
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
+        </div>
     
-    </section>
+
+
+    </div></section>
 
 
 
@@ -324,29 +236,6 @@
             
         </ul>
     </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2019/08/29/bigdata-04/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            DataNode和NameNode工作机制
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
-    
-        <a href="/2019/08/28/bigdata-02（3）/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">完全分布式部署Hadoop</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
-        </a>
-    
-</nav>
-
     
     <div class="widgets-container">
         
@@ -559,13 +448,11 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'http://yoursite.com/2019/08/28/bigdata-03/';
-    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
