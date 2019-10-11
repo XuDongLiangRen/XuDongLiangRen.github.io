@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Spark算子学习（1） | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Spark">
+    
+    <meta name="description" content="大数据学习第30天 1 map(func)1234567891011121314151617181920import org.apache.spark.&amp;#123;SparkConf, SparkContext&amp;#125;/**  * map(func) 返回一个新的RDD，该RDD由每一个输入元素经过func函数转换组成  *  * map 将原来的RDD的每个数据项通过map中的用户自定义的函">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark算子学习（1）">
+<meta property="og:url" content="http://yoursite.com/2019/10/11/bigdata-30/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第30天 1 map(func)1234567891011121314151617181920import org.apache.spark.&amp;#123;SparkConf, SparkContext&amp;#125;/**  * map(func) 返回一个新的RDD，该RDD由每一个输入元素经过func函数转换组成  *  * map 将原来的RDD的每个数据项通过map中的用户自定义的函">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-11T15:10:47.208Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark算子学习（1）">
+<meta name="twitter:description" content="大数据学习第30天 1 map(func)1234567891011121314151617181920import org.apache.spark.&amp;#123;SparkConf, SparkContext&amp;#125;/**  * map(func) 返回一个新的RDD，该RDD由每一个输入元素经过func函数转换组成  *  * map 将原来的RDD的每个数据项通过map中的用户自定义的函">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/大数据/">大数据</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/随笔/">随笔</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-30" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Spark算子学习（1）
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/10/11/bigdata-30/" class="article-date">
+            <time datetime="2019-10-11T14:59:52.000Z" itemprop="datePublished">2019-10-11</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Spark/">Spark</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第30天</p>
+<h3 id="1-map-func"><a href="#1-map-func" class="headerlink" title="1 map(func)"></a>1 map(func)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * map(func) 返回一个新的RDD，该RDD由每一个输入元素经过func函数转换组成</span><br><span class="line">  *</span><br><span class="line">  * map 将原来的RDD的每个数据项通过map中的用户自定义的函数f映射转变为一个新的元素。</span><br><span class="line">  *     源码中的map算子相当于初始化一个RDD，新RDD叫做MappedRDD（this,sc,clean(f)）</span><br><span class="line">  */</span><br><span class="line">object _1_map extends App &#123;</span><br><span class="line">  val conf = new SparkConf().setAppName(<span class="string">"mapDemo"</span>).setMaster(<span class="string">"local[1]"</span>)</span><br><span class="line">  val sc = new SparkContext(conf)</span><br><span class="line">  sc.setLogLevel(<span class="string">"WARN"</span>)</span><br><span class="line"></span><br><span class="line">  val <span class="built_in">source</span> = sc.parallelize(1 to 10 )</span><br><span class="line">  source.collect()</span><br><span class="line"></span><br><span class="line">  val mapadd = source.map(_*2)</span><br><span class="line"></span><br><span class="line">  mapadd.collect().foreach(println(_))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：<br>2<br>4<br>6<br>8<br>10<br>12<br>14<br>16<br>18<br>20</p>
+<h3 id="2-filter-func"><a href="#2-filter-func" class="headerlink" title="2 filter(func)"></a>2 filter(func)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * filter(func) 返回一个新的RDD，该RDD由经过func函数计算后返回值为<span class="literal">true</span>的输入元素组成</span><br><span class="line">  *</span><br><span class="line">  */</span><br><span class="line">object _2_filter &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf().setAppName(<span class="string">"filterDemo"</span>).setMaster(<span class="string">"local[1]"</span>)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line">    sc.setLogLevel(<span class="string">"WARN"</span>)</span><br><span class="line"></span><br><span class="line">    var <span class="built_in">source</span> = sc.parallelize(Array(<span class="string">"xiaoming"</span>,<span class="string">"xiaojiang"</span>,<span class="string">"xiaohe"</span>,<span class="string">"dazhi"</span>))</span><br><span class="line">    val filterResult =source.filter(_.contains(<span class="string">"xiao"</span>))</span><br><span class="line"></span><br><span class="line">    filterResult.collect().foreach(println(_))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：<br>xiaoming<br>xiaojiang<br>xiaohe</p>
+<h3 id="3-flatMap-func"><a href="#3-flatMap-func" class="headerlink" title="3 flatMap(func)"></a>3 flatMap(func)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * flatMap(func) 类似于map，但是每一个输入元素可以被映射为0或多个输出元素</span><br><span class="line">  * （所以func应该返回一个序列，而不是单一元素）</span><br><span class="line">  *</span><br><span class="line">  * flatMap</span><br><span class="line">  * 将原来RDD中的每个元素通过函数f转换为新的元素，并将生成的元素合并为一个元素。</span><br><span class="line">  * 内部创建FlatMappedRDD（this,sc.clean(f)）</span><br><span class="line">  */</span><br><span class="line">object _3_flatMap &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf().setAppName(<span class="string">"flatMapDemo"</span>).setMaster(<span class="string">"local[1]"</span>)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line"></span><br><span class="line">    val <span class="built_in">source</span> = sc.parallelize(1 to 5)</span><br><span class="line">    val flatMapResult = source.flatMap(_ to 10)</span><br><span class="line"></span><br><span class="line">    flatMapResult.collect().foreach(<span class="built_in">print</span>(_))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：<br>23456789102345678910345678910456789105678910</p>
+<h3 id="4-mapPartition-func"><a href="#4-mapPartition-func" class="headerlink" title="4 mapPartition(func)"></a>4 mapPartition(func)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * mapPartition(func) 类似map，但独立地在RDD的每一个分片上运行，因此在类型为T的RDD上运行时，</span><br><span class="line">  * func的函数类型必须时Iterator[T] =&gt; Iterator[U].</span><br><span class="line">  * 假设有N个元素，有M个分区，那么map的函数将被调用N次，而mapPartitions被调用M次，</span><br><span class="line">  * 一个函数一次处理所有分区。</span><br><span class="line">  */</span><br><span class="line">object _4_mapPartitions &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf().setAppName(<span class="string">"mapPartitionsDemo"</span>).setMaster(<span class="string">"local[1]"</span>)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line">    sc.setLogLevel(<span class="string">"WARN"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    val <span class="built_in">source</span> = sc.parallelize(List((<span class="string">"kpop"</span>,<span class="string">"female"</span>),(<span class="string">"zorro"</span>,<span class="string">"male"</span>),(<span class="string">"mobin"</span>,<span class="string">"male"</span>),(<span class="string">"lucy"</span>,<span class="string">"female"</span>),(<span class="string">"lucy222"</span>,<span class="string">"female"</span>)))</span><br><span class="line">    //val sl = sc.parallelize[Map[String,String]](List(Map(<span class="string">"kpop"</span>-&gt;<span class="string">"female"</span>),Map(<span class="string">"zorro"</span>-&gt;<span class="string">"male"</span>),Map(<span class="string">"mobin"</span>-&gt;<span class="string">"male"</span>),Map(<span class="string">"lucy"</span>-&gt;<span class="string">"female"</span>)))</span><br><span class="line"></span><br><span class="line">    val result= source.mapPartitions(partitionsFun)</span><br><span class="line">    result.collect().foreach(println(_))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  def partitionsFun(iter : Iterator[(String,String)]):Iterator[String]=&#123;</span><br><span class="line">    var woman = List[String]()</span><br><span class="line">    <span class="keyword">while</span>(iter.hasNext)&#123;</span><br><span class="line">      val next = iter.next()</span><br><span class="line">      next match &#123;</span><br><span class="line">        <span class="keyword">case</span>  (x, <span class="string">"female"</span>) =&gt; woman = x :: woman</span><br><span class="line">        <span class="keyword">case</span> _ =&gt;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    woman.iterator</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：<br>lucy222<br>lucy<br>kpop</p>
+<h3 id="5-mapPartitionsWithIndex-func"><a href="#5-mapPartitionsWithIndex-func" class="headerlink" title="5 mapPartitionsWithIndex(func)"></a>5 mapPartitionsWithIndex(func)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * mapPartitionsWithIndex(func) 类似于mapPartitions,但func带有一个证书参数表示分片的索引值</span><br><span class="line">  * 因此在类型为T的RDD上运行时，func的函数类型必须时(Int,Iterator[T] =&gt; Iterator[U])</span><br><span class="line">  */</span><br><span class="line">object _5_mapPartitionsWithIndex &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf().setAppName(<span class="string">"mapPartitionsDemo"</span>).setMaster(<span class="string">"local[1]"</span>)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line">    sc.setLogLevel(<span class="string">"WARN"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    val <span class="built_in">source</span> = sc.parallelize(List((<span class="string">"kpop"</span>,<span class="string">"female"</span>),(<span class="string">"zorro"</span>,<span class="string">"male"</span>),(<span class="string">"mobin"</span>,<span class="string">"male"</span>),(<span class="string">"lucy"</span>,<span class="string">"female"</span>),(<span class="string">"lucy222"</span>,<span class="string">"female"</span>)),2)</span><br><span class="line">    //val sl = sc.parallelize[Map[String,String]](List(Map(<span class="string">"kpop"</span>-&gt;<span class="string">"female"</span>),Map(<span class="string">"zorro"</span>-&gt;<span class="string">"male"</span>),Map(<span class="string">"mobin"</span>-&gt;<span class="string">"male"</span>),Map(<span class="string">"lucy"</span>-&gt;<span class="string">"female"</span>)))</span><br><span class="line"></span><br><span class="line">    val result= source.mapPartitionsWithIndex(partitionsFun)</span><br><span class="line">    result.collect().foreach(println(_))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  def partitionsFun(index: Int,iter : Iterator[(String,String)]):Iterator[String]=&#123;</span><br><span class="line">    var woman = List[String]()</span><br><span class="line">    <span class="keyword">while</span>(iter.hasNext)&#123;</span><br><span class="line">      val next = iter.next()</span><br><span class="line">      next match &#123;</span><br><span class="line">        <span class="keyword">case</span>  (x, <span class="string">"female"</span>) =&gt; woman = <span class="string">"["</span>+index+<span class="string">"]"</span>+x :: woman</span><br><span class="line">        <span class="keyword">case</span> _ =&gt;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    woman.iterator</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：<br>[0]kpop<br>[1]lucy222<br>[1]lucy</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/10/11/bigdata-30/" data-id="ck1me746m001tn8vjyyad24qh" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "Spark算子学习（1）",
+        "image": "http://yoursite.com",
+        "keywords": "Spark",
+        "genre": "大数据",
+        "datePublished": "2019-10-11",
+        "dateCreated": "2019-10-11",
+        "dateModified": "2019-10-11",
+        "url": "http://yoursite.com/2019/10/11/bigdata-30/",
+        "description": "大数据学习第30天
+1 map(func)1234567891011121314151617181920import org.apache.spark.&#123;SparkConf, SparkContext&#125;/**  * map(func) 返回一个新的RDD，该RDD由每一个输入元素经过func函数转换组成  *  * map 将原来的RDD的每个数据项通过map中的用户自定义的函"
+        "wordCount": 859
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/10/11/diary-1/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            《从你的全世界路过》观后感
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/10/11/firstTable/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">firstTable</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/11/diary-1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/10/11/diary-1/1.jpg)" alt="《从你的全世界路过》观后感" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/随笔/">随笔</a></p>
+                            <p class="item-title"><a href="/2019/10/11/diary-1/" class="title">《从你的全世界路过》观后感</a></p>
+                            <p class="item-date"><time datetime="2019-10-11T15:02:41.000Z" itemprop="datePublished">2019-10-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/11/bigdata-30/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/11/bigdata-30/" class="title">Spark算子学习（1）</a></p>
+                            <p class="item-date"><time datetime="2019-10-11T14:59:52.000Z" itemprop="datePublished">2019-10-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/11/firstTable/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/10/11/firstTable/" class="title">firstTable</a></p>
+                            <p class="item-date"><time datetime="2019-10-11T03:47:20.000Z" itemprop="datePublished">2019-10-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/10/bigdata-29/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/10/bigdata-29/" class="title">Spark的概述与安装</a></p>
+                            <p class="item-date"><time datetime="2019-10-10T13:39:24.000Z" itemprop="datePublished">2019-10-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/09/bigdata-28/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/09/bigdata-28/" class="title">类型参数和Akka实例</a></p>
+                            <p class="item-date"><time datetime="2019-10-09T11:34:26.000Z" itemprop="datePublished">2019-10-09</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">35</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观后感/">观后感</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Hbase/" style="font-size: 18px;">Hbase</a> <a href="/tags/Scala/" style="font-size: 16px;">Scala</a> <a href="/tags/Spark/" style="font-size: 12px;">Spark</a> <a href="/tags/Zookeeper/" style="font-size: 12px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 14px;">hive</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/示例/" style="font-size: 12px;">示例</a> <a href="/tags/观后感/" style="font-size: 10px;">观后感</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://baidu.com">baidu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/10/11/bigdata-30/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
