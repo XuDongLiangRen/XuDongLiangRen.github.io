@@ -153,6 +153,106 @@
         <article class="article article-summary">
     <div class="article-summary-inner">
         
+        <a href="/2019/09/04/bigdata-08/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/09/04/bigdata-08/1.jpg)" alt="InputFormat数据切片机制" class="thumbnail-image"></span>
+    
+    
+        
+<span class="comment-counter">
+    <i class="fa fa-comments-o"></i>
+    
+        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/09/04/bigdata-08/">0</span>
+    
+</span>
+
+
+    
+</a>
+
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/大数据/">大数据</a>
+            </div>
+            <div class="date"><time datetime="2019-09-04T14:41:38.000Z" itemprop="datePublished">2019-09-04</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/2019/09/04/bigdata-08/">InputFormat数据切片机制</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            大数据学习第八天
+FileInputFormat切片机制1）job提交流程源码详解
+1234567891011121314151617181920212223242526waitForCompletion()submit();// 1建立连接	connect();		// 1）创建提交job的代理	new Cluster(getConfiguration());	//（1）判断是本地yarn还是远
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <a href="/2019/09/03/bigdata-07/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+        
+<span class="comment-counter">
+    <i class="fa fa-comments-o"></i>
+    
+        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/09/03/bigdata-07/">0</span>
+    
+</span>
+
+
+    
+</a>
+
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/大数据/">大数据</a>
+            </div>
+            <div class="date"><time datetime="2019-09-03T15:01:17.000Z" itemprop="datePublished">2019-09-03</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/2019/09/03/bigdata-07/">partition，GroupingComparator和多表合并</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            大数据学习第七天（shuffle内容）
+partition分区，即将map读取到的键值对，按照一定的规则分区存储，当然规则是自己定的。默认情况下应该是这样：
+123public int getPartition(Key key, Value value, int numReduceTasks) &#123;	return (key.hashCode() &amp; Integer.MAX_VALU
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
         <a href="/2019/09/03/bigdata-06/" class="thumbnail">
     
     
@@ -553,117 +653,13 @@ hadoop的安装与配置安装hadoop，有人会建议重新编译，过程还�
         </div>
     
 
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/08/26/bigdata_01（1）/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/08/26/bigdata_01（1）/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-08-26T13:44:44.627Z" itemprop="datePublished">2019-08-26</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/08/26/bigdata_01（1）/">linux下网卡配置和jdk的安装</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第一天(上)
-Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联网,
-1[root@hadoop014 ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0
-
-1234567891011DEVICE=eth0HWADDR=00:0c:29:c5:8f:bb TYPE=EthernetUUID=c2992435-23a
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/08/24/first/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/08/24/first/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2019-08-24T09:00:32.000Z" itemprop="datePublished">2019-08-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/08/24/first/">第一篇博客</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            使用hexo搭建博客后第一次尝试写博客
-第一个标题二级标题下面是一段java代码
-12345public class Person&#123;	public static void main(String[] args)&#123;		System.out.println("Hello World!");	&#125;&#125;
-
-
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
 
     </div></section>
 
 
     <nav id="page-nav">
-        <span class="pages">第 4 页，共 4 页</span>
-        <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+        <span class="pages">第 4 页，共 5 页</span>
+        <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
     </nav>
 
 
@@ -717,6 +713,46 @@ Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2019/10/14/bigdata-32/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/14/bigdata-32/" class="title">Spark Action算子和累加器</a></p>
+                            <p class="item-date"><time datetime="2019-10-14T13:53:11.000Z" itemprop="datePublished">2019-10-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/12/bigdata-31/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/12/bigdata-31/" class="title">Spark Transformation算子学习（2）</a></p>
+                            <p class="item-date"><time datetime="2019-10-12T11:38:47.000Z" itemprop="datePublished">2019-10-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2019/10/11/diary-1/" class="thumbnail">
     
     
@@ -749,7 +785,7 @@ Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/10/11/bigdata-30/" class="title">Spark算子学习（1）</a></p>
+                            <p class="item-title"><a href="/2019/10/11/bigdata-30/" class="title">Spark Transformation算子学习（1）</a></p>
                             <p class="item-date"><time datetime="2019-10-11T14:59:52.000Z" itemprop="datePublished">2019-10-11</time></p>
                         </div>
                     </li>
@@ -774,46 +810,6 @@ Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/10/10/bigdata-29/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/10/10/bigdata-29/" class="title">Spark的概述与安装</a></p>
-                            <p class="item-date"><time datetime="2019-10-10T13:39:24.000Z" itemprop="datePublished">2019-10-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/10/09/bigdata-28/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/10/09/bigdata-28/" class="title">类型参数和Akka实例</a></p>
-                            <p class="item-date"><time datetime="2019-10-09T11:34:26.000Z" itemprop="datePublished">2019-10-09</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -823,7 +819,7 @@ Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">35</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">37</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -833,7 +829,7 @@ Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -843,7 +839,7 @@ Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观后感/">观后感</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观后感/">观后感</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -853,7 +849,7 @@ Quick Start启动网卡CenOS 在虚拟机上安装后需要启用网卡才能联
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Hbase/" style="font-size: 18px;">Hbase</a> <a href="/tags/Scala/" style="font-size: 16px;">Scala</a> <a href="/tags/Spark/" style="font-size: 12px;">Spark</a> <a href="/tags/Zookeeper/" style="font-size: 12px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 14px;">hive</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/示例/" style="font-size: 12px;">示例</a> <a href="/tags/观后感/" style="font-size: 10px;">观后感</a>
+            <a href="/tags/Hbase/" style="font-size: 18.33px;">Hbase</a> <a href="/tags/Scala/" style="font-size: 16.67px;">Scala</a> <a href="/tags/Spark/" style="font-size: 13.33px;">Spark</a> <a href="/tags/Zookeeper/" style="font-size: 11.67px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 15px;">hive</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/示例/" style="font-size: 11.67px;">示例</a> <a href="/tags/观后感/" style="font-size: 10px;">观后感</a>
         </div>
     </div>
 
