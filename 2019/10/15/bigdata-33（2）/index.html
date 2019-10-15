@@ -6,21 +6,24 @@
     
 
     
-    <title>归档 | 徐栋梁的博客</title>
+    <title>Spark SQL概述 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="description" content="大数据小白成长日记">
-<meta name="keywords" content="hadoop">
-<meta property="og:type" content="website">
-<meta property="og:title" content="徐栋梁的博客">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+        <meta name="keywords" content="Spark">
+    
+    <meta name="description" content="大数据学习第33天（2） Spark SQLSpark SQL是Spark用来处理结构化数据的一个模块，它提供了一个编程抽象叫做DataFrame并且作为分布式SQL查询引擎的作用。 RDD vs DataFrames vs DataSetRDD RDD是一个懒执行的不可变的可以支持Lambda表达式的并行数据集合。 RDD的最大好处就是简单，API的人性化程度很高。 RDD的劣势是性能限制，它是">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark SQL概述">
+<meta property="og:url" content="http://yoursite.com/2019/10/15/bigdata-33（2）/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据小白成长日记">
+<meta property="og:description" content="大数据学习第33天（2） Spark SQLSpark SQL是Spark用来处理结构化数据的一个模块，它提供了一个编程抽象叫做DataFrame并且作为分布式SQL查询引擎的作用。 RDD vs DataFrames vs DataSetRDD RDD是一个懒执行的不可变的可以支持Lambda表达式的并行数据集合。 RDD的最大好处就是简单，API的人性化程度很高。 RDD的劣势是性能限制，它是">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-15T13:10:50.909Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="徐栋梁的博客">
-<meta name="twitter:description" content="大数据小白成长日记">
+<meta name="twitter:title" content="Spark SQL概述">
+<meta name="twitter:description" content="大数据学习第33天（2） Spark SQLSpark SQL是Spark用来处理结构化数据的一个模块，它提供了一个编程抽象叫做DataFrame并且作为分布式SQL查询引擎的作用。 RDD vs DataFrames vs DataSetRDD RDD是一个懒执行的不可变的可以支持Lambda表达式的并行数据集合。 RDD的最大好处就是简单，API的人性化程度很高。 RDD的劣势是性能限制，它是">
     
 
     
@@ -129,539 +132,182 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>归档
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-bigdata-33（2）" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2019" class="archive-year"><i class="icon fa fa-calendar-o"></i>2019</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/15/bigdata-33（2）/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/15/bigdata-33（2）/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-15T12:57:59.000Z" itemprop="datePublished">2019-10-15</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/15/bigdata-33（2）/">Spark SQL概述</a>
+        Spark SQL概述
         </h1>
     
 
-        <p class="article-excerpt">
-            大数据学习第33天（2）
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/10/15/bigdata-33（2）/" class="article-date">
+            <time datetime="2019-10-15T12:57:59.000Z" itemprop="datePublished">2019-10-15</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Spark/">Spark</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第33天（2）</p>
+<h2 id="Spark-SQL"><a href="#Spark-SQL" class="headerlink" title="Spark SQL"></a>Spark SQL</h2><p>Spark SQL是Spark用来处理结构化数据的一个模块，它提供了一个编程抽象叫做DataFrame并且作为分布式SQL查询引擎的作用。</p>
+<h3 id="RDD-vs-DataFrames-vs-DataSet"><a href="#RDD-vs-DataFrames-vs-DataSet" class="headerlink" title="RDD vs DataFrames vs DataSet"></a>RDD vs DataFrames vs DataSet</h3><h4 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h4><ul>
+<li>RDD是一个懒执行的不可变的可以支持Lambda表达式的并行数据集合。</li>
+<li>RDD的最大好处就是简单，API的人性化程度很高。</li>
+<li>RDD的劣势是性能限制，它是一个JVM驻内存对象，这也就决定了存在GC的限制和数据增加时Java序列化成本的升高。</li>
+</ul>
+<h4 id="Dataframe"><a href="#Dataframe" class="headerlink" title="Dataframe"></a>Dataframe</h4><p>DataFrame也是一个分布式数据容器。然而DataFrame更像传统数据库的二维表格，除了数据以外，还记录数据的结构信息，即schema。</p>
+<p>DataFrame是为数据提供了Schema的视图。可以把它当做数据库中的一张表来对待<br>DataFrame也是懒执行的。</p>
+<p>性能上比RDD要高，主要有两方面原因： </p>
+<ul>
+<li>定制化内存管理</li>
+<li>数据以二进制的方式存在于非堆内存，节省了大量空间之外，还摆脱了GC的限制。</li>
+</ul>
+<p>Dataframe的劣势在于在编译期缺少类型安全检查，导致运行时出错.</p>
+<h4 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h4><ul>
+<li>1 是Dataframe API的一个扩展，是Spark最新的数据抽象</li>
+<li>2 用户友好的API风格，既具有类型安全检查也具有Dataframe的查询优化特性。</li>
+<li>3 Dataset支持编解码器，当需要访问非堆上的数据时可以避免反序列化整个对象，提高了效率。</li>
+<li>4 样例类被用来在Dataset中定义数据的结构信息，样例类中每个属性的名称直接映射到DataSet中的字段名称。</li>
+<li>5 Dataframe是Dataset的特列，DataFrame=Dataset[Row] ，所以可以通过as方法将Dataframe转换为Dataset。Row是一个类型，跟  Car、Person这些的类型一样，所有的表结构信息我都用Row来表示。</li>
+<li>6 DataSet是强类型的。比如可以有Dataset[Car]，Dataset[Person].</li>
+</ul>
+<h4 id="三者的共性"><a href="#三者的共性" class="headerlink" title="三者的共性"></a>三者的共性</h4><p>1、RDD、DataFrame、Dataset全都是spark平台下的分布式弹性数据集，为处理超大型数据提供便利<br>2、三者都有惰性机制，在进行创建、转换，如map方法时，不会立即执行，只有在遇到Action如foreach时，三者才会开始遍历运算，极端情况下，如果代码里面有创建、转换，但是后面没有在Action中使用对应的结果，在执行时会被直接跳过.<br>3、三者都会根据spark的内存情况自动缓存运算，这样即使数据量很大，也不用担心会内存溢出<br>4、三者都有partition的概念<br>5、三者有许多共同的函数，如filter，排序等<br>6、在对DataFrame和Dataset进行操作许多操作都需要这个包进行支持<br>7、DataFrame和Dataset均可使用模式匹配获取各个字段的值和类型DataFrame</p>
+<h4 id="三者的区别"><a href="#三者的区别" class="headerlink" title="三者的区别"></a>三者的区别</h4><p>RDD:<br>1、RDD一般和spark mlib同时使用<br>2、RDD不支持sparksql操作</p>
+<p>DataFrame:<br>1、与RDD和Dataset不同，DataFrame每一行的类型固定为Row，只有通过解析才能获取各个字段的值,每一列的值没法直接访问<br>2、DataFrame与Dataset一般与spark ml同时使用<br>3、DataFrame与Dataset均支持sparksql的操作，比如select，groupby之类，还能注册临时表/视窗，进行sql语句操作，如<br>dataDF.createOrReplaceTempView(“tmp”)<br>spark.sql(“select  ROW,DATE from tmp where DATE is not null order by DATE”).show(100,false)<br>4、DataFrame与Dataset支持一些特别方便的保存方式，比如保存成csv，可以带上表头，这样每一列的字段名一目了然</p>
+<p>Dataset:</p>
+<p>Dataset和DataFrame拥有完全相同的成员函数，区别只是每一行的数据类型不同。<br>DataFrame也可以叫Dataset[Row],每一行的类型是Row，不解析，每一行究竟有哪些字段，各个字段又是什么类型都无从得知，只能用上面提到的getAS方法或者共性中的第七条提到的模式匹配拿出特定字段</p>
+<p>而Dataset中，每一行是什么类型是不一定的，在自定义了case class之后可以很自由的获得每一行的信息</p>
+<p>Dataset在需要访问列中的某个字段时是非常方便的，然而，如果要写一些适配性很强的函数时，如果使用Dataset，行的类型又不确定，可能是各种case class，无法实现适配，这时候用DataFrame即Dataset[Row]就能比较好的解决问题</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/10/15/bigdata-33（2）/" data-id="ck1rv8anm002bscvjov7hpt1p" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "Spark SQL概述",
+        "image": "http://yoursite.com",
+        "keywords": "Spark",
+        "genre": "大数据",
+        "datePublished": "2019-10-15",
+        "dateCreated": "2019-10-15",
+        "dateModified": "2019-10-15",
+        "url": "http://yoursite.com/2019/10/15/bigdata-33（2）/",
+        "description": "大数据学习第33天（2）
 Spark SQLSpark SQL是Spark用来处理结构化数据的一个模块，它提供了一个编程抽象叫做DataFrame并且作为分布式SQL查询引擎的作用。
 RDD vs DataFrames vs DataSetRDD
 RDD是一个懒执行的不可变的可以支持Lambda表达式的并行数据集合。
 RDD的最大好处就是简单，API的人性化程度很高。
-RDD的劣势是性能限制，它是
-        </p>
-    </div>
+RDD的劣势是性能限制，它是"
+        "wordCount": 67
+    }
+</script>
+
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/15/bigdata-34/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/15/bigdata-34/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2019-10-15T12:57:47.000Z" itemprop="datePublished">2019-10-15</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/15/bigdata-34/">bigdata-34</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
     
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/15/bigdata-33/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/15/bigdata-33/">0</span>
-    
-</span>
+    </section>
 
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-15T12:44:39.000Z" itemprop="datePublished">2019-10-15</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/15/bigdata-33/">Spark读取数据库</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第33天（1）
-关系型数据库连接支持通过Java JDBC访问关系型数据库。需要通过JdbcRDD进行，示例如下:
-Mysql读取：
-12345678910111213141516171819202122232425import org.apache.spark.&#123;SparkConf, SparkContext&#125;object JdbaReadDemo &#123;  
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/14/bigdata-32/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/14/bigdata-32/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-14T13:53:11.000Z" itemprop="datePublished">2019-10-14</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/14/bigdata-32/">Spark Action算子和累加器</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第32天
-Spark Action算子1 reduce(func)
-通过func函数聚集RDD中的所有元素，这个功能时可交换且可并联的
-
-1234567val rdd1 = sc.makeRDD(1 to 10,2)val res1 = rdd1.reduce(_+_)println(res1)val rdd2 = sc.makeRDD(Array(("a",1),("a",3),("c
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/12/bigdata-31/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/12/bigdata-31/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-12T11:38:47.000Z" itemprop="datePublished">2019-10-12</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/12/bigdata-31/">Spark Transformation算子学习（2）</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第31天
-
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/11/diary-1/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/2019/10/11/diary-1/1.jpg)" alt="《从你的全世界路过》观后感" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/11/diary-1/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/随笔/">随笔</a>
-            </div>
-            <div class="date"><time datetime="2019-10-11T15:02:41.000Z" itemprop="datePublished">2019-10-11</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/11/diary-1/">《从你的全世界路过》观后感</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            《从你的全世界路过》观后感前几天刷知乎刷到了一篇文章，解读《从你的全世界路过》，文章没怎么看，但是想看电影了。
-正好今天老师讲课内容少，于是偷闲又刷了一遍电影。
-
-《从你的全世界路过》讲述的是3个人的爱情故事，分别代表了3种不同的爱情。关于茅十八和荔枝的故事我没看出想表达点什么，貌似就是本来两个人相亲相爱然后被人祸夺走了爱情的故事。就说说猪头和陈末的故事。然而我并没有谈过恋爱，某些解读也只能靠猜。
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/11/bigdata-30/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/11/bigdata-30/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-11T14:59:52.000Z" itemprop="datePublished">2019-10-11</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/11/bigdata-30/">Spark Transformation算子学习（1）</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第30天
-1 map(func)1234567891011121314151617181920import org.apache.spark.&#123;SparkConf, SparkContext&#125;/**  * map(func) 返回一个新的RDD，该RDD由每一个输入元素经过func函数转换组成  *  * map 将原来的RDD的每个数据项通过map中的用户自定义的函
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/11/firstTable/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/11/firstTable/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2019-10-11T03:47:20.000Z" itemprop="datePublished">2019-10-11</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/11/firstTable/">firstTable</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            
-
-第一
-第二
-
-
-第三
-第四
-
-
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/10/bigdata-29/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/10/bigdata-29/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-10T13:39:24.000Z" itemprop="datePublished">2019-10-10</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/10/bigdata-29/">Spark的概述与安装</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第29天
-SparkSpark是一种大数据的计算引擎，Spark具有MapReduce的优点，但是Spark的计算结果保存在内存中，所以速度比MapReduce快，且Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。
-Spark安装解压配置登录Spark管理界面查看集群状态（主节点）：http://hadoop011:8080/配置好需要分发到其他主机上。
-
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/09/bigdata-28/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/09/bigdata-28/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-09T11:34:26.000Z" itemprop="datePublished">2019-10-09</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/09/bigdata-28/">类型参数和Akka实例</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第28天
-类型参数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
-
-    <nav id="page-nav">
-        <span class="pages">第 1 页，共 5 页</span>
-        <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/2/">&raquo;</a>
-    </nav>
 
 
                         </div>
@@ -698,6 +344,19 @@ Spark安装解压配置登录Spark管理界面查看集群状态（主节点）�
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/10/15/bigdata-34/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">bigdata-34</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -910,11 +569,13 @@ Spark安装解压配置登录Spark管理界面查看集群状态（主节点）�
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'http://yoursite.com/2019/10/15/bigdata-33（2）/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>

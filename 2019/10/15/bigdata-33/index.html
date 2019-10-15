@@ -6,26 +6,24 @@
     
 
     
-    <title>Hbase的数据结构与原理 | 徐栋梁的博客</title>
+    <title>Spark读取数据库 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="Hbase">
+        <meta name="keywords" content="Spark">
     
-    <meta name="description" content="大数据学习第18天 HBase数据结构1 RowKey与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式： 1.通过单个RowKey访问(get) 2.通过RowKey的range（正则）(like) 3.全表扫描(scan)RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)">
-<meta name="keywords" content="Hbase">
+    <meta name="description" content="大数据学习第33天（1） 关系型数据库连接支持通过Java JDBC访问关系型数据库。需要通过JdbcRDD进行，示例如下: Mysql读取： 12345678910111213141516171819202122232425import org.apache.spark.&amp;#123;SparkConf, SparkContext&amp;#125;object JdbaReadDemo &amp;#123;">
+<meta name="keywords" content="Spark">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hbase的数据结构与原理">
-<meta property="og:url" content="http://yoursite.com/2019/09/19/bigdata-18/index.html">
+<meta property="og:title" content="Spark读取数据库">
+<meta property="og:url" content="http://yoursite.com/2019/10/15/bigdata-33/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据学习第18天 HBase数据结构1 RowKey与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式： 1.通过单个RowKey访问(get) 2.通过RowKey的range（正则）(like) 3.全表扫描(scan)RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)">
+<meta property="og:description" content="大数据学习第33天（1） 关系型数据库连接支持通过Java JDBC访问关系型数据库。需要通过JdbcRDD进行，示例如下: Mysql读取： 12345678910111213141516171819202122232425import org.apache.spark.&amp;#123;SparkConf, SparkContext&amp;#125;object JdbaReadDemo &amp;#123;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/09/19/bigdata-18/1.jpg">
-<meta property="og:updated_time" content="2019-09-24T12:08:24.771Z">
+<meta property="og:updated_time" content="2019-10-15T12:57:02.055Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hbase的数据结构与原理">
-<meta name="twitter:description" content="大数据学习第18天 HBase数据结构1 RowKey与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式： 1.通过单个RowKey访问(get) 2.通过RowKey的range（正则）(like) 3.全表扫描(scan)RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)">
-<meta name="twitter:image" content="http://yoursite.com/2019/09/19/bigdata-18/1.jpg">
+<meta name="twitter:title" content="Spark读取数据库">
+<meta name="twitter:description" content="大数据学习第33天（1） 关系型数据库连接支持通过Java JDBC访问关系型数据库。需要通过JdbcRDD进行，示例如下: Mysql读取： 12345678910111213141516171819202122232425import org.apache.spark.&amp;#123;SparkConf, SparkContext&amp;#125;object JdbaReadDemo &amp;#123;">
     
 
     
@@ -139,14 +137,14 @@
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-bigdata-18" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-bigdata-33" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        Hbase的数据结构与原理
+        Spark读取数据库
         </h1>
     
 
@@ -156,8 +154,8 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2019/09/19/bigdata-18/" class="article-date">
-            <time datetime="2019-09-19T14:14:21.000Z" itemprop="datePublished">2019-09-19</time>
+        <a href="/2019/10/15/bigdata-33/" class="article-date">
+            <time datetime="2019-10-15T12:44:39.000Z" itemprop="datePublished">2019-10-15</time>
         </a>
     </div>
 
@@ -166,28 +164,37 @@
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Hbase/">Hbase</a>
+        <a class="tag-link" href="/tags/Spark/">Spark</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>大数据学习第18天</p>
-<h2 id="HBase数据结构"><a href="#HBase数据结构" class="headerlink" title="HBase数据结构"></a>HBase数据结构</h2><h4 id="1-RowKey"><a href="#1-RowKey" class="headerlink" title="1 RowKey"></a>1 RowKey</h4><p>与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式：</p>
-<pre><code>1.通过单个RowKey访问(get)
-2.通过RowKey的range（正则）(like)
-3.全表扫描(scan)</code></pre><p>RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)，在HBASE内部，RowKey保存为字节数组。<br>存储时，数据按照RowKey的字典序(byte order)排序存储。设计RowKey时，要充分利用排序存储这个特性，将经常一起读取的行存储放到一起。(位置相关性)</p>
-<h4 id="2-Column-Family"><a href="#2-Column-Family" class="headerlink" title="2 Column Family"></a>2 Column Family</h4><p>列族：HBASE表中的每个列，都归属于某个列族。列族是表的schema的一部 分(而列不是)，必须在使用表之前定义。列名都以列族作为前缀。<br>例如 courses:history，courses:math都属于courses 这个列族。</p>
-<h4 id="3-Cell"><a href="#3-Cell" class="headerlink" title="3 Cell"></a>3 Cell</h4><p>由{rowkey, column Family:columu, version} 唯一确定的单元。cell中的数据是没有类型的，全部是字节码形式存贮。<br>关键字：无类型、字节码</p>
-<h4 id="4-Time-Stamp"><a href="#4-Time-Stamp" class="headerlink" title="4 Time Stamp"></a>4 Time Stamp</h4><p>HBASE 中通过rowkey和columns确定的为一个存贮单元称为cell。每个 cell都保存 着同一份数据的多个版本。版本通过时间戳来索引。时间戳的类型是 64位整型。<br>时间戳可以由HBASE(在数据写入时自动 )赋值，此时时间戳是精确到毫秒 的当前系统时间。<br>时间戳也可以由客户显式赋值。如果应用程序要避免数据版 本冲突，就必须自己生成具有唯一性的时间戳。每个 cell中，不同版本的数据按照时间倒序排序，即最新的数据排在最前面。<br>为了避免数据存在过多版本造成的的管理 (包括存贮和索引)负担，HBASE提供 了两种数据版本回收方式。<br>一是保存数据的最后n个版本，二是保存最近一段 时间内的版本（比如最近七天）。用户可以针对每个列族进行设置。</p>
-<h4 id="5-命名空间"><a href="#5-命名空间" class="headerlink" title="5 命名空间"></a>5 命名空间</h4><p>命名空间的结构:<br> <img src="/2019/09/19/bigdata-18/1.jpg" alt><br>1) Table：表，所有的表都是命名空间的成员，即表必属于某个命名空间，如果没有指定，则在default默认的命名空间中。<br>2) RegionServer group：一个命名空间包含了默认的RegionServer Group。<br>3) Permission：权限，命名空间能够让我们来定义访问控制列表ACL（Access Control List）。例如，创建表，读取表，删除，更新等等操作。<br>4) Quota：限额，可以强制一个命名空间可包含的region的数量。</p>
-<h2 id="Base原理"><a href="#Base原理" class="headerlink" title="Base原理"></a>Base原理</h2><h4 id="1-读流程"><a href="#1-读流程" class="headerlink" title="1 读流程"></a>1 读流程</h4><p>HBase读数据流程如图3所示<br>  <img src="/2019/09/19/bigdata-18/2.jpg" alt></p>
-<p>1）Client先访问zookeeper，从meta表读取region的位置，meta表存储了用户表的region信息；<br>2）根据namespace、表名和rowkey在meta表中找到对应的region信息；<br>3）找到这个region对应的regionserver；<br>4）查找对应的region；<br>5）先从MemStore找数据，如果没有，再到BlockCache里面读；<br>6）BlockCache还没有，再到StoreFile上读(为了读取的效率)；<br>7）如果是从StoreFile里面读取的数据，不是直接返回给客户端，而是先写入BlockCache，再返回给客户端。</p>
-<h4 id="2-写流程"><a href="#2-写流程" class="headerlink" title="2 写流程"></a>2 写流程</h4><p>Hbase写流程如图2所示<br>  <img src="/2019/09/19/bigdata-18/3.jpg" alt></p>
-<p>1）Client向HregionServer发送写请求；<br>2）HregionServer将数据写到HLog（write ahead log）。为了数据的持久化和恢复；<br>3）HregionServer将数据写到内存（MemStore）；<br>4）反馈Client写成功。</p>
-<h4 id="3-数据flush过程"><a href="#3-数据flush过程" class="headerlink" title="3 数据flush过程"></a>3 数据flush过程</h4><p>1）当MemStore数据达到阈值（默认是128M，老版本是64M），将数据刷到硬盘，将内存中的数据删除，同时删除HLog中的历史数据；<br>2）并将数据存储到HDFS中；<br>3）在HLog中做标记点。</p>
-<h4 id="4-数据合并过程"><a href="#4-数据合并过程" class="headerlink" title="4 数据合并过程"></a>4 数据合并过程</h4><p>1）当数据块达到3块，Hmaster触发合并操作，Region将数据块加载到本地，进行合并；<br>2）当合并的数据超过256M，进行拆分，将拆分后的Region分配给不同的HregionServer管理；<br>3）当HregionServer宕机后，将HregionServer上的hlog拆分，然后分配给不同的HregionServer加载，修改.META.；<br>4）注意：HLog会同步到HDFS。</p>
+            <p>大数据学习第33天（1）</p>
+<h2 id="关系型数据库连接"><a href="#关系型数据库连接" class="headerlink" title="关系型数据库连接"></a>关系型数据库连接</h2><p>支持通过Java JDBC访问关系型数据库。需要通过JdbcRDD进行，示例如下:</p>
+<p>Mysql读取：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">object JdbaReadDemo &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf().setMaster(<span class="string">"local[2]"</span>).setAppName(<span class="string">"JdbcApp"</span>)</span><br><span class="line">    val sc = new SparkContext(conf);sc.setLogLevel(<span class="string">"WARN"</span>)</span><br><span class="line"></span><br><span class="line">    //mysql读取</span><br><span class="line">    val rdd1 = new org.apache.spark.rdd.JdbcRDD(</span><br><span class="line">      sc,</span><br><span class="line">      () =&gt; &#123;</span><br><span class="line">        Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>).newInstance()</span><br><span class="line">        java.sql.DriverManager.getConnection(<span class="string">"jdbc:mysql://192.168.164.15:3306/rdd"</span>,<span class="string">"root"</span>,<span class="string">"root"</span>)</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"select * from person where id &gt;= ? and id &lt;= ?;"</span>,</span><br><span class="line">      1,</span><br><span class="line">      10,</span><br><span class="line">      1,</span><br><span class="line">      row =&gt; (row.getInt(1),row.getString(2))</span><br><span class="line">    )</span><br><span class="line">    println(rdd1.count())</span><br><span class="line">    rdd1.foreach(println(_))</span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JdbcRDD接收这样几个参数</p>
+<ul>
+<li><p>首先，要提供一个用于对数据库创建连接的函数。这个函数让每个节点在连接在连接必要的配置后创建自己读取数据的连接。</p>
+</li>
+<li><p>接下来，要提供一个可以读取一定范围内数据的查询，以及查询参数中lowerBound和upperBound的值。这些参数可以让Spark在不同的机器上查询不同范围的数据，这样就不会因尝试在一个节点上读取所有数据而遭遇性能的瓶颈。</p>
+</li>
+<li><p>这个函数的最后一个参数时一个可以将输出结果从转为对操作数据有用的格式的函数。如果这个参数空缺，Spark自动将每行结果转为一个对象数组。</p>
+</li>
+</ul>
+<p>Mysql写入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">object JdbcWriteDemo &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf().setMaster(<span class="string">"local[2]"</span>).setAppName(<span class="string">"JdbcApp"</span>)</span><br><span class="line">    val sc = new SparkContext(conf);sc.setLogLevel(<span class="string">"WARN"</span>)</span><br><span class="line"></span><br><span class="line">    val data = sc.parallelize(List(<span class="string">"Lwx"</span>,<span class="string">"wxz"</span>,<span class="string">"zhaoxin"</span>,<span class="string">"qinggangying"</span>))</span><br><span class="line">    data.foreachPartition(insertData)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  def insertData(iterator: Iterator[String]): Unit =&#123;</span><br><span class="line">    Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>).newInstance()</span><br><span class="line">    val conn = java.sql.DriverManager.getConnection(<span class="string">"jdbc:mysql://192.168.164.15:3306/rdd"</span>,<span class="string">"root"</span>,<span class="string">"root"</span>)</span><br><span class="line">    iterator.foreach(</span><br><span class="line">      data =&gt; &#123;</span><br><span class="line">        val ps = conn.prepareStatement(<span class="string">"insert into person (name) values (?)"</span>)</span><br><span class="line">        ps.setString(1,data)</span><br><span class="line">        ps.executeUpdate()</span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="HBase数据库"><a href="#HBase数据库" class="headerlink" title="HBase数据库"></a>HBase数据库</h2><p>由于 org.apache.hadoop.hbase.mapreduce.TableInputFormat 类的实现，Spark 可以通过Hadoop输入格式访问HBase。这个输入格式会返回键值对数据，其中键的类型为org. apache.hadoop.hbase.io.ImmutableBytesWritable，而值的类型为org.apache.hadoop.hbase.client.Result。 </p>
+<p>HBase读取：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def main(args: Array[String]) &#123;</span><br><span class="line">  val sparkConf = new SparkConf().setMaster(<span class="string">"local[2]"</span>).setAppName(<span class="string">"HBaseApp"</span>)</span><br><span class="line">  val sc = new SparkContext(sparkConf)</span><br><span class="line"></span><br><span class="line">  val conf = HBaseConfiguration.create()</span><br><span class="line">  //HBase中的表名</span><br><span class="line">  conf.set(TableInputFormat.INPUT_TABLE, <span class="string">"fruit"</span>)</span><br><span class="line"></span><br><span class="line">  val hBaseRDD = sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],</span><br><span class="line">    classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],</span><br><span class="line">    classOf[org.apache.hadoop.hbase.client.Result])</span><br><span class="line"></span><br><span class="line">  val count = hBaseRDD.count()</span><br><span class="line">  println(<span class="string">"hBaseRDD RDD Count:"</span>+ count)</span><br><span class="line">  hBaseRDD.cache()</span><br><span class="line">  hBaseRDD.foreach &#123;</span><br><span class="line">    <span class="keyword">case</span> (_, result) =&gt;</span><br><span class="line">      val key = Bytes.toString(result.getRow)</span><br><span class="line">      val name = Bytes.toString(result.getValue(<span class="string">"info"</span>.getBytes, <span class="string">"name"</span>.getBytes))</span><br><span class="line">      val color = Bytes.toString(result.getValue(<span class="string">"info"</span>.getBytes, <span class="string">"color"</span>.getBytes))</span><br><span class="line">      println(<span class="string">"Row key:"</span> + key + <span class="string">" Name:"</span> + name + <span class="string">" Color:"</span> + color)</span><br><span class="line">  &#125;</span><br><span class="line">  sc.stop()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>HBase写入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">def main(args: Array[String]) &#123;</span><br><span class="line">  val sparkConf = new SparkConf().setMaster(<span class="string">"local[2]"</span>).setAppName(<span class="string">"HBaseApp"</span>)</span><br><span class="line">  val sc = new SparkContext(sparkConf)</span><br><span class="line"></span><br><span class="line">  val conf = HBaseConfiguration.create()</span><br><span class="line">  val jobConf = new JobConf(conf)</span><br><span class="line">  jobConf.setOutputFormat(classOf[TableOutputFormat])</span><br><span class="line">  jobConf.set(TableOutputFormat.OUTPUT_TABLE, <span class="string">"fruit_spark"</span>)</span><br><span class="line"></span><br><span class="line">  val fruitTable = TableName.valueOf(<span class="string">"fruit_spark"</span>)</span><br><span class="line">  val tableDescr = new HTableDescriptor(fruitTable)</span><br><span class="line">  tableDescr.addFamily(new HColumnDescriptor(<span class="string">"info"</span>.getBytes))</span><br><span class="line"></span><br><span class="line">  val admin = new HBaseAdmin(conf)</span><br><span class="line">  <span class="keyword">if</span> (admin.tableExists(fruitTable)) &#123;</span><br><span class="line">    admin.disableTable(fruitTable)</span><br><span class="line">    admin.deleteTable(fruitTable)</span><br><span class="line">  &#125;</span><br><span class="line">  admin.createTable(tableDescr)</span><br><span class="line"></span><br><span class="line">  def convert(triple: (Int, String, Int)) = &#123;</span><br><span class="line">    val put = new Put(Bytes.toBytes(triple._1))</span><br><span class="line">    put.addImmutable(Bytes.toBytes(<span class="string">"info"</span>), Bytes.toBytes(<span class="string">"name"</span>), Bytes.toBytes(triple._2))</span><br><span class="line">    put.addImmutable(Bytes.toBytes(<span class="string">"info"</span>), Bytes.toBytes(<span class="string">"price"</span>), Bytes.toBytes(triple._3))</span><br><span class="line">    (new ImmutableBytesWritable, put)</span><br><span class="line">  &#125;</span><br><span class="line">  val initialRDD = sc.parallelize(List((1,<span class="string">"apple"</span>,11), (2,<span class="string">"banana"</span>,12), (3,<span class="string">"pear"</span>,13)))</span><br><span class="line">  val localData = initialRDD.map(convert)</span><br><span class="line"></span><br><span class="line">  localData.saveAsHadoopDataset(jobConf)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
         </div>
         <footer class="article-footer">
@@ -195,7 +202,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/09/19/bigdata-18/" data-id="ck1rv8an3001ascvjzm38wxk9" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/10/15/bigdata-33/" data-id="ck1rv8anj0025scvj9289k24j" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -265,20 +272,19 @@
             "@type": "Person",
             "name": "徐栋梁"
         },
-        "headline": "Hbase的数据结构与原理",
-        "image": "http://yoursite.com/2019/09/19/bigdata-18/1.jpg",
-        "keywords": "Hbase",
+        "headline": "Spark读取数据库",
+        "image": "http://yoursite.com",
+        "keywords": "Spark",
         "genre": "大数据",
-        "datePublished": "2019-09-19",
-        "dateCreated": "2019-09-19",
-        "dateModified": "2019-09-24",
-        "url": "http://yoursite.com/2019/09/19/bigdata-18/",
-        "description": "大数据学习第18天
-HBase数据结构1 RowKey与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式：
-1.通过单个RowKey访问(get)
-2.通过RowKey的range（正则）(like)
-3.全表扫描(scan)RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)"
-        "wordCount": 110
+        "datePublished": "2019-10-15",
+        "dateCreated": "2019-10-15",
+        "dateModified": "2019-10-15",
+        "url": "http://yoursite.com/2019/10/15/bigdata-33/",
+        "description": "大数据学习第33天（1）
+关系型数据库连接支持通过Java JDBC访问关系型数据库。需要通过JdbcRDD进行，示例如下:
+Mysql读取：
+12345678910111213141516171819202122232425import org.apache.spark.&#123;SparkConf, SparkContext&#125;object JdbaReadDemo &#123;  "
+        "wordCount": 761
     }
 </script>
 
@@ -334,20 +340,20 @@ HBase数据结构1 RowKey与nosql数据库们一样,RowKey是用来检索记录�
         
 <nav id="article-nav">
     
-        <a href="/2019/09/20/bigdata-19/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2019/10/15/bigdata-34/" id="article-nav-newer" class="article-nav-link-wrap">
         <strong class="article-nav-caption">下一篇</strong>
         <p class="article-nav-title">
         
-            Hbase“微博小项目”——代码实现
+            bigdata-34
         
         </p>
         <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
     </a>
     
     
-        <a href="/2019/09/18/bigdata-17/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2019/10/14/bigdata-32/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">Hbase的API操作</p>
+        <p class="article-nav-title">Spark Action算子和累加器</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -565,7 +571,7 @@ HBase数据结构1 RowKey与nosql数据库们一样,RowKey是用来检索记录�
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'http://yoursite.com/2019/09/19/bigdata-18/';
+    var disqus_url = 'http://yoursite.com/2019/10/15/bigdata-33/';
     
     (function() {
     var dsq = document.createElement('script');
