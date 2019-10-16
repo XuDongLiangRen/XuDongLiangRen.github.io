@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>SparkSQL解析 | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Spark">
+    
+    <meta name="description" content="大数据学习第34天（1） Sqark解析新的起始点SparkSession在老的版本中，SparkSQL提供了两种SQL查询起始点，一个叫SQLContext，用于SPark自己提供的SQL查询，一个叫HiveContext，用于连接Hive的查询。SparkSession是Spark最新的查询起始点，实质上是SQLContext和HiveContext的组合，所以在SQLContext和Hive">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SparkSQL解析">
+<meta property="og:url" content="http://yoursite.com/2019/10/16/bigdata-34/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第34天（1） Sqark解析新的起始点SparkSession在老的版本中，SparkSQL提供了两种SQL查询起始点，一个叫SQLContext，用于SPark自己提供的SQL查询，一个叫HiveContext，用于连接Hive的查询。SparkSession是Spark最新的查询起始点，实质上是SQLContext和HiveContext的组合，所以在SQLContext和Hive">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-16T12:21:15.230Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SparkSQL解析">
+<meta name="twitter:description" content="大数据学习第34天（1） Sqark解析新的起始点SparkSession在老的版本中，SparkSQL提供了两种SQL查询起始点，一个叫SQLContext，用于SPark自己提供的SQL查询，一个叫HiveContext，用于连接Hive的查询。SparkSession是Spark最新的查询起始点，实质上是SQLContext和HiveContext的组合，所以在SQLContext和Hive">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/大数据/">大数据</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/随笔/">随笔</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-34" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        SparkSQL解析
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/10/16/bigdata-34/" class="article-date">
+            <time datetime="2019-10-16T09:57:47.000Z" itemprop="datePublished">2019-10-16</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Spark/">Spark</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第34天（1）</p>
+<h2 id="Sqark解析"><a href="#Sqark解析" class="headerlink" title="Sqark解析"></a>Sqark解析</h2><h3 id="新的起始点SparkSession"><a href="#新的起始点SparkSession" class="headerlink" title="新的起始点SparkSession"></a>新的起始点SparkSession</h3><p>在老的版本中，SparkSQL提供了两种SQL查询起始点，一个叫SQLContext，用于SPark自己提供的SQL查询，一个叫HiveContext，用于连接Hive的查询。<br>SparkSession是Spark最新的查询起始点，实质上是SQLContext和HiveContext的组合，所以在SQLContext和HiveContext上的API在SparkSession上同样是可以使用的。SparkSession内部封装了sparkContext，所以计算实际上的又sparkContext完成的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.sql.SparkSession</span><br><span class="line"></span><br><span class="line">val spark = SparkSession</span><br><span class="line">.builder()</span><br><span class="line">.appName(<span class="string">"Spark SQL basic example"</span>)</span><br><span class="line">.config(<span class="string">"spark.some.config.option"</span>, <span class="string">"some-value"</span>)</span><br><span class="line">[.enableHiveSupport()]</span><br><span class="line">.getOrCreate()</span><br><span class="line"></span><br><span class="line">// For implicit conversions like converting RDDs to DataFrames</span><br><span class="line">import spark.implicits._</span><br></pre></td></tr></table></figure>
+
+<p>SparkSession.builder用于创建一个SparkSession<br>import spark.implicits._ 的引入是用于将DataFrames隐式转换为RDD。使df能够使用RDD中的方法。</p>
+<p>.enableHiveSupport()用于支持Hive。</p>
+<h3 id="创建DataFrams"><a href="#创建DataFrams" class="headerlink" title="创建DataFrams"></a>创建DataFrams</h3><p>在Spark SQL中SparkSession是创建DataFrames和执行SQL的入口，创建DataFrames有3种方式：</p>
+<ul>
+<li>从其他RDD转换而来</li>
+<li>从Hive Table进行查询返回</li>
+<li>通过Spark的数据源创建</li>
+</ul>
+<p>从Spark数据源进行创建：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val df = spark.read.json(<span class="string">"examples/src/main/resources/people.json"</span>)</span><br><span class="line">df.show()</span><br></pre></td></tr></table></figure>
+
+<p>从RDD创建：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val peopleRdd = sc.textFile(<span class="string">"examples/src/main/resources/people.txt"</span>)</span><br><span class="line">scala&gt; val peopleDF3 = peopleRdd.map(_.split(<span class="string">","</span>)).map(paras =&gt; (paras(0),paras(1).trim().toInt)).toDF(<span class="string">"name"</span>,<span class="string">"age"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Hive请移步下一篇。</p>
+<h3 id="DataFrames常用操作"><a href="#DataFrames常用操作" class="headerlink" title="DataFrames常用操作"></a>DataFrames常用操作</h3><h4 id="DSL风格语法"><a href="#DSL风格语法" class="headerlink" title="DSL风格语法"></a>DSL风格语法</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">import spark.implicits._</span><br><span class="line">// Print the schema <span class="keyword">in</span> a tree format</span><br><span class="line">df.printSchema()</span><br><span class="line">// root</span><br><span class="line">// |-- age: long (nullable = <span class="literal">true</span>)</span><br><span class="line">// |-- name: string (nullable = <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">// Select only the <span class="string">"name"</span> column</span><br><span class="line">df.select(<span class="string">"name"</span>).show()</span><br><span class="line">// +-------+</span><br><span class="line">// |   name|</span><br><span class="line">// +-------+</span><br><span class="line">// |Michael|</span><br><span class="line">// |   Andy|</span><br><span class="line">// | Justin|</span><br><span class="line">// +-------+</span><br><span class="line"></span><br><span class="line">// Select everybody, but increment the age by 1</span><br><span class="line">df.select($<span class="string">"name"</span>, $<span class="string">"age"</span> + 1).show()</span><br><span class="line">// +-------+---------+</span><br><span class="line">// |   name|(age + 1)|</span><br><span class="line">// +-------+---------+</span><br><span class="line">// |Michael|     null|</span><br><span class="line">// |   Andy|       31|</span><br><span class="line">// | Justin|       20|</span><br><span class="line">// +-------+---------+</span><br><span class="line"></span><br><span class="line">// Select people older than 21</span><br><span class="line">df.filter($<span class="string">"age"</span> &gt; 21).show()</span><br><span class="line">// +---+----+</span><br><span class="line">// |age|name|</span><br><span class="line">// +---+----+</span><br><span class="line">// | 30|Andy|</span><br><span class="line">// +---+----+</span><br><span class="line"></span><br><span class="line">// Count people by age</span><br><span class="line">df.groupBy(<span class="string">"age"</span>).count().show()</span><br><span class="line">// +----+-----+</span><br><span class="line">// | age|count|</span><br><span class="line">// +----+-----+</span><br><span class="line">// |  19|    1|</span><br><span class="line">// |null|    1|</span><br><span class="line">// |  30|    1|</span><br><span class="line">// +----+-----+</span><br></pre></td></tr></table></figure>
+
+<h4 id="SQL风格语法"><a href="#SQL风格语法" class="headerlink" title="SQL风格语法"></a>SQL风格语法</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">// Register the DataFrame as a SQL temporary view</span><br><span class="line">df.createOrReplaceTempView(<span class="string">"people"</span>)</span><br><span class="line"></span><br><span class="line">val sqlDF = spark.sql(<span class="string">"SELECT * FROM people"</span>)</span><br><span class="line">sqlDF.show()</span><br><span class="line">// +----+-------+</span><br><span class="line">// | age|   name|</span><br><span class="line">// +----+-------+</span><br><span class="line">// |null|Michael|</span><br><span class="line">// |  30|   Andy|</span><br><span class="line">// |  19| Justin|</span><br><span class="line">// +----+-------+</span><br><span class="line"></span><br><span class="line">// Register the DataFrame as a global temporary view</span><br><span class="line">df.createGlobalTempView(<span class="string">"people"</span>)</span><br><span class="line"></span><br><span class="line">// Global temporary view is tied to a system preserved database `global_temp`</span><br><span class="line">spark.sql(<span class="string">"SELECT * FROM global_temp.people"</span>).show()</span><br><span class="line">// +----+-------+</span><br><span class="line">// | age|   name|</span><br><span class="line">// +----+-------+</span><br><span class="line">// |null|Michael|</span><br><span class="line">// |  30|   Andy|</span><br><span class="line">// |  19| Justin|</span><br><span class="line">// +----+-------+</span><br><span class="line"></span><br><span class="line">// Global temporary view is cross-session</span><br><span class="line">spark.newSession().sql(<span class="string">"SELECT * FROM global_temp.people"</span>).show()</span><br><span class="line">// +----+-------+</span><br><span class="line">// | age|   name|</span><br><span class="line">// +----+-------+</span><br><span class="line">// |null|Michael|</span><br><span class="line">// |  30|   Andy|</span><br><span class="line">// |  19| Justin|</span><br><span class="line">// +----+-------+</span><br></pre></td></tr></table></figure>
+
+<p>createGlobalTempView是创建临时视图，创建的视图只在本次会话作用，Session退出后，表就失效了。<br>如果想应用范围内有效，可以使用全局表。注意使用全局表时需要全路径访问，如：global_temp.people</p>
+<h3 id="创建DataSet"><a href="#创建DataSet" class="headerlink" title="创建DataSet"></a>创建DataSet</h3><p>DataSet是具有强类型的数据集合，需要提供对应的类型信息。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> class Person(name: String, age: Long)</span><br><span class="line"></span><br><span class="line">// Encoders are created <span class="keyword">for</span> <span class="keyword">case</span> classes</span><br><span class="line">val caseClassDS = Seq(Person(<span class="string">"Andy"</span>, 32)).toDS()</span><br><span class="line">caseClassDS.show()</span><br><span class="line">// +----+---+</span><br><span class="line">// |name|age|</span><br><span class="line">// +----+---+</span><br><span class="line">// |Andy| 32|</span><br><span class="line">// +----+---+</span><br><span class="line"></span><br><span class="line">// Encoders <span class="keyword">for</span> most common types are automatically provided by importing spark.implicits._</span><br><span class="line">val primitiveDS = Seq(1, 2, 3).toDS()</span><br><span class="line">primitiveDS.map(_ + 1).collect() // Returns: Array(2, 3, 4)</span><br><span class="line"></span><br><span class="line">// DataFrames can be converted to a Dataset by providing a class. Mapping will be <span class="keyword">done</span> by name</span><br><span class="line">val path = <span class="string">"examples/src/main/resources/people.json"</span></span><br><span class="line">val peopleDS = spark.read.json(path).as[Person]</span><br><span class="line">peopleDS.show()</span><br><span class="line">// +----+-------+</span><br><span class="line">// | age|   name|</span><br><span class="line">// +----+-------+</span><br><span class="line">// |null|Michael|</span><br><span class="line">// |  30|   Andy|</span><br><span class="line">// |  19| Justin|</span><br><span class="line">// +----+-------+</span><br></pre></td></tr></table></figure>
+
+<h3 id="DataSet和RDD互操作"><a href="#DataSet和RDD互操作" class="headerlink" title="DataSet和RDD互操作"></a>DataSet和RDD互操作</h3><p>Spark SQL支持通过两种方式将存在的RDD转换为DataSet，转换的过程种需要让Dataset获取RDD种的Schema信息，主要有良种方式；<br>一种是通过反射来获取RDD种的Schema信息。这种方式适合于列名一直的情况下。<br>第二种是通过编程接口的方式将Schema信息应用于RDD，这种方式可以处理那种运行时才能知道列的方式。</p>
+<h4 id="通过反射获取Schema"><a href="#通过反射获取Schema" class="headerlink" title="通过反射获取Schema"></a>通过反射获取Schema</h4><p>SparkSQL能够自动将包含有case类的RDD转换成DataFrame，case类定义了table的结构，case类属性通过反射变成了表的列名。case类可以包含诸如Seqs或者Array等结构。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> class Person(name: String, age: Long)</span><br><span class="line"></span><br><span class="line">//隐式转换RDD为DataFrames</span><br><span class="line">import spark.implicits._</span><br><span class="line"></span><br><span class="line">val peopleDF = spark.sparkContext</span><br><span class="line">.textFile(<span class="string">"/src/mian/resources/people.txt"</span>)</span><br><span class="line">.map(_.split(<span class="string">","</span>))</span><br><span class="line">.map(row =&gt; Person(row(0).row(3).trim.toInt))</span><br><span class="line">.toDF</span><br><span class="line"></span><br><span class="line">propleDf.createOrReplaceTempView(<span class="string">"people"</span>)</span><br><span class="line"></span><br><span class="line">val teenagersDF = spark.sql(<span class="string">"SELECT name, age FROM people WHERE age BETWEEN 13 AND 19"</span>)</span><br><span class="line"></span><br><span class="line">teenagersDF.map(teenager =&gt; <span class="string">"Name: "</span> + teenager(0)).show()</span><br><span class="line"></span><br><span class="line">teenagersDF.map(teenager =&gt; <span class="string">"Name: "</span> + teenager.getAs[String](<span class="string">"name"</span>)).show()</span><br><span class="line"></span><br><span class="line">implicit val mapEncoder = org.apache.spark.sql.Encoders.kryo[Map[String, Any]]</span><br><span class="line"></span><br><span class="line">teenagersDF.map(teenager =&gt; teenager.getValuesMap[Any](List(<span class="string">"name"</span>, <span class="string">"age"</span>))).collect()</span><br></pre></td></tr></table></figure>
+
+<h4 id="通过编程设置Schema（StructType）"><a href="#通过编程设置Schema（StructType）" class="headerlink" title="通过编程设置Schema（StructType）"></a>通过编程设置Schema（StructType）</h4><p>如果case类不能够提前定义，可以通过下面3个步骤定义一个DataFrame：</p>
+<ul>
+<li>创建一个多行结构的RDD</li>
+<li>创建用StructType来表示的行结构信息</li>
+<li>通过SparkSession提供的createDataFrame方法来应用Schema</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.sql.type._</span><br><span class="line"></span><br><span class="line">val peopleRDD = spark.sparkContext.textFile(<span class="string">"src/main/resources/people.txt"</span>)</span><br><span class="line"></span><br><span class="line">val schemaString = <span class="string">"name age"</span></span><br><span class="line"></span><br><span class="line">val fields = schemaString.split(<span class="string">" "</span>).map(fielsName =&gt; StructField(fieldName,StringType,nullable = <span class="literal">true</span>))</span><br><span class="line"></span><br><span class="line">val schema = StructType(fields)</span><br><span class="line"></span><br><span class="line">import org.apache.spark.sql._</span><br><span class="line"></span><br><span class="line">val rowRDD = peopleRDD</span><br><span class="line">.map(_.split(<span class="string">","</span>))</span><br><span class="line">.map(row =&gt; Row(row(0),row(1).trim))</span><br><span class="line"></span><br><span class="line">val peopleDF = spark.createDataFrame(rowRDD,schema)</span><br><span class="line"></span><br><span class="line">peopleDF.createOrReplaceTempView(<span class="string">"people"</span>)</span><br><span class="line"></span><br><span class="line">val results = spark.sql(<span class="string">"SELECT name FROM people"</span>)</span><br><span class="line"></span><br><span class="line">results.map(attributes =&gt; <span class="string">"Name: "</span> + attributes().show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型之间的转换总结"><a href="#类型之间的转换总结" class="headerlink" title="类型之间的转换总结"></a>类型之间的转换总结</h3><p>RDD、DataFrame、Dataset三者有许多共性，有各自使用的场景常常需要在三者之间转换</p>
+<ul>
+<li>DataFrame/Dataset转RDD</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val rdd1=testDF.rdd</span><br><span class="line">val rdd2=testDS.rdd</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>RDD转DataFrame</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import spark.implicits._</span><br><span class="line">val testDF = rdd.map &#123;line=&gt;</span><br><span class="line">      (line._1,line._2)</span><br><span class="line">    &#125;.toDF(<span class="string">"col1"</span>,<span class="string">"col2"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>一般用元组把一行数据写在一行，然后在toDF中指定字段名</p>
+<ul>
+<li>RDD转Dataset：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import spark.implicits._</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> class Coltest(col1:String,col2:Int)extends Serializable //定义字段名和类型</span><br><span class="line">val testDS = rdd.map &#123;line=&gt;</span><br><span class="line">      Coltest(line._1,line._2)</span><br><span class="line">    &#125;.toDS</span><br></pre></td></tr></table></figure>
+
+<p>定义每一行的类型（case class）时，已经给出了字段名和类型，后面只要往case class里面添加值即可。</p>
+<ul>
+<li>Dataset转DataFrame：</li>
+</ul>
+<p>case class -&gt; Row</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import spark.implicits._</span><br><span class="line">val testDF = testDS.toDF</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>DataFrame转Dataset：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import spark.implicits._</span><br><span class="line"><span class="keyword">case</span> class Coltest(col1:String,col2:Int)extends Serializable //定义字段名和类型</span><br><span class="line">val testDS = testDF.as[Coltest]</span><br></pre></td></tr></table></figure>
+
+<p>这种方法就是在给出每一列的类型后，使用as方法，转成Dataset，这在数据类型是DataFrame又需要针对各个字段处理时极为方便。<br>在使用一些特殊的操作时，一定要加上 import spark.implicits._ 不然toDF、toDS无法使用</p>
+<h3 id="用户自定义函数"><a href="#用户自定义函数" class="headerlink" title="用户自定义函数"></a>用户自定义函数</h3><h4 id="用户自定义UDF函数"><a href="#用户自定义UDF函数" class="headerlink" title="用户自定义UDF函数"></a>用户自定义UDF函数</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val df = spark.read.json(<span class="string">"examples/src/main/resources/people.json"</span>)</span><br><span class="line">df: org.apache.spark.sql.DataFrame = [age: bigint, name: string]</span><br><span class="line"></span><br><span class="line">scala&gt; df.show()</span><br><span class="line">+----+-------+</span><br><span class="line">| age|   name|</span><br><span class="line">+----+-------+</span><br><span class="line">|null|Michael|</span><br><span class="line">|  30|   Andy|</span><br><span class="line">|  19| Justin|</span><br><span class="line">+----+-------+</span><br><span class="line"></span><br><span class="line">scala&gt; spark.udf.register(<span class="string">"addName"</span>, (x:String)=&gt; <span class="string">"Name:"</span>+x)</span><br><span class="line">res5: org.apache.spark.sql.expressions.UserDefinedFunction = UserDefinedFunction(&lt;function1&gt;,StringType,Some(List(StringType)))</span><br><span class="line"></span><br><span class="line">scala&gt; df.createOrReplaceTempView(<span class="string">"people"</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; spark.sql(<span class="string">"Select addName(name), age from people"</span>).show()</span><br><span class="line">+-----------------+----+</span><br><span class="line">|UDF:addName(name)| age|</span><br><span class="line">+-----------------+----+</span><br><span class="line">|     Name:Michael|null|</span><br><span class="line">|        Name:Andy|  30|</span><br><span class="line">|      Name:Justin|  19|</span><br><span class="line">+-----------------+----+</span><br></pre></td></tr></table></figure>
+
+<h4 id="用户自定义聚合函数"><a href="#用户自定义聚合函数" class="headerlink" title="用户自定义聚合函数"></a>用户自定义聚合函数</h4><p>强类型的Dataset和弱类型的DataFrame都提供了相关的聚合函数，如count(),countDistinct(),avg(),max(),min()。除此之外，用户可以自己设定自己的自定义函数。</p>
+<h5 id="弱类型用户自定义函数"><a href="#弱类型用户自定义函数" class="headerlink" title="弱类型用户自定义函数"></a>弱类型用户自定义函数</h5><p>通过继承UserDefinedAggregateFunction来实现用户自定义聚合函数。下面展示一个求平均工资的自定义聚合函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.sql.expressions.MutableAggregationBuffer</span><br><span class="line">import org.apache.spark.sql.expressions.UserDefinedAggregateFunction</span><br><span class="line">import org.apache.spark.sql.types._</span><br><span class="line">import org.apache.spark.sql.Row</span><br><span class="line">import org.apache.spark.sql.SparkSession</span><br><span class="line"></span><br><span class="line">object MyAverage extends UserDefinedAggregateFunction &#123;</span><br><span class="line">// 聚合函数输入参数的数据类型 </span><br><span class="line">def inputSchema: StructType = StructType(StructField(<span class="string">"inputColumn"</span>, LongType) :: Nil)</span><br><span class="line">// 聚合缓冲区中值得数据类型 </span><br><span class="line">def bufferSchema: StructType = &#123;</span><br><span class="line">StructType(StructField(<span class="string">"sum"</span>, LongType) :: StructField(<span class="string">"count"</span>, LongType) :: Nil)</span><br><span class="line">&#125;</span><br><span class="line">// 返回值的数据类型 </span><br><span class="line">def dataType: DataType = DoubleType</span><br><span class="line">// 对于相同的输入是否一直返回相同的输出。 </span><br><span class="line">def deterministic: Boolean = <span class="literal">true</span></span><br><span class="line">// 初始化</span><br><span class="line">def initialize(buffer: MutableAggregationBuffer): Unit = &#123;</span><br><span class="line">// 存工资的总额</span><br><span class="line">buffer(0) = 0L</span><br><span class="line">// 存工资的个数</span><br><span class="line">buffer(1) = 0L</span><br><span class="line">&#125;</span><br><span class="line">// 相同Execute间的数据合并。 </span><br><span class="line">def update(buffer: MutableAggregationBuffer, input: Row): Unit = &#123;</span><br><span class="line"><span class="keyword">if</span> (!input.isNullAt(0)) &#123;</span><br><span class="line">buffer(0) = buffer.getLong(0) + input.getLong(0)</span><br><span class="line">buffer(1) = buffer.getLong(1) + 1</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">// 不同Execute间的数据合并 </span><br><span class="line">def merge(buffer1: MutableAggregationBuffer, buffer2: Row): Unit = &#123;</span><br><span class="line">buffer1(0) = buffer1.getLong(0) + buffer2.getLong(0)</span><br><span class="line">buffer1(1) = buffer1.getLong(1) + buffer2.getLong(1)</span><br><span class="line">&#125;</span><br><span class="line">// 计算最终结果</span><br><span class="line">def evaluate(buffer: Row): Double = buffer.getLong(0).toDouble / buffer.getLong(1)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 注册函数</span><br><span class="line">spark.udf.register(<span class="string">"myAverage"</span>, MyAverage)</span><br><span class="line"></span><br><span class="line">val df = spark.read.json(<span class="string">"examples/src/main/resources/employees.json"</span>)</span><br><span class="line">df.createOrReplaceTempView(<span class="string">"employees"</span>)</span><br><span class="line">df.show()</span><br><span class="line">// +-------+------+</span><br><span class="line">// |   name|salary|</span><br><span class="line">// +-------+------+</span><br><span class="line">// |Michael|  3000|</span><br><span class="line">// |   Andy|  4500|</span><br><span class="line">// | Justin|  3500|</span><br><span class="line">// |  Berta|  4000|</span><br><span class="line">// +-------+------+</span><br><span class="line"></span><br><span class="line">val result = spark.sql(<span class="string">"SELECT myAverage(salary) as average_salary FROM employees"</span>)</span><br><span class="line">result.show()</span><br><span class="line">// +--------------+</span><br><span class="line">// |average_salary|</span><br><span class="line">// +--------------+</span><br><span class="line">// |        3750.0|</span><br><span class="line">// +--------------+</span><br></pre></td></tr></table></figure>
+
+<h5 id="强类型用户自定义聚合函数"><a href="#强类型用户自定义聚合函数" class="headerlink" title="强类型用户自定义聚合函数"></a>强类型用户自定义聚合函数</h5><p>通过继承Aggregator来实现强类型自定义聚合函数，同样是求平均工资</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.sql.expressions.Aggregator</span><br><span class="line">import org.apache.spark.sql.Encoder</span><br><span class="line">import org.apache.spark.sql.Encoders</span><br><span class="line">import org.apache.spark.sql.SparkSession</span><br><span class="line">// 既然是强类型，可能有<span class="keyword">case</span>类</span><br><span class="line"><span class="keyword">case</span> class Employee(name: String, salary: Long)</span><br><span class="line"><span class="keyword">case</span> class Average(var sum: Long, var count: Long)</span><br><span class="line"></span><br><span class="line">object MyAverage extends Aggregator[Employee, Average, Double] &#123;</span><br><span class="line">// 定义一个数据结构，保存工资总数和工资总个数，初始都为0</span><br><span class="line">def zero: Average = Average(0L, 0L)</span><br><span class="line">// Combine two values to produce a new value. For performance, the <span class="keyword">function</span> may modify `buffer`</span><br><span class="line">// and <span class="built_in">return</span> it instead of constructing a new object</span><br><span class="line">def reduce(buffer: Average, employee: Employee): Average = &#123;</span><br><span class="line">buffer.sum += employee.salary</span><br><span class="line">buffer.count += 1</span><br><span class="line">buffer</span><br><span class="line">&#125;</span><br><span class="line">// 聚合不同execute的结果</span><br><span class="line">def merge(b1: Average, b2: Average): Average = &#123;</span><br><span class="line">b1.sum += b2.sum</span><br><span class="line">b1.count += b2.count</span><br><span class="line">b1</span><br><span class="line">&#125;</span><br><span class="line">// 计算输出</span><br><span class="line">def finish(reduction: Average): Double = reduction.sum.toDouble / reduction.count</span><br><span class="line">// 设定之间值类型的编码器，要转换成<span class="keyword">case</span>类</span><br><span class="line">// Encoders.product是进行scala元组和<span class="keyword">case</span>类转换的编码器 </span><br><span class="line">def bufferEncoder: Encoder[Average] = Encoders.product</span><br><span class="line">// 设定最终输出值的编码器</span><br><span class="line">def outputEncoder: Encoder[Double] = Encoders.scalaDouble</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val ds = spark.read.json(<span class="string">"examples/src/main/resources/employees.json"</span>).as[Employee]</span><br><span class="line">ds.show()</span><br><span class="line">// +-------+------+</span><br><span class="line">// |   name|salary|</span><br><span class="line">// +-------+------+</span><br><span class="line">// |Michael|  3000|</span><br><span class="line">// |   Andy|  4500|</span><br><span class="line">// | Justin|  3500|</span><br><span class="line">// |  Berta|  4000|</span><br><span class="line">// +-------+------+</span><br><span class="line"></span><br><span class="line">// Convert the <span class="keyword">function</span> to a `TypedColumn` and give it a name</span><br><span class="line">val averageSalary = MyAverage.toColumn.name(<span class="string">"average_salary"</span>)</span><br><span class="line">val result = ds.select(averageSalary)</span><br><span class="line">result.show()</span><br><span class="line">// +--------------+</span><br><span class="line">// |average_salary|</span><br><span class="line">// +--------------+</span><br><span class="line">// |        3750.0|</span><br><span class="line">// +--------------+</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/10/16/bigdata-34/" data-id="ck1t9sqvx004dv4vj74u8aopa" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "SparkSQL解析",
+        "image": "http://yoursite.com",
+        "keywords": "Spark",
+        "genre": "大数据",
+        "datePublished": "2019-10-16",
+        "dateCreated": "2019-10-16",
+        "dateModified": "2019-10-16",
+        "url": "http://yoursite.com/2019/10/16/bigdata-34/",
+        "description": "大数据学习第34天（1）
+Sqark解析新的起始点SparkSession在老的版本中，SparkSQL提供了两种SQL查询起始点，一个叫SQLContext，用于SPark自己提供的SQL查询，一个叫HiveContext，用于连接Hive的查询。SparkSession是Spark最新的查询起始点，实质上是SQLContext和HiveContext的组合，所以在SQLContext和Hive"
+        "wordCount": 1696
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/10/16/bigdata-34（2）/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Spark的数据源
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/10/15/bigdata-33（2）/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Spark SQL概述</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/16/bigdata-34（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/16/bigdata-34（2）/" class="title">Spark的数据源</a></p>
+                            <p class="item-date"><time datetime="2019-10-16T12:22:17.000Z" itemprop="datePublished">2019-10-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/16/bigdata-34/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/16/bigdata-34/" class="title">SparkSQL解析</a></p>
+                            <p class="item-date"><time datetime="2019-10-16T09:57:47.000Z" itemprop="datePublished">2019-10-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/15/bigdata-33（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/15/bigdata-33（2）/" class="title">Spark SQL概述</a></p>
+                            <p class="item-date"><time datetime="2019-10-15T12:57:59.000Z" itemprop="datePublished">2019-10-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/15/bigdata-33/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/15/bigdata-33/" class="title">Spark读取数据库</a></p>
+                            <p class="item-date"><time datetime="2019-10-15T12:44:39.000Z" itemprop="datePublished">2019-10-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/14/bigdata-32/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/14/bigdata-32/" class="title">Spark Action算子和累加器</a></p>
+                            <p class="item-date"><time datetime="2019-10-14T13:53:11.000Z" itemprop="datePublished">2019-10-14</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">41</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观后感/">观后感</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Hbase/" style="font-size: 18px;">Hbase</a> <a href="/tags/Scala/" style="font-size: 16px;">Scala</a> <a href="/tags/Spark/" style="font-size: 18px;">Spark</a> <a href="/tags/Zookeeper/" style="font-size: 12px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 14px;">hive</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/示例/" style="font-size: 12px;">示例</a> <a href="/tags/观后感/" style="font-size: 10px;">观后感</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://baidu.com">baidu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/10/16/bigdata-34/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

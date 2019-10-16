@@ -6,21 +6,24 @@
     
 
     
-    <title>分类: 随笔 | 徐栋梁的博客</title>
+    <title>Spark的数据源 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="description" content="大数据小白成长日记">
-<meta name="keywords" content="hadoop">
-<meta property="og:type" content="website">
-<meta property="og:title" content="徐栋梁的博客">
-<meta property="og:url" content="http://yoursite.com/categories/随笔/index.html">
+        <meta name="keywords" content="Spark">
+    
+    <meta name="description" content="大数据学习第34天（2） Spark的数据源通用加载/保存方法手动指定选项Spark SQL的DataFrame接口支持多种数据源的操作。一个DataFrame可以进行RDDs方式的操作；也可以被注册为临时表，对该DataFrame执行SQL查询 Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spark SQL可以方便的执行所有的操作。 12val df = s">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark的数据源">
+<meta property="og:url" content="http://yoursite.com/2019/10/16/bigdata-34（2）/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据小白成长日记">
+<meta property="og:description" content="大数据学习第34天（2） Spark的数据源通用加载/保存方法手动指定选项Spark SQL的DataFrame接口支持多种数据源的操作。一个DataFrame可以进行RDDs方式的操作；也可以被注册为临时表，对该DataFrame执行SQL查询 Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spark SQL可以方便的执行所有的操作。 12val df = s">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-16T12:46:18.864Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="徐栋梁的博客">
-<meta name="twitter:description" content="大数据小白成长日记">
+<meta name="twitter:title" content="Spark的数据源">
+<meta name="twitter:description" content="大数据学习第34天（2） Spark的数据源通用加载/保存方法手动指定选项Spark SQL的DataFrame接口支持多种数据源的操作。一个DataFrame可以进行RDDs方式的操作；也可以被注册为临时表，对该DataFrame执行SQL查询 Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spark SQL可以方便的执行所有的操作。 12val df = s">
     
 
     
@@ -129,77 +132,193 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-folder-open"></i>分类: <em class="page-title-link">随笔</em>
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-bigdata-34（2）" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2019" class="archive-year"><i class="icon fa fa-calendar-o"></i>2019</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/11/diary-1/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/2019/10/11/diary-1/1.jpg)" alt="《从你的全世界路过》观后感" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/11/diary-1/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/随笔/">随笔</a>
-            </div>
-            <div class="date"><time datetime="2019-10-11T15:02:41.000Z" itemprop="datePublished">2019-10-11</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/11/diary-1/">《从你的全世界路过》观后感</a>
+        Spark的数据源
         </h1>
     
 
-        <p class="article-excerpt">
-            《从你的全世界路过》观后感前几天刷知乎刷到了一篇文章，解读《从你的全世界路过》，文章没怎么看，但是想看电影了。
-正好今天老师讲课内容少，于是偷闲又刷了一遍电影。
-
-《从你的全世界路过》讲述的是3个人的爱情故事，分别代表了3种不同的爱情。关于茅十八和荔枝的故事我没看出想表达点什么，貌似就是本来两个人相亲相爱然后被人祸夺走了爱情的故事。就说说猪头和陈末的故事。然而我并没有谈过恋爱，某些解读也只能靠猜。
-        </p>
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/10/16/bigdata-34（2）/" class="article-date">
+            <time datetime="2019-10-16T12:22:17.000Z" itemprop="datePublished">2019-10-16</time>
+        </a>
     </div>
-</article>
-    
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Spark/">Spark</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第34天（2）</p>
+<h2 id="Spark的数据源"><a href="#Spark的数据源" class="headerlink" title="Spark的数据源"></a>Spark的数据源</h2><h3 id="通用加载-保存方法"><a href="#通用加载-保存方法" class="headerlink" title="通用加载/保存方法"></a>通用加载/保存方法</h3><h4 id="手动指定选项"><a href="#手动指定选项" class="headerlink" title="手动指定选项"></a>手动指定选项</h4><p>Spark SQL的DataFrame接口支持多种数据源的操作。一个DataFrame可以进行RDDs方式的操作；也可以被注册为临时表，对该DataFrame执行SQL查询</p>
+<p>Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spark SQL可以方便的执行所有的操作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val df = sqlContexr.read.load(<span class="string">"src/main/resources/users.parquet"</span>)</span><br><span class="line">df.select(<span class="string">"name"</span>,<span class="string">"favorite_color"</span>).write.save(<span class="string">"namesAndFavColors.parquet"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>修改配置项spark.sql.sources.default,可修改默认数据源格式。数据源格式需要指定全名（如：org.apache.spark.sql.parquet）,如果数据源格式为内置格式，则只需要指定简称 json,parquet,jdbc,orc,libsvm,csv,text来指定数据的格式。</p>
+<p>可以通过SparkSession提供的read.load方法用于加载数据，使用write和save保存数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val peopleDF = spark.read.format(<span class="string">"json"</span>).load(<span class="string">"examples/src/main/resources/people.json"</span>)</span><br><span class="line">peopleDF.write.format(<span class="string">"parquet"</span>).save(<span class="string">"hdfs://master01:9000/namesAndAges.parquet"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>除此之外，可以直接运行SQL在文件上：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val sqlDF = spark.sql(<span class="string">"SELECT * FROM parquet.`hdfs://master01:9000/namesAndAges.parquet`"</span>)</span><br><span class="line">sqlDF.show()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val peopleDF = spark.read.format(<span class="string">"json"</span>).load(<span class="string">"examples/src/main/resources/people.json"</span>)</span><br><span class="line">peopleDF: org.apache.spark.sql.DataFrame = [age: bigint, name: string]</span><br><span class="line"></span><br><span class="line">scala&gt; peopleDF.write.format(<span class="string">"parquet"</span>).save(<span class="string">"hdfs://master01:9000/namesAndAges.parquet"</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; peopleDF.show()</span><br><span class="line">+----+-------+</span><br><span class="line">| age|   name|</span><br><span class="line">+----+-------+</span><br><span class="line">|null|Michael|</span><br><span class="line">|  30|   Andy|</span><br><span class="line">|  19| Justin|</span><br><span class="line">+----+-------+</span><br><span class="line"></span><br><span class="line">scala&gt; val sqlDF = spark.sql(<span class="string">"SELECT * FROM parquet.`hdfs://master01:9000/namesAndAges.parquet`"</span>)</span><br><span class="line">17/09/05 04:21:11 WARN ObjectStore: Failed to get database parquet, returning NoSuchObjectException</span><br><span class="line">sqlDF: org.apache.spark.sql.DataFrame = [age: bigint, name: string]</span><br><span class="line"></span><br><span class="line">scala&gt; sqlDF.show()</span><br><span class="line">+----+-------+</span><br><span class="line">| age|   name|</span><br><span class="line">+----+-------+</span><br><span class="line">|null|Michael|</span><br><span class="line">|  30|   Andy|</span><br><span class="line">|  19| Justin|</span><br><span class="line">+----+-------+</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件保存选项"><a href="#文件保存选项" class="headerlink" title="文件保存选项"></a>文件保存选项</h4><p>以采用SaveMode执行存储操作，SaveMode定义了对数据的处理模式。需要注意的是，这些保存模式不使用任何锁定，不是原子操作。此外，当使用Overwrite方式执行时，在输出新数据之前原数据就已经被删除。SaveMode详细介绍如下表：</p>
+<table>
+<tr>
+<th>Scala/Java</th><th>
+</th><th>Any Language</th><th>
+</th><th>Meaning</th><th>
+</th></tr>
+<tr>
+<td>SaveMode.ErrorIfExists(default)</td><td>
+</td><td>"error"(default)</td><td>
+</td><td>如果文件存在，则报错</td><td>
+</td></tr>
+<tr>
+<td>SaveMode.Append</td><td>
+</td><td>"append"</td><td>
+</td><td>追加</td><td>
+</td></tr>
+<tr>
+<td>SaveMode.Overwrite</td><td>
+</td><td>"overwrite"</td><td>
+</td><td>覆写</td><td>
+</td></tr>
+<tr>
+<td>SaveMode.Ignore</td><td>
+</td><td>"ignore"</td><td>
+</td><td>数据存在，则忽略</td><td>
+</td></tr>
+</table>
+
+<h3 id="Parquet文件"><a href="#Parquet文件" class="headerlink" title="Parquet文件"></a>Parquet文件</h3><p>Parquet是一种流行的列式存储格式，可以高效地存储具有嵌套字段的记录。</p>
+<h3 id="Hive数据库"><a href="#Hive数据库" class="headerlink" title="Hive数据库"></a>Hive数据库</h3><h3 id="JSON数据集"><a href="#JSON数据集" class="headerlink" title="JSON数据集"></a>JSON数据集</h3><h3 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h3>
         </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/10/16/bigdata-34（2）/" data-id="ck1t9squi0027v4vj0y4q6kfs" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "Spark的数据源",
+        "image": "http://yoursite.com",
+        "keywords": "Spark",
+        "genre": "大数据",
+        "datePublished": "2019-10-16",
+        "dateCreated": "2019-10-16",
+        "dateModified": "2019-10-16",
+        "url": "http://yoursite.com/2019/10/16/bigdata-34（2）/",
+        "description": "大数据学习第34天（2）
+Spark的数据源通用加载/保存方法手动指定选项Spark SQL的DataFrame接口支持多种数据源的操作。一个DataFrame可以进行RDDs方式的操作；也可以被注册为临时表，对该DataFrame执行SQL查询
+Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spark SQL可以方便的执行所有的操作。
+12val df = s"
+        "wordCount": 204
+    }
+</script>
+
+</article>
+
+    <section id="comments">
     
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
 
-
-    </div></section>
-
+    
+    </section>
 
 
 
@@ -237,6 +356,19 @@
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/10/16/bigdata-34/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">SparkSQL解析</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -449,11 +581,13 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'http://yoursite.com/2019/10/16/bigdata-34（2）/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
