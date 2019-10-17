@@ -6,21 +6,24 @@
     
 
     
-    <title>归档: 2019/10 | 徐栋梁的博客</title>
+    <title>Kafka集群部署 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="description" content="大数据小白成长日记">
-<meta name="keywords" content="hadoop">
-<meta property="og:type" content="website">
-<meta property="og:title" content="徐栋梁的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2019/10/page/2/index.html">
+        <meta name="keywords" content="Kafka">
+    
+    <meta name="description" content="大数据学习第35天（1） Kafka集群部署1）解压安装包 1[root@hadoop013 soft]$ tar -zxvf kafka_2.11-0.11.0.0.tgz -C /opt/module/  2）修改解压后的文件名称 1[root@hadoop013 module]$ mv kafka_2.11-0.11.0.0/ kafka_2.11  3）在/opt/module/kafka">
+<meta name="keywords" content="Kafka">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka集群部署">
+<meta property="og:url" content="http://yoursite.com/2019/10/17/bigdata-35（1）/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据小白成长日记">
+<meta property="og:description" content="大数据学习第35天（1） Kafka集群部署1）解压安装包 1[root@hadoop013 soft]$ tar -zxvf kafka_2.11-0.11.0.0.tgz -C /opt/module/  2）修改解压后的文件名称 1[root@hadoop013 module]$ mv kafka_2.11-0.11.0.0/ kafka_2.11  3）在/opt/module/kafka">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-17T14:19:14.267Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="徐栋梁的博客">
-<meta name="twitter:description" content="大数据小白成长日记">
+<meta name="twitter:title" content="Kafka集群部署">
+<meta name="twitter:description" content="大数据学习第35天（1） Kafka集群部署1）解压安装包 1[root@hadoop013 soft]$ tar -zxvf kafka_2.11-0.11.0.0.tgz -C /opt/module/  2）修改解压后的文件名称 1[root@hadoop013 module]$ mv kafka_2.11-0.11.0.0/ kafka_2.11  3）在/opt/module/kafka">
     
 
     
@@ -129,236 +132,181 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>归档: 2019/10
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            
+                            <article id="post-bigdata-35（1）" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Kafka集群部署
+        </h1>
+    
 
-    
-    
+            </header>
         
         
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2019" class="archive-year"><i class="icon fa fa-calendar-o"></i>2019</a>
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/10/17/bigdata-35（1）/" class="article-date">
+            <time datetime="2019-10-17T14:09:54.000Z" itemprop="datePublished">2019-10-17</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Kafka/">Kafka</a>
+    </div>
+
             </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
         
-        <a href="/2019/10/11/firstTable/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/11/firstTable/">0</span>
-    
-</span>
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第35天（1）</p>
+<h3 id="Kafka集群部署"><a href="#Kafka集群部署" class="headerlink" title="Kafka集群部署"></a>Kafka集群部署</h3><p>1）解压安装包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop013 soft]$ tar -zxvf kafka_2.11-0.11.0.0.tgz -C /opt/module/</span><br></pre></td></tr></table></figure>
 
+<p>2）修改解压后的文件名称</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop013 module]$ mv kafka_2.11-0.11.0.0/ kafka_2.11</span><br></pre></td></tr></table></figure>
 
-    
-</a>
+<p>3）在/opt/module/kafka目录下创建logs文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop013 kafka_2.11]$ mkdir logs</span><br></pre></td></tr></table></figure>
 
-        
-        <div class="article-meta">
-            <div class="category">
+<p>4）修改配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop013 kafka_2.11]$ <span class="built_in">cd</span> config/</span><br><span class="line">[root@hadoop013 config]$ vi server.properties</span><br></pre></td></tr></table></figure>
+
+<p>输入或修改以下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#broker的全局唯一编号，不能重复</span></span><br><span class="line">broker.id=0</span><br><span class="line"><span class="comment">#删除topic功能使能</span></span><br><span class="line">delete.topic.enable=<span class="literal">true</span></span><br><span class="line"><span class="comment">#处理网络请求的线程数量</span></span><br><span class="line">num.network.threads=3</span><br><span class="line"><span class="comment">#用来处理磁盘IO的现成数量</span></span><br><span class="line">num.io.threads=8</span><br><span class="line"><span class="comment">#发送套接字的缓冲区大小</span></span><br><span class="line">socket.send.buffer.bytes=102400</span><br><span class="line"><span class="comment">#接收套接字的缓冲区大小</span></span><br><span class="line">socket.receive.buffer.bytes=102400</span><br><span class="line"><span class="comment">#请求套接字的缓冲区大小</span></span><br><span class="line">socket.request.max.bytes=104857600</span><br><span class="line"><span class="comment">#kafka运行日志存放的路径</span></span><br><span class="line">log.dirs=/opt/module/kafka/logs</span><br><span class="line"><span class="comment">#topic在当前broker上的分区个数</span></span><br><span class="line">num.partitions=1</span><br><span class="line"><span class="comment">#用来恢复和清理data下数据的线程数量</span></span><br><span class="line">num.recovery.threads.per.data.dir=1</span><br><span class="line"><span class="comment">#segment文件保留的最长时间，超时将被删除</span></span><br><span class="line">log.retention.hours=168</span><br><span class="line"><span class="comment">#配置连接Zookeeper集群地址</span></span><br><span class="line">zookeeper.connect=hadoop013:2181,hadoop014:2181,hadoop015:2181</span><br></pre></td></tr></table></figure>
+
+<p>5）配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop013 module]<span class="comment"># vi /etc/profile</span></span><br><span class="line"><span class="comment">#KAFKA_HOME</span></span><br><span class="line"><span class="built_in">export</span> KAFKA_HOME=/opt/module/kafka</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$KAFKA_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop013 module]<span class="comment"># source /etc/profile</span></span><br></pre></td></tr></table></figure>
+
+<p>6)分发kafka和配置文件</p>
+<p>7）分别在hadoop103和hadoop104上修改配置文件/opt/module/kafka/config/server.properties中的broker.id=1、broker.id=2</p>
+<p>8）启动集群<br>依次在hadoop102、hadoop103、hadoop104节点上启动kafka</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-server-start.sh config/server.properties &amp;</span><br></pre></td></tr></table></figure>
+
+<p>&amp; 表示启动为后台进程</p>
+<h3 id="Kafka命令行操作"><a href="#Kafka命令行操作" class="headerlink" title="Kafka命令行操作"></a>Kafka命令行操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1）查看当前服务器中的所有topic</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --list --zookeeper hadoop013:2181</span><br><span class="line">2）创建topic</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --create --zookeeper hadoop013:2181 --replication-factor 3 --partitions 1 --topic first</span><br><span class="line">选项说明：</span><br><span class="line">--topic 定义topic名</span><br><span class="line">--replication-factor  定义副本数</span><br><span class="line">--partitions  定义分区数</span><br><span class="line">3）	删除topic</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --delete --zookeeper hadoop013:2181 --topic first</span><br><span class="line">需要server.properties中设置delete.topic.enable=<span class="literal">true</span>否则只是标记删除或者直接重启。</span><br><span class="line">4）发送消息</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-console-producer.sh --broker-list hadoop013:9092 --topic first</span><br><span class="line">&gt;hello world</span><br><span class="line">&gt;root  root</span><br><span class="line">5）消费消息</span><br><span class="line">[root@hadoop103 kafka]$ bin/kafka-console-consumer.sh --zookeeper hadoop013:2181 --from-beginning --topic first</span><br><span class="line">6）查看某个Topic的详情</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --topic first --describe --zookeeper hadoop013:2181</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
             
-            </div>
-            <div class="date"><time datetime="2019-10-11T03:47:20.000Z" itemprop="datePublished">2019-10-11</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/11/firstTable/">firstTable</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            
-
-第一
-第二
 
 
-第三
-第四
 
+    <a data-url="http://yoursite.com/2019/10/17/bigdata-35（1）/" data-id="ck1usjvhr002ik4vjv3ot5bp9" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
 
-        </p>
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "Kafka集群部署",
+        "image": "http://yoursite.com",
+        "keywords": "Kafka",
+        "genre": "大数据",
+        "datePublished": "2019-10-17",
+        "dateCreated": "2019-10-17",
+        "dateModified": "2019-10-17",
+        "url": "http://yoursite.com/2019/10/17/bigdata-35（1）/",
+        "description": "大数据学习第35天（1）
+Kafka集群部署1）解压安装包
+1[root@hadoop013 soft]$ tar -zxvf kafka_2.11-0.11.0.0.tgz -C /opt/module/
+
+2）修改解压后的文件名称
+1[root@hadoop013 module]$ mv kafka_2.11-0.11.0.0/ kafka_2.11
+
+3）在/opt/module/kafka"
+        "wordCount": 256
+    }
+</script>
+
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/10/bigdata-29/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/10/bigdata-29/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-10T13:39:24.000Z" itemprop="datePublished">2019-10-10</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/10/bigdata-29/">Spark的概述与安装</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第29天
-SparkSpark是一种大数据的计算引擎，Spark具有MapReduce的优点，但是Spark的计算结果保存在内存中，所以速度比MapReduce快，且Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。
-Spark安装解压配置登录Spark管理界面查看集群状态（主节点）：http://hadoop011:8080/配置好需要分发到其他主机上。
-
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
     
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/09/bigdata-28/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/09/bigdata-28/">0</span>
-    
-</span>
+    </section>
 
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-09T11:34:26.000Z" itemprop="datePublished">2019-10-09</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/09/bigdata-28/">类型参数和Akka实例</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第28天
-类型参数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/08/bigdata-27/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/08/bigdata-27/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-08T13:00:04.000Z" itemprop="datePublished">2019-10-08</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/08/bigdata-27/">特质与隐式转换和隐式参数</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第27天
-特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。
-2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
-
-    <nav id="page-nav">
-        <span class="pages">第 2 页，共 2 页</span>
-        <a class="extend prev" rel="prev" href="/archives/2019/10/">&laquo;</a><a class="page-number" href="/archives/2019/10/">1</a><span class="page-number current">2</span>
-    </nav>
 
 
                         </div>
@@ -395,6 +343,19 @@ Spark安装解压配置登录Spark管理界面查看集群状态（主节点）�
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/10/17/bigdata-35/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">kafka关闭kafka进程解决办法</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -607,11 +568,13 @@ Spark安装解压配置登录Spark管理界面查看集群状态（主节点）�
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'http://yoursite.com/2019/10/17/bigdata-35（1）/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>

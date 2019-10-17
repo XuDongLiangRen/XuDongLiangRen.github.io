@@ -6,21 +6,24 @@
     
 
     
-    <title>归档: 2019/10 | 徐栋梁的博客</title>
+    <title>kafka关闭kafka进程解决办法 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="description" content="大数据小白成长日记">
-<meta name="keywords" content="hadoop">
-<meta property="og:type" content="website">
-<meta property="og:title" content="徐栋梁的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2019/10/page/2/index.html">
+        <meta name="keywords" content="Kafka">
+    
+    <meta name="description" content="大数据学习第35天（2） kafka官方的kafka-server-start.sh不能关闭kafka进程解决办法如果在kafka/bin目录下用这个脚本（kafka-server-stop.sh）关闭kafka进程会发现报错说：No kafka server to stop查看改脚本：vi kafka-server-stop.sh 发现： 1234567891011121314151617181">
+<meta name="keywords" content="Kafka">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kafka关闭kafka进程解决办法">
+<meta property="og:url" content="http://yoursite.com/2019/10/17/bigdata-35/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据小白成长日记">
+<meta property="og:description" content="大数据学习第35天（2） kafka官方的kafka-server-start.sh不能关闭kafka进程解决办法如果在kafka/bin目录下用这个脚本（kafka-server-stop.sh）关闭kafka进程会发现报错说：No kafka server to stop查看改脚本：vi kafka-server-stop.sh 发现： 1234567891011121314151617181">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-17T14:10:48.003Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="徐栋梁的博客">
-<meta name="twitter:description" content="大数据小白成长日记">
+<meta name="twitter:title" content="kafka关闭kafka进程解决办法">
+<meta name="twitter:description" content="大数据学习第35天（2） kafka官方的kafka-server-start.sh不能关闭kafka进程解决办法如果在kafka/bin目录下用这个脚本（kafka-server-stop.sh）关闭kafka进程会发现报错说：No kafka server to stop查看改脚本：vi kafka-server-stop.sh 发现： 1234567891011121314151617181">
     
 
     
@@ -129,236 +132,154 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>归档: 2019/10
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-bigdata-35" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2019" class="archive-year"><i class="icon fa fa-calendar-o"></i>2019</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/11/firstTable/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/11/firstTable/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2019-10-11T03:47:20.000Z" itemprop="datePublished">2019-10-11</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/11/firstTable/">firstTable</a>
+        kafka关闭kafka进程解决办法
         </h1>
     
 
-        <p class="article-excerpt">
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/10/17/bigdata-35/" class="article-date">
+            <time datetime="2019-10-17T14:04:32.000Z" itemprop="datePublished">2019-10-17</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Kafka/">Kafka</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第35天（2）</p>
+<h2 id="kafka官方的kafka-server-start-sh不能关闭kafka进程解决办法"><a href="#kafka官方的kafka-server-start-sh不能关闭kafka进程解决办法" class="headerlink" title="kafka官方的kafka-server-start.sh不能关闭kafka进程解决办法"></a>kafka官方的kafka-server-start.sh不能关闭kafka进程解决办法</h2><p>如果在kafka/bin目录下用这个脚本（kafka-server-stop.sh）关闭kafka进程会发现<br>报错说：No kafka server to stop<br>查看改脚本：vi kafka-server-stop.sh 发现：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment"># Licensed to the Apache Software Foundation (ASF) under one or more</span></span><br><span class="line"><span class="comment"># contributor license agreements.  See the NOTICE file distributed with</span></span><br><span class="line"><span class="comment"># this work for additional information regarding copyright ownership.</span></span><br><span class="line"><span class="comment"># The ASF licenses this file to You under the Apache License, Version 2.0</span></span><br><span class="line"><span class="comment"># (the "License"); you may not use this file except in compliance with</span></span><br><span class="line"><span class="comment"># the License.  You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment">#    http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment"># distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment"># See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment"># limitations under the License.</span></span><br><span class="line">PIDS=$(ps ax | grep -i <span class="string">'kafka\.Kafka'</span> | grep java | grep -v grep | awk <span class="string">'&#123;print $1&#125;'</span>)</span><br><span class="line"><span class="comment">#PIDS=$(jps -lm | grep -i 'kafka.Kafka' | awk '&#123;print $1&#125;')</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="string">"<span class="variable">$PIDS</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"No kafka server to stop"</span></span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">  <span class="built_in">kill</span> -s TERM <span class="variable">$PIDS</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>此时可以把PIDS=$(ps ax | grep -i ‘kafka.Kafka’ | grep java | grep -v grep | awk ‘{print $1}’)这行代码修改为<br>PIDS=$(jps -lm | grep -i ‘kafka.Kafka’ | awk ‘{print $1}’)<br>即可成功使用它关闭kafka！</p>
+
+        </div>
+        <footer class="article-footer">
             
 
-第一
-第二
 
 
-第三
-第四
+    <a data-url="http://yoursite.com/2019/10/17/bigdata-35/" data-id="ck1usjvhw002uk4vjr39klkp8" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
 
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
 
-        </p>
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "kafka关闭kafka进程解决办法",
+        "image": "http://yoursite.com",
+        "keywords": "Kafka",
+        "genre": "大数据",
+        "datePublished": "2019-10-17",
+        "dateCreated": "2019-10-17",
+        "dateModified": "2019-10-17",
+        "url": "http://yoursite.com/2019/10/17/bigdata-35/",
+        "description": "大数据学习第35天（2）
+kafka官方的kafka-server-start.sh不能关闭kafka进程解决办法如果在kafka/bin目录下用这个脚本（kafka-server-stop.sh）关闭kafka进程会发现报错说：No kafka server to stop查看改脚本：vi kafka-server-stop.sh 发现：
+1234567891011121314151617181"
+        "wordCount": 282
+    }
+</script>
+
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/10/bigdata-29/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/10/bigdata-29/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-10T13:39:24.000Z" itemprop="datePublished">2019-10-10</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/10/bigdata-29/">Spark的概述与安装</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第29天
-SparkSpark是一种大数据的计算引擎，Spark具有MapReduce的优点，但是Spark的计算结果保存在内存中，所以速度比MapReduce快，且Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。
-Spark安装解压配置登录Spark管理界面查看集群状态（主节点）：http://hadoop011:8080/配置好需要分发到其他主机上。
-
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
     
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/09/bigdata-28/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/09/bigdata-28/">0</span>
-    
-</span>
+    </section>
 
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-09T11:34:26.000Z" itemprop="datePublished">2019-10-09</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/09/bigdata-28/">类型参数和Akka实例</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第28天
-类型参数123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/08/bigdata-27/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/08/bigdata-27/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-08T13:00:04.000Z" itemprop="datePublished">2019-10-08</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/08/bigdata-27/">特质与隐式转换和隐式参数</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第27天
-特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。
-2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
-
-    <nav id="page-nav">
-        <span class="pages">第 2 页，共 2 页</span>
-        <a class="extend prev" rel="prev" href="/archives/2019/10/">&laquo;</a><a class="page-number" href="/archives/2019/10/">1</a><span class="page-number current">2</span>
-    </nav>
 
 
                         </div>
@@ -395,6 +316,29 @@ Spark安装解压配置登录Spark管理界面查看集群状态（主节点）�
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/10/17/bigdata-35（1）/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Kafka集群部署
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/10/16/bigdata-34（2）/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Spark的数据源</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -607,11 +551,13 @@ Spark安装解压配置登录Spark管理界面查看集群状态（主节点）�
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'http://yoursite.com/2019/10/17/bigdata-35/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
