@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第34天（2） Spark的数据源通用加载/保存方法手动指定选项Spark SQL的DataFrame接口支持多种数据源的操作。一个DataFrame可以进行RDDs方式的操作；也可以被注册为临时表，对该DataFrame执行SQL查询 Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spark SQL可以方便的执行所有的操作。 12val df = s">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-16T12:46:18.864Z">
+<meta property="og:updated_time" content="2019-10-18T05:15:25.143Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark的数据源">
 <meta name="twitter:description" content="大数据学习第34天（2） Spark的数据源通用加载/保存方法手动指定选项Spark SQL的DataFrame接口支持多种数据源的操作。一个DataFrame可以进行RDDs方式的操作；也可以被注册为临时表，对该DataFrame执行SQL查询 Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spark SQL可以方便的执行所有的操作。 12val df = s">
@@ -174,14 +174,14 @@
             <p>大数据学习第34天（2）</p>
 <h2 id="Spark的数据源"><a href="#Spark的数据源" class="headerlink" title="Spark的数据源"></a>Spark的数据源</h2><h3 id="通用加载-保存方法"><a href="#通用加载-保存方法" class="headerlink" title="通用加载/保存方法"></a>通用加载/保存方法</h3><h4 id="手动指定选项"><a href="#手动指定选项" class="headerlink" title="手动指定选项"></a>手动指定选项</h4><p>Spark SQL的DataFrame接口支持多种数据源的操作。一个DataFrame可以进行RDDs方式的操作；也可以被注册为临时表，对该DataFrame执行SQL查询</p>
 <p>Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spark SQL可以方便的执行所有的操作。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val df = sqlContexr.read.load(<span class="string">"src/main/resources/users.parquet"</span>)</span><br><span class="line">df.select(<span class="string">"name"</span>,<span class="string">"favorite_color"</span>).write.save(<span class="string">"namesAndFavColors.parquet"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> df = sqlContexr.read.load(<span class="string">"src/main/resources/users.parquet"</span>)</span><br><span class="line">df.select(<span class="string">"name"</span>,<span class="string">"favorite_color"</span>).write.save(<span class="string">"namesAndFavColors.parquet"</span>)</span><br></pre></td></tr></table></figure>
 
 <p>修改配置项spark.sql.sources.default,可修改默认数据源格式。数据源格式需要指定全名（如：org.apache.spark.sql.parquet）,如果数据源格式为内置格式，则只需要指定简称 json,parquet,jdbc,orc,libsvm,csv,text来指定数据的格式。</p>
 <p>可以通过SparkSession提供的read.load方法用于加载数据，使用write和save保存数据。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val peopleDF = spark.read.format(<span class="string">"json"</span>).load(<span class="string">"examples/src/main/resources/people.json"</span>)</span><br><span class="line">peopleDF.write.format(<span class="string">"parquet"</span>).save(<span class="string">"hdfs://master01:9000/namesAndAges.parquet"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> peopleDF = spark.read.format(<span class="string">"json"</span>).load(<span class="string">"examples/src/main/resources/people.json"</span>)</span><br><span class="line">peopleDF.write.format(<span class="string">"parquet"</span>).save(<span class="string">"hdfs://master01:9000/namesAndAges.parquet"</span>)</span><br></pre></td></tr></table></figure>
 
 <p>除此之外，可以直接运行SQL在文件上：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val sqlDF = spark.sql(<span class="string">"SELECT * FROM parquet.`hdfs://master01:9000/namesAndAges.parquet`"</span>)</span><br><span class="line">sqlDF.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sqlDF = spark.sql(<span class="string">"SELECT * FROM parquet.`hdfs://master01:9000/namesAndAges.parquet`"</span>)</span><br><span class="line">sqlDF.show()</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val peopleDF = spark.read.format(<span class="string">"json"</span>).load(<span class="string">"examples/src/main/resources/people.json"</span>)</span><br><span class="line">peopleDF: org.apache.spark.sql.DataFrame = [age: bigint, name: string]</span><br><span class="line"></span><br><span class="line">scala&gt; peopleDF.write.format(<span class="string">"parquet"</span>).save(<span class="string">"hdfs://master01:9000/namesAndAges.parquet"</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; peopleDF.show()</span><br><span class="line">+----+-------+</span><br><span class="line">| age|   name|</span><br><span class="line">+----+-------+</span><br><span class="line">|null|Michael|</span><br><span class="line">|  30|   Andy|</span><br><span class="line">|  19| Justin|</span><br><span class="line">+----+-------+</span><br><span class="line"></span><br><span class="line">scala&gt; val sqlDF = spark.sql(<span class="string">"SELECT * FROM parquet.`hdfs://master01:9000/namesAndAges.parquet`"</span>)</span><br><span class="line">17/09/05 04:21:11 WARN ObjectStore: Failed to get database parquet, returning NoSuchObjectException</span><br><span class="line">sqlDF: org.apache.spark.sql.DataFrame = [age: bigint, name: string]</span><br><span class="line"></span><br><span class="line">scala&gt; sqlDF.show()</span><br><span class="line">+----+-------+</span><br><span class="line">| age|   name|</span><br><span class="line">+----+-------+</span><br><span class="line">|null|Michael|</span><br><span class="line">|  30|   Andy|</span><br><span class="line">|  19| Justin|</span><br><span class="line">+----+-------+</span><br></pre></td></tr></table></figure>
 
@@ -222,7 +222,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/10/16/bigdata-34（2）/" data-id="ck1usjvhm0028k4vjth81b0yc" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/10/16/bigdata-34（2）/" data-id="ck1vkgczl002gf8vjg0gkdpqg" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -298,13 +298,13 @@
         "genre": "大数据",
         "datePublished": "2019-10-16",
         "dateCreated": "2019-10-16",
-        "dateModified": "2019-10-16",
+        "dateModified": "2019-10-18",
         "url": "http://yoursite.com/2019/10/16/bigdata-34（2）/",
         "description": "大数据学习第34天（2）
 Spark的数据源通用加载/保存方法手动指定选项Spark SQL的DataFrame接口支持多种数据源的操作。一个DataFrame可以进行RDDs方式的操作；也可以被注册为临时表，对该DataFrame执行SQL查询
 Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spark SQL可以方便的执行所有的操作。
 12val df = s"
-        "wordCount": 204
+        "wordCount": 207
     }
 </script>
 

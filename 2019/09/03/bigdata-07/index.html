@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第七天（shuffle内容） partition分区，即将map读取到的键值对，按照一定的规则分区存储，当然规则是自己定的。默认情况下应该是这样： 123public int getPartition(Key key, Value value, int numReduceTasks) &amp;#123;	return (key.hashCode() &amp;amp; Integer.MAX_VALU">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T12:05:20.935Z">
+<meta property="og:updated_time" content="2019-10-18T04:42:36.307Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="partition，GroupingComparator和多表合并">
 <meta name="twitter:description" content="大数据学习第七天（shuffle内容） partition分区，即将map读取到的键值对，按照一定的规则分区存储，当然规则是自己定的。默认情况下应该是这样： 123public int getPartition(Key key, Value value, int numReduceTasks) &amp;#123;	return (key.hashCode() &amp;amp; Integer.MAX_VALU">
@@ -173,7 +173,7 @@
         <div class="article-entry" itemprop="articleBody">
             <p>大数据学习第七天<br>（shuffle内容）</p>
 <h2 id="partition"><a href="#partition" class="headerlink" title="partition"></a>partition</h2><p>分区，即将map读取到的键值对，按照一定的规则分区存储，当然规则是自己定的。<br>默认情况下应该是这样：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public int getPartition(Key key, Value value, int numReduceTasks) &#123;</span><br><span class="line">	<span class="built_in">return</span> (key.hashCode() &amp; Integer.MAX_VALUE) % numReduceTasks;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPartition</span><span class="params">(Key key, Value value, <span class="keyword">int</span> numReduceTasks)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> (key.hashCode() &amp; Integer.MAX_VALUE) % numReduceTasks;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>利用hash表与求余，很大程度程度上避免了数据倾斜。<br>当然，更多的时候分区规则是我们自己定的，可以结合key和value制定。<br>    需要注意的是Reduce的数量必须大于分区数量。</p>
 <h2 id="GroupingComparator"><a href="#GroupingComparator" class="headerlink" title="GroupingComparator"></a>GroupingComparator</h2><p>GroupingComparator这个东西用来将map读取的值进行分组，在默认情况下，当不同记录的key compare相等的时候（等于0），将这些value归到一组，在一次reduce调用中被调到。</p>
@@ -189,7 +189,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/09/03/bigdata-07/" data-id="ck1usjvgq000qk4vjk03h4981" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/09/03/bigdata-07/" data-id="ck1vkgcym000hf8vjt1abtqpt" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -265,12 +265,12 @@
         "genre": "大数据",
         "datePublished": "2019-09-03",
         "dateCreated": "2019-09-03",
-        "dateModified": "2019-09-24",
+        "dateModified": "2019-10-18",
         "url": "http://yoursite.com/2019/09/03/bigdata-07/",
         "description": "大数据学习第七天（shuffle内容）
 partition分区，即将map读取到的键值对，按照一定的规则分区存储，当然规则是自己定的。默认情况下应该是这样：
 123public int getPartition(Key key, Value value, int numReduceTasks) &#123;	return (key.hashCode() &amp; Integer.MAX_VALU"
-        "wordCount": 47
+        "wordCount": 53
     }
 </script>
 

@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第29天 SparkSpark是一种大数据的计算引擎，Spark具有MapReduce的优点，但是Spark的计算结果保存在内存中，所以速度比MapReduce快，且Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。 Spark安装解压配置登录Spark管理界面查看集群状态（主节点）：http://hadoop011:8080/配置好需要分发到其他主机上。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-10T13:58:40.067Z">
+<meta property="og:updated_time" content="2019-10-18T05:13:19.888Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark的概述与安装">
 <meta name="twitter:description" content="大数据学习第29天 SparkSpark是一种大数据的计算引擎，Spark具有MapReduce的优点，但是Spark的计算结果保存在内存中，所以速度比MapReduce快，且Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。 Spark安装解压配置登录Spark管理界面查看集群状态（主节点）：http://hadoop011:8080/配置好需要分发到其他主机上。">
@@ -184,7 +184,7 @@
 
 <p>注意：如果遇到 “JAVA_HOME not set” 异常，可以在sbin目录下的spark-config.sh 文件中加入如下配置：<br>export JAVA_HOME=XXXX</p>
 <p>如果遇到Hadoop HDFS的写入权限问题：<br>org.apache.hadoop.security.AccessControlException<br>解决方案： 在hdfs-site.xml中添加如下配置，关闭权限验证</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">      &lt;name&gt;dfs.permissions&lt;/name&gt;</span><br><span class="line">      &lt;value&gt;<span class="literal">false</span>&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.permissions<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>配置Job History Server</li>
@@ -216,7 +216,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/10/10/bigdata-29/" data-id="ck1usjvhh0022k4vjgzue0alj" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/10/10/bigdata-29/" data-id="ck1vkgcz9001vf8vjdx6b8tjt" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -292,13 +292,13 @@
         "genre": "大数据",
         "datePublished": "2019-10-10",
         "dateCreated": "2019-10-10",
-        "dateModified": "2019-10-10",
+        "dateModified": "2019-10-18",
         "url": "http://yoursite.com/2019/10/10/bigdata-29/",
         "description": "大数据学习第29天
 SparkSpark是一种大数据的计算引擎，Spark具有MapReduce的优点，但是Spark的计算结果保存在内存中，所以速度比MapReduce快，且Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。
 Spark安装解压配置登录Spark管理界面查看集群状态（主节点）：http://hadoop011:8080/配置好需要分发到其他主机上。
 "
-        "wordCount": 271
+        "wordCount": 282
     }
 </script>
 

@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第三天 小结完全分布式的hadoop集群需要配置的文件1.核心文件配置core-site.xml hadoop的核心配置文件，需要指定Hdfs中NameNode的地址，以及hadoop运行时产生文件的储存目录。 2.Hdfs的配置hadoop-env.sh hdfs的环境文件。指定jdk路径。hdfs-site.xml hdfs的配置文件。指定副本数量和secondaryNameNode">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T12:00:05.245Z">
+<meta property="og:updated_time" content="2019-10-18T04:39:48.455Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hadoop搭建小结">
 <meta name="twitter:description" content="大数据学习第三天 小结完全分布式的hadoop集群需要配置的文件1.核心文件配置core-site.xml hadoop的核心配置文件，需要指定Hdfs中NameNode的地址，以及hadoop运行时产生文件的储存目录。 2.Hdfs的配置hadoop-env.sh hdfs的环境文件。指定jdk路径。hdfs-site.xml hdfs的配置文件。指定副本数量和secondaryNameNode">
@@ -183,7 +183,8 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 current]<span class="comment"># cat VERSION </span></span><br><span class="line"><span class="comment">#Wed Aug 28 09:35:06 CST 2019</span></span><br><span class="line">namespaceID=600928658</span><br><span class="line">clusterID=CID-443f041f-3902-4fcb-b897-8b90f310519a</span><br><span class="line">cTime=0</span><br><span class="line">storageType=NAME_NODE</span><br><span class="line">blockpoolID=BP-1004773799-192.168.164.11-1566956106924</span><br><span class="line">layoutVersion=-63</span><br></pre></td></tr></table></figure>
 
 <p>当集群第一次启动的时候，会先启动NameNode，将里面的参数加载到内存，然后集群中slaves文件中的DataNode节点启动，根据配置文件找到NameNode，在NameNode上注册，然后获取必要的参数加载到内存并保存到磁盘中。<br>DataNode都启动后，SecondaryNameNode节点启动。</p>
-<h3 id="关于多次格式化导致启动失败解决方案"><a href="#关于多次格式化导致启动失败解决方案" class="headerlink" title="关于多次格式化导致启动失败解决方案"></a>关于多次格式化导致启动失败解决方案</h3><p>NameNode每格式化一次，都会创建新的blockPoolId和clusterId，而DataNode的blockPoolId和clusterId参数不会跟着改变。所以导致NameNode启动失败。<br>解决方法：1.删除集群中DataNode机器${hadoop.tmp.dir}/dfs/data文件夹，然后重新格式化。<br>2.复制DataNode的blockPoolId和clusterId参数到NameNode上。</p>
+<h3 id="关于多次格式化导致启动失败解决方案"><a href="#关于多次格式化导致启动失败解决方案" class="headerlink" title="关于多次格式化导致启动失败解决方案"></a>关于多次格式化导致启动失败解决方案</h3><p>NameNode每格式化一次，都会创建新的blockPoolId和clusterId，而DataNode的blockPoolId和clusterId参数不会跟着改变。所以导致NameNode启动失败。</p>
+<p>解决方法：<br>1.删除集群中DataNode机器${hadoop.tmp.dir}/dfs/data文件夹，然后重新格式化。<br>2.复制DataNode的blockPoolId和clusterId参数到NameNode上。</p>
 
         </div>
         <footer class="article-footer">
@@ -191,7 +192,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/08/28/bigdata-03/" data-id="ck1usjvfx0006k4vj0defshpo" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/08/28/bigdata-03/" data-id="ck1vkgcyh000bf8vjo045drno" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -267,7 +268,7 @@
         "genre": "大数据",
         "datePublished": "2019-08-28",
         "dateCreated": "2019-08-28",
-        "dateModified": "2019-09-24",
+        "dateModified": "2019-10-18",
         "url": "http://yoursite.com/2019/08/28/bigdata-03/",
         "description": "大数据学习第三天
 小结完全分布式的hadoop集群需要配置的文件1.核心文件配置core-site.xml hadoop的核心配置文件，需要指定Hdfs中NameNode的地址，以及hadoop运行时产生文件的储存目录。

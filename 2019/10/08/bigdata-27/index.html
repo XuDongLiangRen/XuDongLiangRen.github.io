@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第27天 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-09T11:33:49.955Z">
+<meta property="og:updated_time" content="2019-10-18T05:12:13.906Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="特质与隐式转换和隐式参数">
 <meta name="twitter:description" content="大数据学习第27天 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi">
@@ -174,15 +174,15 @@
             <p>大数据学习第27天</p>
 <h2 id="特质"><a href="#特质" class="headerlink" title="特质"></a>特质</h2><h4 id="1-特质的理解"><a href="#1-特质的理解" class="headerlink" title="1 特质的理解"></a>1 特质的理解</h4><p>Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。<br>特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。</p>
 <h4 id="2-当作接口使用的特质"><a href="#2-当作接口使用的特质" class="headerlink" title="2 当作接口使用的特质"></a>2 当作接口使用的特质</h4><p>特质中没有实现的方法就是抽象方法。<br>类通过extends继承特质，通过with可以继承多个特质。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class ConsoleLogger extends Logger with Cloneable with Serializable</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConsoleLogger</span> <span class="keyword">extends</span> <span class="title">Logger</span> <span class="keyword">with</span> <span class="title">Cloneable</span> <span class="keyword">with</span> <span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
 
 <p>Logger with Cloneable with Serializable 是一个整体，extends这个整体。<br>所有的java接口都可以当作特质使用。</p>
 <h4 id="3-带有具体实现的特质"><a href="#3-带有具体实现的特质" class="headerlink" title="3 带有具体实现的特质"></a>3 带有具体实现的特质</h4><p>特质的方法不一定时抽象的。</p>
 <p>使用上：使SavingAccount得到列一个具体的log方法（minix）混入，并不是通过继承得来。</p>
 <h4 id="4-带特质的对象"><a href="#4-带特质的对象" class="headerlink" title="4 带特质的对象"></a>4 带特质的对象</h4><p>在构建对象时混入某个具体的特质，覆盖掉抽象方法，提供具体实现。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val acct = new SavingsAccount with ConsoleLogger</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> acct = <span class="keyword">new</span> <span class="type">SavingsAccount</span> <span class="keyword">with</span> <span class="type">ConsoleLogger</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="5-叠加在一起的特质"><a href="#5-叠加在一起的特质" class="headerlink" title="5 叠加在一起的特质"></a>5 叠加在一起的特质</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val acct1 = new SavingsAccount with TimestampLogger with ShortLogger </span><br><span class="line">val acct2 = new SavingsAccount with ShortLogger with TimestampLogger</span><br></pre></td></tr></table></figure>
+<h4 id="5-叠加在一起的特质"><a href="#5-叠加在一起的特质" class="headerlink" title="5 叠加在一起的特质"></a>5 叠加在一起的特质</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> acct1 = <span class="keyword">new</span> <span class="type">SavingsAccount</span> <span class="keyword">with</span> <span class="type">TimestampLogger</span> <span class="keyword">with</span> <span class="type">ShortLogger</span> </span><br><span class="line"><span class="keyword">val</span> acct2 = <span class="keyword">new</span> <span class="type">SavingsAccount</span> <span class="keyword">with</span> <span class="type">ShortLogger</span> <span class="keyword">with</span> <span class="type">TimestampLogger</span></span><br></pre></td></tr></table></figure>
 
 <p>super并不是指继承关系，而是指加载的顺序。</p>
 <p>继承多个相同父特质的类，会从右到左依次调用特质的方法。super指的是继承特质左边的特质，从源码时无法判断super.method会执行哪里的方法。</p>
@@ -199,11 +199,11 @@
 <p>如果一个类既想扩展一个类，又想混入特质，那拓展的类需要时特质的超类的子类。</p>
 <p>如果我们的类扩展自一个不想关的类，那么就不可能混入这个特质了。</p>
 <h4 id="13-自身类型"><a href="#13-自身类型" class="headerlink" title="13 自身类型"></a>13 自身类型</h4><p>特质除了扩展类还可以通过添加自身类型来达到相同的效果。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">trait LoggedException extends ConsoleLogger &#123;</span><br><span class="line"> this: Exception =&gt; // or this: &#123; def getMessage() : String &#125; =&gt;</span><br><span class="line"> def <span class="function"><span class="title">log</span></span>() &#123; <span class="built_in">log</span>(getMessage()) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">LoggedException</span> <span class="keyword">extends</span> <span class="title">ConsoleLogger</span> </span>&#123;</span><br><span class="line"> <span class="keyword">this</span>: <span class="type">Exception</span> =&gt; <span class="comment">// or this: &#123; def getMessage() : String &#125; =&gt;</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">log</span></span>() &#123; log(getMessage()) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>通过this:类型=&gt; 来定义自身类型，在特质的方法中，可以调用该自身类型的任何方法。<br>他也要求了所有使用该特质的类必须是指定类型的子类。</p>
 <h2 id="隐式转换和隐式参数"><a href="#隐式转换和隐式参数" class="headerlink" title="隐式转换和隐式参数"></a>隐式转换和隐式参数</h2><h4 id="1-隐式转换"><a href="#1-隐式转换" class="headerlink" title="1 隐式转换"></a>1 隐式转换</h4><p>隐式转换函数是以implicit关键字声明的带有单个参数的函数。这种函数将会自动应用，讲值从一种类型转换为另一种类型。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implicit def int2Fraction(n: Int) = Fraction(n, 1) </span><br><span class="line">val result = 3 * Fraction(4, 5) // Calls int2Fraction(3)</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">implicit</span> <span class="function"><span class="keyword">def</span> <span class="title">int2Fraction</span></span>(n: <span class="type">Int</span>) = <span class="type">Fraction</span>(n, <span class="number">1</span>) </span><br><span class="line"><span class="keyword">val</span> result = <span class="number">3</span> * <span class="type">Fraction</span>(<span class="number">4</span>, <span class="number">5</span>) <span class="comment">// Calls int2Fraction(3)</span></span><br></pre></td></tr></table></figure>
 
 <p>整数3首先通过int2Fraction函数转换成了Fraction类型。转换函数可以起任何名称，a2b是约定俗成。</p>
 <h4 id="2-利用隐式转化丰富类库功能"><a href="#2-利用隐式转化丰富类库功能" class="headerlink" title="2 利用隐式转化丰富类库功能"></a>2 利用隐式转化丰富类库功能</h4><p>如果需要为一个类增加一个方法，可以通过隐式转换来实现。</p>
@@ -216,10 +216,10 @@
 <h4 id="5-隐式参数"><a href="#5-隐式参数" class="headerlink" title="5 隐式参数"></a>5 隐式参数</h4><p>函数和方法可以带有一个标记为implicit的参数列表，如果在调用的时候不传入该参数，编译器会查找该缺省值。</p>
 <p>一般从两个地方进行查找：<br>1) 在当前作用域所有可以用单个标识符指代的满足类型要求的val和def<br>2) 该值需要声明为implicit<br>3) 与所要求类型相关联的类型的伴生对象，相关联的类型包括所要求的类型本身、以及他的类型参数。</p>
 <h4 id="6-利用隐式参数进行隐式转换"><a href="#6-利用隐式参数进行隐式转换" class="headerlink" title="6 利用隐式参数进行隐式转换"></a>6 利用隐式参数进行隐式转换</h4><p>考虑下面一个函数，编译时通不过的，类型参数不能确定是一个带有&lt;操作符的类型。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def smaller[T](a: T, b: T) = <span class="keyword">if</span> (a &lt; b) a <span class="keyword">else</span> b</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">smaller</span></span>[<span class="type">T</span>](a: <span class="type">T</span>, b: <span class="type">T</span>) = <span class="keyword">if</span> (a &lt; b) a <span class="keyword">else</span> b</span><br></pre></td></tr></table></figure>
 
 <p>我们可以通过隐式参数将定义改写如下： </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def smaller[T](a: T, b: T)(implicit order: T =&gt; Ordered[T]) = <span class="keyword">if</span> (a &lt; b) a <span class="keyword">else</span> b</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">smaller</span></span>[<span class="type">T</span>](a: <span class="type">T</span>, b: <span class="type">T</span>)(<span class="keyword">implicit</span> order: <span class="type">T</span> =&gt; <span class="type">Ordered</span>[<span class="type">T</span>]) = <span class="keyword">if</span> (a &lt; b) a <span class="keyword">else</span> b</span><br></pre></td></tr></table></figure>
 
 <h4 id="7-上下文界定"><a href="#7-上下文界定" class="headerlink" title="7 上下文界定"></a>7 上下文界定</h4><p>上下文界定的是类型参数。</p>
 <p>上下文界定的形式为T:M，其中M是另一个泛型类，它要求必须存在一个类型为M[T]的隐式值。</p>
@@ -230,7 +230,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/10/08/bigdata-27/" data-id="ck1usjvhf001xk4vj7zoxa7xg" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/10/08/bigdata-27/" data-id="ck1vkgcz8001sf8vjtvh6xq3f" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -306,12 +306,12 @@
         "genre": "大数据",
         "datePublished": "2019-10-08",
         "dateCreated": "2019-10-08",
-        "dateModified": "2019-10-09",
+        "dateModified": "2019-10-18",
         "url": "http://yoursite.com/2019/10/08/bigdata-27/",
         "description": "大数据学习第27天
 特质1 特质的理解Scala和Java都不允许多继承，多继承会出现菱形继承问题，Scala提供了特质，类似Java中的接口，特质可以同时拥有抽象方法和具体方法，一个类可以实现多个特质。特质可以理解为Scala语言体系中的接口。这玩意和Scala中的类相比，除了不能new，跟类一个样。
 2 当作接口使用的特质特质中没有实现的方法就是抽象方法。类通过extends继承特质，通过wi"
-        "wordCount": 307
+        "wordCount": 372
     }
 </script>
 

@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第21天 HBase删除数据HBase的删除过程分为单行删除、多行删除和原子性操作 1.单行删除不会立即删除，而是先在指定存储单元上标记删除，等到下一次region合并或者分裂的时候才会移除数据 删除行的时候，可以指定列簇、列或者列中具体数据进行删除。没有任何指定的情况下会删除整行数据。 如果使用 addFamily 函数，则会删除改行中的指定列簇中的所有数据。 如果使用 addColu">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T13:29:44.693Z">
+<meta property="og:updated_time" content="2019-10-18T05:07:47.130Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于HBase删除数据的一些细节">
 <meta name="twitter:description" content="大数据学习第21天 HBase删除数据HBase的删除过程分为单行删除、多行删除和原子性操作 1.单行删除不会立即删除，而是先在指定存储单元上标记删除，等到下一次region合并或者分裂的时候才会移除数据 删除行的时候，可以指定列簇、列或者列中具体数据进行删除。没有任何指定的情况下会删除整行数据。 如果使用 addFamily 函数，则会删除改行中的指定列簇中的所有数据。 如果使用 addColu">
@@ -186,7 +186,7 @@
 <p>checkAndDelete()函数有两个，两者的差别就在于是否含有一个比较器。不含有比较器的函数效果与有比较器并且比较器的标志为CompareOp.EQUAL的效果是相同的。该函数的意思为，当函数中指定的值小于等于指定的值时，则进行删除操作。</p>
 <h2 id="2-Hbase删除原理"><a href="#2-Hbase删除原理" class="headerlink" title="2. Hbase删除原理"></a>2. Hbase删除原理</h2><p>HBase 的删除操作并不会立即将数据从磁盘上删除，这主要是因为 HBase 的数据通常被保存在 HDFS 之中，而 HDFS 只允许新增或者追加数据文件，所以删除操作主要是对要被删除的数据打上标记。</p>
 <p>HFile 中保存了已经排序过的 KeyValue 数据，KeyValue 类的数据结构如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    keylength,</span><br><span class="line">    valuelength,</span><br><span class="line">    key: &#123;</span><br><span class="line">        rowLength,</span><br><span class="line">        row (i.e., the rowkey),</span><br><span class="line">        columnfamilylength,</span><br><span class="line">        columnfamily,</span><br><span class="line">        columnqualifier,</span><br><span class="line">        timestamp,</span><br><span class="line">        keytype (e.g., Put, Delete, DeleteColumn, DeleteFamily)</span><br><span class="line">    &#125;</span><br><span class="line">    value</span><br><span class="line">｝</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    keylength,</span><br><span class="line">    valuelength,</span><br><span class="line">    key: &#123;</span><br><span class="line">        rowLength,</span><br><span class="line">        row (i.e., the rowkey),</span><br><span class="line">        columnfamilylength,</span><br><span class="line">        columnfamily,</span><br><span class="line">        columnqualifier,</span><br><span class="line">        timestamp,</span><br><span class="line">        keytype (e.g., Put, Delete, DeleteColumn, DeleteFamily)</span><br><span class="line">    &#125;</span><br><span class="line">    value</span><br><span class="line">｝</span><br></pre></td></tr></table></figure>
 
 <p>当执行删除操作时，HBase 新插入一条相同的 KeyValue 数据，但是使 keytype=Delete，这便意味着数据被删除了，直到发生 Major_compaction 操作时，数据才会被真正的从磁盘上删除。</p>
 <p>引自<a href="https://blog.csdn.net/t894690230/article/details/80515426。" target="_blank" rel="noopener">https://blog.csdn.net/t894690230/article/details/80515426。</a></p>
@@ -197,7 +197,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/09/24/bigdata-21/" data-id="ck1usjvh9001kk4vj0u1hz0g6" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/09/24/bigdata-21/" data-id="ck1vkgcz2001ff8vj8ory59q2" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -273,7 +273,7 @@
         "genre": "大数据",
         "datePublished": "2019-09-24",
         "dateCreated": "2019-09-24",
-        "dateModified": "2019-09-24",
+        "dateModified": "2019-10-18",
         "url": "http://yoursite.com/2019/09/24/bigdata-21/",
         "description": "大数据学习第21天
 HBase删除数据HBase的删除过程分为单行删除、多行删除和原子性操作
@@ -281,7 +281,7 @@ HBase删除数据HBase的删除过程分为单行删除、多行删除和原子�
 删除行的时候，可以指定列簇、列或者列中具体数据进行删除。没有任何指定的情况下会删除整行数据。
 如果使用 addFamily 函数，则会删除改行中的指定列簇中的所有数据。
 如果使用 addColu"
-        "wordCount": 167
+        "wordCount": 166
     }
 </script>
 

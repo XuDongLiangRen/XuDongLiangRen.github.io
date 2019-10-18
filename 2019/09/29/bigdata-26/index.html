@@ -21,7 +21,7 @@
 <meta property="og:description" content="大数据学习第26天 包和引入包和包的作用域包的出现和Java中的包一样，是为了组织程序，Scala中的包并不要求目录和包之间的关联关系。 包的作用域支持嵌套。包名是可以相对的。 如果遇到引用的类和scala内部类的有冲突，可以使用绝对包名（以_root_开始） 包对象和引入包可以包含类、对象、特质，但是不能包含函数和变量的定义，这个是Java虚拟机的限制。 为了解决这个问题，每个包都有一个包对象。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/09/29/bigdata-26/1.jpg">
-<meta property="og:updated_time" content="2019-10-09T12:34:40.431Z">
+<meta property="og:updated_time" content="2019-10-18T05:11:58.704Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="包和引入、继承">
 <meta name="twitter:description" content="大数据学习第26天 包和引入包和包的作用域包的出现和Java中的包一样，是为了组织程序，Scala中的包并不要求目录和包之间的关联关系。 包的作用域支持嵌套。包名是可以相对的。 如果遇到引用的类和scala内部类的有冲突，可以使用绝对包名（以_root_开始） 包对象和引入包可以包含类、对象、特质，但是不能包含函数和变量的定义，这个是Java虚拟机的限制。 为了解决这个问题，每个包都有一个包对象。">
@@ -179,36 +179,36 @@
 <p>如果遇到引用的类和scala内部类的有冲突，可以使用绝对包名（以_root_开始）</p>
 <h4 id="包对象和引入"><a href="#包对象和引入" class="headerlink" title="包对象和引入"></a>包对象和引入</h4><p>包可以包含类、对象、特质，但是不能包含函数和变量的定义，这个是Java虚拟机的限制。</p>
 <p>为了解决这个问题，每个包都有一个包对象。可以在包对象中定义这些函数和常量等。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 定义在父包 </span><br><span class="line">package object people &#123; </span><br><span class="line">    val defaultName = <span class="string">"father Public"</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义在父包 </span></span><br><span class="line"><span class="keyword">package</span> <span class="class"><span class="keyword">object</span> <span class="title">people</span> </span>&#123; </span><br><span class="line">    <span class="keyword">val</span> defaultName = <span class="string">"father Public"</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以通过设定private设置包的可见性。</p>
 <p>通过import进行包的引入，_ 类似于java中的*</p>
 <p>注意：Scala中引入语句可以出现在任何地方，并不仅限于文件顶部。</p>
-<h4 id="包的重命名和隐藏方法"><a href="#包的重命名和隐藏方法" class="headerlink" title="包的重命名和隐藏方法"></a>包的重命名和隐藏方法</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//重命名 </span><br><span class="line">import java.util.&#123;HashMap =&gt; JavaHashMap&#125;</span><br><span class="line"></span><br><span class="line">//隐藏某个成员 </span><br><span class="line">import java.util.&#123;HashSet =&gt; _, _&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="包的重命名和隐藏方法"><a href="#包的重命名和隐藏方法" class="headerlink" title="包的重命名和隐藏方法"></a>包的重命名和隐藏方法</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//重命名 </span></span><br><span class="line"><span class="keyword">import</span> java.util.&#123;<span class="type">HashMap</span> =&gt; <span class="type">JavaHashMap</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//隐藏某个成员 </span></span><br><span class="line"><span class="keyword">import</span> java.util.&#123;<span class="type">HashSet</span> =&gt; _, _&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><h4 id="1-继承类"><a href="#1-继承类" class="headerlink" title="1 继承类"></a>1 继承类</h4><p>和Java一样使用extends关键字，在定义中给出子类需要而超类没有的字段和方法，或者重写超类的方法。</p>
 <p>如果类声明为final，他讲不能被继承。如果单个方法声明为final，将不能被重写。</p>
 <h4 id="2-重写方法"><a href="#2-重写方法" class="headerlink" title="2 重写方法"></a>2 重写方法</h4><p>重写一个非抽象方法需要用override修饰符。<br>调用超类的方法使用super关键字</p>
 <h4 id="3-类型检查和转换"><a href="#3-类型检查和转换" class="headerlink" title="3 类型检查和转换"></a>3 类型检查和转换</h4><p>要测试某个对象是否属于某个给定的类，可以用isInstanceOf方法。用asInstanceOf方法将引用转换为子类的引用。classof获取对象的类名。</p>
 <h4 id="4-protected声明字段和方法，子类可见，所属包不可见。"><a href="#4-protected声明字段和方法，子类可见，所属包不可见。" class="headerlink" title="4 protected声明字段和方法，子类可见，所属包不可见。"></a>4 protected声明字段和方法，子类可见，所属包不可见。</h4><h4 id="5-超类的构造"><a href="#5-超类的构造" class="headerlink" title="5 超类的构造"></a>5 超类的构造</h4><p>只有主构造器才能调用超类的构造器，构造器的参数，传入了超类的构造函数。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Person(val name: String, val age: Int) &#123; </span><br><span class="line">    override def toString = getClass.getName + <span class="string">"[name="</span> + name + <span class="string">",age="</span> + age + <span class="string">"]"</span> </span><br><span class="line">&#125; </span><br><span class="line">class Employee(name: String, age: Int, val salary : Double) extends Person(name, age) &#123;</span><br><span class="line">    override def toString = super.toString + <span class="string">"[salary="</span> + salary + <span class="string">"]"</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>(<span class="params">val name: <span class="type">String</span>, val age: <span class="type">Int</span></span>) </span>&#123; </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">toString</span> </span>= getClass.getName + <span class="string">"[name="</span> + name + <span class="string">",age="</span> + age + <span class="string">"]"</span> </span><br><span class="line">&#125; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span>(<span class="params">name: <span class="type">String</span>, age: <span class="type">Int</span>, val salary : <span class="type">Double</span></span>) <span class="keyword">extends</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">toString</span> </span>= <span class="keyword">super</span>.toString + <span class="string">"[salary="</span> + salary + <span class="string">"]"</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Scala不能通过super(a)这种方式调用超类的构造函数。</p>
 <h4 id="6-重写字段"><a href="#6-重写字段" class="headerlink" title="6 重写字段"></a>6 重写字段</h4><p>子类改写父类或者抽象父类的字段，需要加入override关键字。</p>
 <p><img src="/2019/09/29/bigdata-26/1.jpg" alt></p>
 <h4 id="7-匿名子类"><a href="#7-匿名子类" class="headerlink" title="7 匿名子类"></a>7 匿名子类</h4><p>和Java一样，你可以通过包含带有定义或重写的代码块的方式创建一个匿名的子类：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Person(val name: String) &#123; </span><br><span class="line">    override def toString = getClass.getName + <span class="string">"[name="</span> + name + <span class="string">"]"</span> </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">val alien = new Person(<span class="string">"Fred"</span>) &#123; </span><br><span class="line">    def greeting = <span class="string">"Greetings, Earthling! My name is Fred."</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>(<span class="params">val name: <span class="type">String</span></span>) </span>&#123; </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">toString</span> </span>= getClass.getName + <span class="string">"[name="</span> + name + <span class="string">"]"</span> </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> alien = <span class="keyword">new</span> <span class="type">Person</span>(<span class="string">"Fred"</span>) &#123; </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">greeting</span> </span>= <span class="string">"Greetings, Earthling! My name is Fred."</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>匿名类的变量类型为：Person{def greeting: String}</p>
 <h4 id="8-抽象类"><a href="#8-抽象类" class="headerlink" title="8 抽象类"></a>8 抽象类</h4><p>可以通过abstract关键字标记不能被实例化的类。方法不用标记abstract，只要省掉方法体即可。类可以拥有抽象字段，抽象字段就是没有初始值的字段。<br>子类实现抽象方法不需要override。</p>
-<h4 id="9-构造顺序和提前定义"><a href="#9-构造顺序和提前定义" class="headerlink" title="9 构造顺序和提前定义"></a>9 构造顺序和提前定义</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Creature &#123; </span><br><span class="line">    val range: Int = 10</span><br><span class="line">    val env: Array[Int] = new Array[Int](range) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Bug extends &#123; </span><br><span class="line">    override val range = 3 </span><br><span class="line">&#125; with Creature</span><br></pre></td></tr></table></figure>
+<h4 id="9-构造顺序和提前定义"><a href="#9-构造顺序和提前定义" class="headerlink" title="9 构造顺序和提前定义"></a>9 构造顺序和提前定义</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Creature</span> </span>&#123; </span><br><span class="line">    <span class="keyword">val</span> range: <span class="type">Int</span> = <span class="number">10</span></span><br><span class="line">    <span class="keyword">val</span> env: <span class="type">Array</span>[<span class="type">Int</span>] = <span class="keyword">new</span> <span class="type">Array</span>[<span class="type">Int</span>](range) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bug</span> <span class="keyword">extends</span> </span>&#123; </span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> range = <span class="number">3</span> </span><br><span class="line">&#125; <span class="keyword">with</span> <span class="type">Creature</span></span><br></pre></td></tr></table></figure>
         </div>
         <footer class="article-footer">
             
 
 
 
-    <a data-url="http://yoursite.com/2019/09/29/bigdata-26/" data-id="ck1usjvhd001tk4vjq7fmyqdv" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/09/29/bigdata-26/" data-id="ck1vkgcz6001pf8vjqpf2pmgf" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -284,7 +284,7 @@
         "genre": "大数据",
         "datePublished": "2019-09-29",
         "dateCreated": "2019-09-29",
-        "dateModified": "2019-10-09",
+        "dateModified": "2019-10-18",
         "url": "http://yoursite.com/2019/09/29/bigdata-26/",
         "description": "大数据学习第26天
 包和引入包和包的作用域包的出现和Java中的包一样，是为了组织程序，Scala中的包并不要求目录和包之间的关联关系。
@@ -292,7 +292,7 @@
 如果遇到引用的类和scala内部类的有冲突，可以使用绝对包名（以_root_开始）
 包对象和引入包可以包含类、对象、特质，但是不能包含函数和变量的定义，这个是Java虚拟机的限制。
 为了解决这个问题，每个包都有一个包对象。"
-        "wordCount": 325
+        "wordCount": 399
     }
 </script>
 

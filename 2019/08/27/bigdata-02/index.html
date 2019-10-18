@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第二天 hadoop的安装与配置安装hadoop，有人会建议重新编译，过程还比较复杂。从网上了解到这是因为hadoop是用java写的，但是某些操作不适合用java实现，所以用的是c/c++的动态库（本地库），所以需要根据不同的处理器架构，重新编译，他们以库的形式提供接口供上层调用。（好吧，似懂非懂，貌似是hadoop并不是纯粹的java实现，而是Java+C/C++） 我用的是别人编译">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T12:00:25.350Z">
+<meta property="og:updated_time" content="2019-10-18T03:30:46.362Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hadoop的运行环境搭建">
 <meta name="twitter:description" content="大数据学习第二天 hadoop的安装与配置安装hadoop，有人会建议重新编译，过程还比较复杂。从网上了解到这是因为hadoop是用java写的，但是某些操作不适合用java实现，所以用的是c/c++的动态库（本地库），所以需要根据不同的处理器架构，重新编译，他们以库的形式提供接口供上层调用。（好吧，似懂非懂，貌似是hadoop并不是纯粹的java实现，而是Java+C/C++） 我用的是别人编译">
@@ -180,26 +180,26 @@
 <h2 id="hadoop的运行模式"><a href="#hadoop的运行模式" class="headerlink" title="hadoop的运行模式"></a>hadoop的运行模式</h2><p>hadoop有3种运行模式：<br>（1）本地模式（默认模式）：<br>    不需要启用单独进程，直接可以运行，测试和开发时使用。<br>（2）伪分布式模式：<br>    等同于完全分布式，只有一个节点。<br>（3）完全分布式模式：<br>    多个节点一起运行。</p>
 <h3 id="本地文件运行Hadoop-案例"><a href="#本地文件运行Hadoop-案例" class="headerlink" title="本地文件运行Hadoop 案例"></a>本地文件运行Hadoop 案例</h3><p>官方wordcount案例</p>
 <p>1）创建在hadoop-2.7.2文件下面创建一个wcinput文件夹</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[atguigu@hadoop101 hadoop-2.7.2]<span class="variable">$mkdir</span> wcinput</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 hadoop-2.7.2]<span class="variable">$mkdir</span> wcinput</span><br></pre></td></tr></table></figure>
 
 <p>2）在wcinput文件下创建一个wc.input文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[atguigu@hadoop101 hadoop-2.7.2]<span class="variable">$cd</span> wcinput</span><br><span class="line">[atguigu@hadoop101 wcinput]<span class="variable">$touch</span> wc.input</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 hadoop-2.7.2]<span class="variable">$cd</span> wcinput</span><br><span class="line">[root@hadoop011 wcinput]<span class="variable">$touch</span> wc.input</span><br></pre></td></tr></table></figure>
 
 <p>3）编辑wc.input文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[atguigu@hadoop101 wcinput]<span class="variable">$vim</span> wc.input</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 wcinput]<span class="variable">$vim</span> wc.input</span><br></pre></td></tr></table></figure>
 
-<p>在文件中输入如下内容<br>hadoop yarn<br>hadoop mapreduce<br>atguigu<br>atguigu<br>保存退出：：wq<br>4）回到hadoop目录/opt/module/hadoop-2.7.2<br>5）执行程序：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[atguigu@hadoop101 hadoop-2.7.2]$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar wordcount wcinput wcoutput</span><br></pre></td></tr></table></figure>
+<p>在文件中输入如下内容<br>hadoop yarn<br>hadoop mapreduce<br>root<br>root<br>保存退出：：wq<br>4）回到hadoop目录/opt/module/hadoop-2.7.2<br>5）执行程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 hadoop-2.7.2]$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar wordcount wcinput wcoutput</span><br></pre></td></tr></table></figure>
 
 <p>6）查看结果：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[atguigu@hadoop101 hadoop-2.7.2]<span class="variable">$cat</span> wcoutput/part-r-00000</span><br><span class="line">atguigu 2</span><br><span class="line">hadoop  2</span><br><span class="line">mapreduce       1</span><br><span class="line">yarn    1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop011 hadoop-2.7.2]<span class="variable">$cat</span> wcoutput/part-r-00000</span><br><span class="line">root 2</span><br><span class="line">hadoop  2</span><br><span class="line">mapreduce       1</span><br><span class="line">yarn    1</span><br></pre></td></tr></table></figure>
         </div>
         <footer class="article-footer">
             
 
 
 
-    <a data-url="http://yoursite.com/2019/08/27/bigdata-02/" data-id="ck1usjvfr0001k4vjb8vyixu5" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/08/27/bigdata-02/" data-id="ck1vkgcyc0005f8vjw8k167pm" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -275,7 +275,7 @@
         "genre": "大数据",
         "datePublished": "2019-08-27",
         "dateCreated": "2019-08-27",
-        "dateModified": "2019-09-24",
+        "dateModified": "2019-10-18",
         "url": "http://yoursite.com/2019/08/27/bigdata-02/",
         "description": "大数据学习第二天
 hadoop的安装与配置安装hadoop，有人会建议重新编译，过程还比较复杂。从网上了解到这是因为hadoop是用java写的，但是某些操作不适合用java实现，所以用的是c/c++的动态库（本地库），所以需要根据不同的处理器架构，重新编译，他们以库的形式提供接口供上层调用。（好吧，似懂非懂，貌似是hadoop并不是纯粹的java实现，而是Java+C/C++）

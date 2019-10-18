@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="徐栋梁的博客">
 <meta property="og:description" content="大数据学习第35天（1） Kafka集群部署1）解压安装包 1[root@hadoop013 soft]$ tar -zxvf kafka_2.11-0.11.0.0.tgz -C /opt/module/  2）修改解压后的文件名称 1[root@hadoop013 module]$ mv kafka_2.11-0.11.0.0/ kafka_2.11  3）在/opt/module/kafka">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-17T14:19:14.267Z">
+<meta property="og:updated_time" content="2019-10-18T05:17:37.713Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka集群部署">
 <meta name="twitter:description" content="大数据学习第35天（1） Kafka集群部署1）解压安装包 1[root@hadoop013 soft]$ tar -zxvf kafka_2.11-0.11.0.0.tgz -C /opt/module/  2）修改解压后的文件名称 1[root@hadoop013 module]$ mv kafka_2.11-0.11.0.0/ kafka_2.11  3）在/opt/module/kafka">
@@ -198,14 +198,14 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-server-start.sh config/server.properties &amp;</span><br></pre></td></tr></table></figure>
 
 <p>&amp; 表示启动为后台进程</p>
-<h3 id="Kafka命令行操作"><a href="#Kafka命令行操作" class="headerlink" title="Kafka命令行操作"></a>Kafka命令行操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1）查看当前服务器中的所有topic</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --list --zookeeper hadoop013:2181</span><br><span class="line">2）创建topic</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --create --zookeeper hadoop013:2181 --replication-factor 3 --partitions 1 --topic first</span><br><span class="line">选项说明：</span><br><span class="line">--topic 定义topic名</span><br><span class="line">--replication-factor  定义副本数</span><br><span class="line">--partitions  定义分区数</span><br><span class="line">3）	删除topic</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --delete --zookeeper hadoop013:2181 --topic first</span><br><span class="line">需要server.properties中设置delete.topic.enable=<span class="literal">true</span>否则只是标记删除或者直接重启。</span><br><span class="line">4）发送消息</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-console-producer.sh --broker-list hadoop013:9092 --topic first</span><br><span class="line">&gt;hello world</span><br><span class="line">&gt;root  root</span><br><span class="line">5）消费消息</span><br><span class="line">[root@hadoop103 kafka]$ bin/kafka-console-consumer.sh --zookeeper hadoop013:2181 --from-beginning --topic first</span><br><span class="line">6）查看某个Topic的详情</span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --topic first --describe --zookeeper hadoop013:2181</span><br></pre></td></tr></table></figure>
+<h3 id="Kafka命令行操作"><a href="#Kafka命令行操作" class="headerlink" title="Kafka命令行操作"></a>Kafka命令行操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 1）查看当前服务器中的所有topic</span></span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --list --zookeeper hadoop013:2181</span><br><span class="line"><span class="comment">##2）创建topic</span></span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --create --zookeeper hadoop013:2181 --replication-factor 3 --partitions 1 --topic first</span><br><span class="line"><span class="comment">##选项说明：</span></span><br><span class="line"><span class="comment">###--topic 定义topic名</span></span><br><span class="line"><span class="comment">##--replication-factor  定义副本数</span></span><br><span class="line"><span class="comment">##--partitions  定义分区数</span></span><br><span class="line"><span class="comment">##3）	删除topic</span></span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --delete --zookeeper hadoop013:2181 --topic first</span><br><span class="line"><span class="comment">##需要server.properties中设置delete.topic.enable=true否则只是标记删除或者直接重启。</span></span><br><span class="line"><span class="comment">##4）发送消息</span></span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-console-producer.sh --broker-list hadoop013:9092 --topic first</span><br><span class="line">&gt;hello world</span><br><span class="line">&gt;root  root</span><br><span class="line"><span class="comment">##5）消费消息</span></span><br><span class="line">[root@hadoop103 kafka]$ bin/kafka-console-consumer.sh --zookeeper hadoop013:2181 --from-beginning --topic first</span><br><span class="line"><span class="comment">##6）查看某个Topic的详情</span></span><br><span class="line">[root@hadoop013 kafka]$ bin/kafka-topics.sh --topic first --describe --zookeeper hadoop013:2181</span><br></pre></td></tr></table></figure>
         </div>
         <footer class="article-footer">
             
 
 
 
-    <a data-url="http://yoursite.com/2019/10/17/bigdata-35（1）/" data-id="ck1usjvhr002ik4vjv3ot5bp9" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2019/10/17/bigdata-35（1）/" data-id="ck1vkgcze0027f8vj6dslykov" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -281,7 +281,7 @@
         "genre": "大数据",
         "datePublished": "2019-10-17",
         "dateCreated": "2019-10-17",
-        "dateModified": "2019-10-17",
+        "dateModified": "2019-10-18",
         "url": "http://yoursite.com/2019/10/17/bigdata-35（1）/",
         "description": "大数据学习第35天（1）
 Kafka集群部署1）解压安装包
@@ -291,7 +291,7 @@ Kafka集群部署1）解压安装包
 1[root@hadoop013 module]$ mv kafka_2.11-0.11.0.0/ kafka_2.11
 
 3）在/opt/module/kafka"
-        "wordCount": 256
+        "wordCount": 267
     }
 </script>
 
