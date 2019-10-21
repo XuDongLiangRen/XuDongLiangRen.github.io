@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Spark Streaming解析（上） | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Spark">
+    
+    <meta name="description" content="大数据学习第36天（2） 1 初始化StreamingContext12345678910111213import org.apache.spark._import org.apache.spark.streaming._val conf = new SparkConf().setAppName(appName).setMaster(master)val ssc = new StreamingCo">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark Streaming解析（上）">
+<meta property="og:url" content="http://yoursite.com/2019/10/19/bigdata-36（2）/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第36天（2） 1 初始化StreamingContext12345678910111213import org.apache.spark._import org.apache.spark.streaming._val conf = new SparkConf().setAppName(appName).setMaster(master)val ssc = new StreamingCo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-19T15:40:24.360Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark Streaming解析（上）">
+<meta name="twitter:description" content="大数据学习第36天（2） 1 初始化StreamingContext12345678910111213import org.apache.spark._import org.apache.spark.streaming._val conf = new SparkConf().setAppName(appName).setMaster(master)val ssc = new StreamingCo">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/大数据/">大数据</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/随笔/">随笔</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-36（2）" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Spark Streaming解析（上）
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/10/19/bigdata-36（2）/" class="article-date">
+            <time datetime="2019-10-19T00:42:17.000Z" itemprop="datePublished">2019-10-19</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Spark/">Spark</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第36天（2）</p>
+<h3 id="1-初始化StreamingContext"><a href="#1-初始化StreamingContext" class="headerlink" title="1 初始化StreamingContext"></a>1 初始化StreamingContext</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark._</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming._</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(appName).setMaster(master)</span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf,<span class="type">Seconds</span>(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以通过ssc.sparkContext 来访问SparkContext</span></span><br><span class="line"><span class="comment">// 或者通过已经存在的SparkContext来创建StreamingContext</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.spaark.streaming._</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = ...<span class="comment">//SparkContext 已经存在</span></span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">Streaming</span>(sc,<span class="type">Seconds</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+<p>初始化完Context之后：</p>
+<ol>
+<li>定义消息输入源来创建DStreams。</li>
+<li>定义DStreams的转换操作和输出操作。</li>
+<li>通过streamingContext.start()来启动消息采集和处理。</li>
+<li>等待程序终止，可以通过streamingContext.awaitTermination()来设置</li>
+<li>通过streamingContext.stop()来手动终止处理程序。</li>
+</ol>
+<p>注意：</p>
+<ul>
+<li>StreamingContext一旦启动，待DStreams的操作就不能修改了。</li>
+<li>在同一时间一个JVM中只有一个StreamingContext可以启动。</li>
+<li>stop()方法将同时停止SparkContext，可以闯入参数stopSparkContext用于只停止StreamingContext。</li>
+</ul>
+<h3 id="2-什么是DStream"><a href="#2-什么是DStream" class="headerlink" title="2 什么是DStream"></a>2 什么是DStream</h3><p>Discretized Stream是Spark Streaming的基础抽象，代表持续性的数据流和经过各种Spark原语操作后的结果数据流。在内部实现上，DStream是一系列连续的RDD来表示，每个RDD含有一端时间间隔内的数据，对数据的操作也是按照RDD为单位进行的，计算过程由Spark engine来完成。</p>
+<h3 id="3-DStream输入"><a href="#3-DStream输入" class="headerlink" title="3 DStream输入"></a>3 DStream输入</h3><p>Spark Streaming原生支持一些不同的数据源。</p>
+<p>Spark Streaming运行时，每个接收器都以Spark执行其程序中一个长期运行的任务的形式运行，因此会占据分配给应用的CPU核心。此外，我们还需要有可用的CPU核心来处理数据。<br>这意味着如果要运行多个接收器，就必须至少有和接收器数目相同的核心数，还要加上用来完成计算所需要的核心数。</p>
+<p>10个接收器 =&gt; 至少11个核心数。</p>
+<h4 id="3-1-基本数据源"><a href="#3-1-基本数据源" class="headerlink" title="3.1 基本数据源"></a>3.1 基本数据源</h4><h5 id="3-1-1-文件数据源"><a href="#3-1-1-文件数据源" class="headerlink" title="3.1.1 文件数据源"></a>3.1.1 文件数据源</h5><p>文件数据流：能够读取所有HDFS API兼容的文件系统文件，通过fileStream方法读取</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">streamingContext.fileStream[<span class="type">KeyClass</span>,<span class="type">ValueClass</span>,<span class="type">InputFormatClass</span>](dataDirector)</span><br></pre></td></tr></table></figure>
+
+<p>Spark Streaming将会监视dataDirectory目录并不断处理移动进来的文件，记住目前不支持嵌套目录。</p>
+<ul>
+<li>文件需要有相同的数据格式</li>
+<li>文件进入dataDirectory的方式需要通过移动或者重命名来实现</li>
+<li>一旦文件移动进目录，则不能再修改，即使修改了也不会读取新数据</li>
+</ul>
+<p>如果文件比较比较简单，则可以使用streamingContext.textFileStream(dataDirector)方法来读取文件。文件流不需要接收器，不需要单独分配分配CPU核。</p>
+<p>HDFS文件读取实例：</p>
+<p>pom.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-streaming_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spark.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">HdfsFileMonitor</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args : <span class="type">Array</span>[<span class="type">String</span>])&#123;</span><br><span class="line">        <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setMaster(<span class="string">"local[2]"</span>).setAppName(<span class="string">"HdfsFileMonitor"</span>)</span><br><span class="line">        <span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf,<span class="type">Seconds</span>(<span class="number">2</span>))</span><br><span class="line">        ssc.sparkContext.setLOgLevel(<span class="string">"WARN"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> lines = ssc.textFileStream(<span class="string">"hdfs://hadoop011:9000/data"</span>)<span class="comment">//该文件夹需要提前建好</span></span><br><span class="line">        <span class="keyword">val</span> words = lines.flatMap(_.split(<span class="string">" "</span>))</span><br><span class="line">        <span class="keyword">val</span> wordCounts = words.map(word =&gt; (word,<span class="number">1</span>)).reduceByKey(_+_)</span><br><span class="line">        wordCounts.print()</span><br><span class="line"></span><br><span class="line">        ssc.start()</span><br><span class="line">        ssc.awaitTermination()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动程序后，上传文件上去</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[liang@hadoop011 hadoop-2.7.3]$ bin/hdfs dfs -put ./LICENSE.txt /data/</span><br></pre></td></tr></table></figure>
+
+<p>控制台结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------------------</span><br><span class="line">Time: 1504665717000 ms</span><br><span class="line">-------------------------------------------</span><br><span class="line"></span><br><span class="line">-------------------------------------------</span><br><span class="line">Time: 1504665718000 ms</span><br><span class="line">-------------------------------------------</span><br><span class="line">(227.7202-1,2)</span><br><span class="line">(created,2)</span><br><span class="line">(offer,8)</span><br><span class="line">(BUSINESS,11)</span><br><span class="line"></span><br><span class="line">-------------------------------------------</span><br><span class="line">Time: 1504665719000 ms</span><br><span class="line">-------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-1-2-自定义数据源"><a href="#3-1-2-自定义数据源" class="headerlink" title="3.1.2 自定义数据源"></a>3.1.2 自定义数据源</h5><p>通过继承 org.apache.spark.streaming.receiver.Receiver,并实现onStart、onStop方法来自定义数据源采集。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.&#123;<span class="type">BufferedReader</span>, <span class="type">InputStreamReader</span>&#125;</span><br><span class="line"><span class="keyword">import</span> java.net.<span class="type">Socket</span></span><br><span class="line"><span class="keyword">import</span> java.nio.charset.<span class="type">StandardCharsets</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.receiver.<span class="type">Receiver</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomReceiver</span>(<span class="params">host: <span class="type">String</span>,port: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Receiver</span>[<span class="type">String</span>](<span class="params"><span class="type">StorageLevel</span>.<span class="type">MEMORY_AND_DISK_2</span></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">onStart</span></span>()&#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="type">Thread</span>(<span class="string">"Socket Receiver"</span>)&#123;</span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">run</span></span>()&#123;</span><br><span class="line">                receive()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.start()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">onStop</span></span>() = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">recrive</span></span>()&#123;</span><br><span class="line">        <span class="keyword">var</span> socket : <span class="type">Socket</span> = <span class="literal">null</span></span><br><span class="line">        <span class="keyword">var</span> userInput : <span class="type">String</span> = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            socket = <span class="keyword">new</span> <span class="type">Socket</span>(host,port)</span><br><span class="line">            <span class="keyword">val</span> reader = <span class="keyword">new</span> <span class="type">BufferedReader</span>(<span class="keyword">new</span> <span class="type">InputStreamReader</span>(socket.getInputStream,<span class="type">StandardCharests</span>.<span class="type">UTF_8</span>))</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(!isStopped() &amp;&amp; ((userInput = reader.readLine()) != <span class="literal">null</span>))&#123;</span><br><span class="line">                store(userInput)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            reader.close()</span><br><span class="line">            socket.close()</span><br><span class="line"></span><br><span class="line">            restart(<span class="string">"Trying to connect again"</span>)</span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line">            <span class="keyword">case</span> e : java.net.<span class="type">ConnectException</span> =&gt; restart(<span class="string">"Error connecting to "</span>+host+<span class="string">":"</span>+port,e)</span><br><span class="line">            <span class="keyword">case</span> t : <span class="type">Throwable</span> =&gt; restart(<span class="string">"Error receiving data"</span>,t)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">CustomReceiver</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args : <span class="type">Array</span>[<span class="type">String</span>])&#123;</span><br><span class="line">        <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setMaster(<span class="string">"local[2]"</span>).setAppName(<span class="string">"NetworkWC"</span>)</span><br><span class="line">        <span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf,<span class="type">Seconds</span>(<span class="number">2</span>))</span><br><span class="line">        ssc.sparkContext.setLogLevel(<span class="string">"WARN"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> lines = ssc.receviverStream(<span class="keyword">new</span> <span class="type">CustomReceiver</span>(<span class="string">"192.168.164.200"</span>,<span class="number">9999</span>))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> words = lines.flatMap(_.split(<span class="string">","</span>))</span><br><span class="line">        <span class="keyword">val</span> wordCounts = words.map(word =&gt;(word,<span class="number">1</span>)).reduceByKey(_+_)</span><br><span class="line">        wordCount.print()</span><br><span class="line"></span><br><span class="line">        ssc.start()</span><br><span class="line">        ssc.awaitTermination()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动程序后，通过 nc -lk port 的命令启动端口，输入单词即在控制台看到结果。</p>
+<h5 id="3-1-3-RDD队列"><a href="#3-1-3-RDD队列" class="headerlink" title="3.1.3 RDD队列"></a>3.1.3 RDD队列</h5><p>测试过程中，可以通过使用streamingContext.queueStream(queueOfRDDs)来创建DStream，每一个推送到这个队列中的RDD，都会作为一个DStream处理。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.collection.mutable</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">RddSour</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args : <span class="type">Array</span>[<span class="type">String</span>])&#123;</span><br><span class="line">        <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"RDDSour"</span>).setMaster(<span class="string">"local[2]"</span>)</span><br><span class="line">        <span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf,<span class="type">Seconds</span>(<span class="number">1</span>))</span><br><span class="line">        ssc.sprakContext().setLogLevel(<span class="string">"WARN"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建RDD队列</span></span><br><span class="line">        <span class="keyword">val</span> rddQueue = <span class="keyword">new</span> mutable.<span class="type">SynchronizedQueue</span>[<span class="type">RDD</span>[<span class="type">Int</span>]]()</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建QueueInputStream</span></span><br><span class="line">        <span class="keyword">val</span> inputStream = ssc.queueStream(rddQueue)</span><br><span class="line"></span><br><span class="line">        <span class="comment">//处理队列中的RDD数据</span></span><br><span class="line">        <span class="keyword">val</span> mappedStream = inputStream.map(x =&gt;(x%<span class="number">10</span>,<span class="number">1</span>))</span><br><span class="line">        <span class="keyword">val</span> reducedStream = mappedStream.reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">        reducedStream.print()</span><br><span class="line"></span><br><span class="line">        ssc.start()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(i &lt;- <span class="number">1</span> to <span class="number">30</span>)&#123;</span><br><span class="line">            rddQueue += ssc.sparkContext.makeRDD(<span class="number">1</span> to <span class="number">300</span>,<span class="number">10</span>)</span><br><span class="line">            <span class="type">Thread</span>.sleep(<span class="number">2000</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        scc.awaitTermination()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-高级数据源"><a href="#3-2-高级数据源" class="headerlink" title="3.2 高级数据源"></a>3.2 高级数据源</h4><p>除了核心数据源外，还可以用附加的数据源接收器来从一些知名数据获取系统中获取数据，这些接收器都作为Spark Streaming的组件进行独立打包了。它们仍然时Spark的一部分，不过你需要在构建文件中添加额外的包才能使用它们。</p>
+<p>可以通过添加与Spark版本匹配的Maven工件 spark-streaming-[projectname]_2.10来引入这些附加器。</p>
+<h5 id="3-2-1-Apache-Kafka"><a href="#3-2-1-Apache-Kafka" class="headerlink" title="3.2.1 Apache Kafka"></a>3.2.1 Apache Kafka</h5><p>在工程中需要引入 Maven 工件 spark-streaming-kafka_2.10 来使用它。</p>
+<p>包内提供的KafkaUtils对象可以在StreamingContext和JavaStreamContext中以你的Kafka消息创建出的DStream。</p>
+<p>由于KafkaUtils可以订阅多个主题，因此它创建出的DStream有成对的主题和消息组组成。<br>要创建出一个流数据，需要使用StreamingContext实例、一个由逗号隔开的Zookeeper主机列表字符串、消费者组的名字（唯一名字）、以及一个从主题到针对这个主题的的接收器线程数的映射列表 来调用createStream方法。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.kafka._</span><br><span class="line"><span class="keyword">val</span> topic = <span class="type">List</span>((<span class="string">"pandas"</span>,<span class="number">1</span>),(<span class="string">"logs"</span>,<span class="number">1</span>)).toMap</span><br><span class="line"><span class="keyword">val</span> topicLines = <span class="type">KafkaUtils</span>.createStream(ssc,zkQuorum,group,topics)</span><br><span class="line">topicLines.map(_._2)</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/10/19/bigdata-36（2）/" data-id="ck20k5pv8004odkvjvvzofexg" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "Spark Streaming解析（上）",
+        "image": "http://yoursite.com",
+        "keywords": "Spark",
+        "genre": "大数据",
+        "datePublished": "2019-10-19",
+        "dateCreated": "2019-10-19",
+        "dateModified": "2019-10-19",
+        "url": "http://yoursite.com/2019/10/19/bigdata-36（2）/",
+        "description": "大数据学习第36天（2）
+1 初始化StreamingContext12345678910111213import org.apache.spark._import org.apache.spark.streaming._val conf = new SparkConf().setAppName(appName).setMaster(master)val ssc = new StreamingCo"
+        "wordCount": 1360
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/10/21/bigdata-37/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            凸函数优化值之梯度下降法
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/10/18/bigdata-36/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Spark Streaming概述</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/21/bigdata-37/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/21/bigdata-37/" class="title">凸函数优化值之梯度下降法</a></p>
+                            <p class="item-date"><time datetime="2019-10-21T15:03:46.000Z" itemprop="datePublished">2019-10-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/19/bigdata-36（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/19/bigdata-36（2）/" class="title">Spark Streaming解析（上）</a></p>
+                            <p class="item-date"><time datetime="2019-10-19T00:42:17.000Z" itemprop="datePublished">2019-10-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/18/bigdata-36/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/10/18/bigdata-36/1.jpg)" alt="Spark Streaming概述" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/18/bigdata-36/" class="title">Spark Streaming概述</a></p>
+                            <p class="item-date"><time datetime="2019-10-18T13:52:56.000Z" itemprop="datePublished">2019-10-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/17/bigdata-35（1）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/17/bigdata-35（1）/" class="title">Kafka集群部署</a></p>
+                            <p class="item-date"><time datetime="2019-10-17T14:09:54.000Z" itemprop="datePublished">2019-10-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/17/bigdata-35/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/17/bigdata-35/" class="title">kafka关闭kafka进程解决办法</a></p>
+                            <p class="item-date"><time datetime="2019-10-17T14:04:32.000Z" itemprop="datePublished">2019-10-17</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观后感/">观后感</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Hbase/" style="font-size: 18px;">Hbase</a> <a href="/tags/Kafka/" style="font-size: 12px;">Kafka</a> <a href="/tags/Scala/" style="font-size: 16px;">Scala</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Zookeeper/" style="font-size: 12px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 14px;">hive</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/示例/" style="font-size: 12px;">示例</a> <a href="/tags/观后感/" style="font-size: 10px;">观后感</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://baidu.com">baidu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/10/19/bigdata-36（2）/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
