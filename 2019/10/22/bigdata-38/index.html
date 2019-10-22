@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>机器学习的几个算法（上） | 徐栋梁的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Spark">
+    
+    <meta name="description" content="大数据学习第38天 梯度下降求线性回归数据样本 12345-9.490009878824548 1:0.4551273600657362 2:0.36644694351969087 3:-0.38256108933468047 4:-0.4458430198517267 5:0.33109790358914726 6:0.8067445293443565 7:-0.2624341731773887">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习的几个算法（上）">
+<meta property="og:url" content="http://yoursite.com/2019/10/22/bigdata-38/index.html">
+<meta property="og:site_name" content="徐栋梁的博客">
+<meta property="og:description" content="大数据学习第38天 梯度下降求线性回归数据样本 12345-9.490009878824548 1:0.4551273600657362 2:0.36644694351969087 3:-0.38256108933468047 4:-0.4458430198517267 5:0.33109790358914726 6:0.8067445293443565 7:-0.2624341731773887">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-22T13:20:18.838Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习的几个算法（上）">
+<meta name="twitter:description" content="大数据学习第38天 梯度下降求线性回归数据样本 12345-9.490009878824548 1:0.4551273600657362 2:0.36644694351969087 3:-0.38256108933468047 4:-0.4458430198517267 5:0.33109790358914726 6:0.8067445293443565 7:-0.2624341731773887">
+    
+
+    
+        <link rel="alternate" href="/" title="徐栋梁的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/大数据/">大数据</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/随笔/">随笔</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/大数据/">大数据</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bigdata-38" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        机器学习的几个算法（上）
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/10/22/bigdata-38/" class="article-date">
+            <time datetime="2019-10-22T13:12:35.000Z" itemprop="datePublished">2019-10-22</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Spark/">Spark</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>大数据学习第38天</p>
+<h2 id="梯度下降求线性回归"><a href="#梯度下降求线性回归" class="headerlink" title="梯度下降求线性回归"></a>梯度下降求线性回归</h2><p>数据样本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-9.490009878824548 1:0.4551273600657362 2:0.36644694351969087 3:-0.38256108933468047 4:-0.4458430198517267 5:0.33109790358914726 6:0.8067445293443565 7:-0.2624341731773887 8:-0.44850386111659524 9:-0.07269284838169332 10:0.5658035575800715</span><br><span class="line">0.2577820163584905 1:0.8386555657374337 2:-0.1270180511534269 3:0.499812362510895 4:-0.22686625128130267 5:-0.6452430441812433 6:0.18869982177936828 7:-0.5804648622673358 8:0.651931743775642 9:-0.6555641246242951 10:0.17485476357259122</span><br><span class="line">-4.438869807456516 1:0.5025608135349202 2:0.14208069682973434 3:0.16004976900412138 4:0.505019897181302 5:-0.9371635223468384 6:-0.2841601610457427 7:0.6355938616712786 8:-0.1646249064941625 9:0.9480713629917628 10:0.42681251564645817</span><br><span class="line">-19.782762789614537 1:-0.0388509668871313 2:-0.4166870051763918 3:0.8997202693189332 4:0.6409836467726933 5:0.273289095712564 6:-0.26175701211620517 7:-0.2794902492677298 8:-0.1306778297187794 9:-0.08536581111046115 10:-0.05462315824828923</span><br><span class="line">-7.966593841555266 1:-0.06195495876886281 2:0.6546448480299902 3:-0.6979368909424835 4:0.6677324708883314 5:-0.07938725467767771 6:-0.43885601665437957 7:-0.608071585153688 8:-0.6414531182501653 9:0.7313735926547045 10:-0.026818676347611925</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.log4j.&#123;<span class="type">Level</span>, <span class="type">Logger</span>&#125;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.ml.feature.<span class="type">LabeledPoint</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.ml.linalg.<span class="type">Vectors</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.ml.regression.<span class="type">LinearRegressionModel</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.mllib.regression.<span class="type">LinearRegressionWithSGD</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.mllib.util.<span class="type">MLUtils</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.&#123;<span class="type">SparkConf</span>, <span class="type">SparkContext</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">_01_LinearRegression</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="comment">//屏蔽日志</span></span><br><span class="line">    <span class="type">Logger</span>.getLogger(<span class="string">"org.apache.spark"</span>).setLevel(<span class="type">Level</span>.<span class="type">ERROR</span>)</span><br><span class="line">    <span class="type">Logger</span>.getLogger(<span class="string">"org.eclipse.jetty.server"</span>).setLevel(<span class="type">Level</span>.<span class="type">OFF</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建SparkContext</span></span><br><span class="line">    <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setMaster(<span class="string">"local[4]"</span>).setAppName(<span class="string">"LinearRegression"</span>)</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//指定数据样本路径</span></span><br><span class="line">    <span class="keyword">val</span> path = <span class="string">"src/main/resources/line_data.txt"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过特定的工具类加载样本文件</span></span><br><span class="line">    <span class="keyword">val</span> data = <span class="type">MLUtils</span>.loadLibSVMFile(sc,path).cache()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//或者通过RDD装换加载</span></span><br><span class="line">    <span class="comment">/*val data2 = sc.textFile(path).map&#123;line =&gt;</span></span><br><span class="line"><span class="comment">        val parts = line.split(' ')</span></span><br><span class="line"><span class="comment">        LabeledPoint(parts(0).toDouble,</span></span><br><span class="line"><span class="comment">          Vectors.dense(parts.tail.map(_.split(":")(1).toDouble)))</span></span><br><span class="line"><span class="comment">    &#125;.cache()*/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//迭代次数</span></span><br><span class="line">    <span class="keyword">val</span> numIterations = <span class="number">1000</span></span><br><span class="line">    <span class="comment">//梯度下降步长</span></span><br><span class="line">    <span class="keyword">val</span> stepSize = <span class="number">0.01</span></span><br><span class="line">    <span class="comment">//训练模型</span></span><br><span class="line">    <span class="keyword">val</span> model = <span class="type">LinearRegressionWithSGD</span>.train(data,numIterations,stepSize)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//模型估计</span></span><br><span class="line">    <span class="keyword">val</span> valuesAndPreds = data.map&#123; point =&gt;</span><br><span class="line">        <span class="comment">//根据模型预测Label</span></span><br><span class="line">      <span class="keyword">val</span> prediction = model.predict(point.features)</span><br><span class="line">      println(<span class="string">s"【真实值】：<span class="subst">$&#123;point.label&#125;</span>  ;  【预测值】：<span class="subst">$&#123;prediction&#125;</span>"</span>)</span><br><span class="line">      (point.label,prediction)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//求均方误差</span></span><br><span class="line">    <span class="keyword">val</span> <span class="type">MSE</span> = valuesAndPreds.map&#123;</span><br><span class="line">      <span class="keyword">case</span> (v,p) =&gt; math.pow((v-p),<span class="number">2</span>)</span><br><span class="line">    &#125;.mean()</span><br><span class="line">    println(<span class="string">"训练模型的均方误差为 = "</span> + <span class="type">MSE</span>)</span><br><span class="line">    <span class="comment">//保存模型</span></span><br><span class="line">    <span class="comment">//model.save(sc,"/opt/output/scalaLinearRegresionWithSGDModel")</span></span><br><span class="line"></span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="FPGrowth挖掘关联规则"><a href="#FPGrowth挖掘关联规则" class="headerlink" title="FPGrowth挖掘关联规则"></a>FPGrowth挖掘关联规则</h2><p>数据样本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">r z h k p</span><br><span class="line">z y x w v u t s</span><br><span class="line">s x o n r</span><br><span class="line">x z y m t s q e</span><br><span class="line">z</span><br><span class="line">x z y r q t p</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.log4j.&#123;<span class="type">Level</span>, <span class="type">Logger</span>&#125;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.mllib.fpm.<span class="type">FPGrowth</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.&#123;<span class="type">SparkConf</span>, <span class="type">SparkContext</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">_02_FpGrowth</span> <span class="keyword">extends</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">  <span class="comment">//屏蔽日志</span></span><br><span class="line">  <span class="type">Logger</span>.getLogger(<span class="string">"org.apache.spark"</span>).setLevel(<span class="type">Level</span>.<span class="type">WARN</span>)</span><br><span class="line">  <span class="type">Logger</span>.getLogger(<span class="string">"org.eclipse.jetty.server"</span>).setLevel(<span class="type">Level</span>.<span class="type">OFF</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建SparkContext</span></span><br><span class="line">  <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setMaster(<span class="string">"local[4]"</span>).setAppName(<span class="string">"FPGrowth"</span>)</span><br><span class="line">  <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line">  <span class="comment">//加载数据样本</span></span><br><span class="line">  <span class="keyword">val</span> path = <span class="string">"/home/liang/IdeaProjects/spark1/src/main/resources/fpgrowth.txt"</span></span><br><span class="line">  <span class="keyword">val</span> transcations = sc.textFile(path).map(_.split(<span class="string">" "</span>)).cache()</span><br><span class="line"></span><br><span class="line">  println(<span class="string">s"交易样本的数量为：<span class="subst">$&#123;transcations.count()&#125;</span>"</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">//最小支持度</span></span><br><span class="line">  <span class="keyword">val</span> minSupport = <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//计算的并行度</span></span><br><span class="line">  <span class="keyword">val</span> numPartition = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//训练模型</span></span><br><span class="line">  <span class="keyword">val</span> model = <span class="keyword">new</span> <span class="type">FPGrowth</span>()</span><br><span class="line">    .setMinSupport(minSupport)</span><br><span class="line">    .setNumPartitions(numPartition)</span><br><span class="line">    .run(transcations)</span><br><span class="line"></span><br><span class="line">  <span class="comment">//打印模型结果</span></span><br><span class="line">  println(<span class="string">s"经常一起购买的物品集的数量为：<span class="subst">$&#123;model.freqItemsets.count()&#125;</span>"</span>)</span><br><span class="line">  model.freqItemsets.collect().foreach&#123;</span><br><span class="line">    itemset =&gt;</span><br><span class="line">      println(itemset.items.mkString(<span class="string">"["</span>,<span class="string">","</span>,<span class="string">"]"</span>)+<span class="string">","</span>+itemset.freq)</span><br><span class="line">  &#125;</span><br><span class="line">  sc.stop()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="K-Means聚类"><a href="#K-Means聚类" class="headerlink" title="K-Means聚类"></a>K-Means聚类</h2><p>数据样本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">0.0 0.0 0.0</span><br><span class="line">0.1 0.1 0.1</span><br><span class="line">0.2 0.2 0.2</span><br><span class="line">9.0 9.0 9.0</span><br><span class="line">9.1 9.1 9.1</span><br><span class="line">9.2 9.2 9.2</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.log4j.&#123;<span class="type">Level</span>, <span class="type">Logger</span>&#125;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.mllib.clustering.<span class="type">KMeans</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.&#123;<span class="type">SparkConf</span>, <span class="type">SparkContext</span>&#125;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.mllib.linalg.<span class="type">Vectors</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">KMeanCluster</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="comment">//屏蔽日志</span></span><br><span class="line">    <span class="type">Logger</span>.getLogger(<span class="string">"org.apache.spark"</span>).setLevel(<span class="type">Level</span>.<span class="type">ERROR</span>)</span><br><span class="line">    <span class="type">Logger</span>.getLogger(<span class="string">"org.eclipse.jetty.server"</span>).setLevel(<span class="type">Level</span>.<span class="type">OFF</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建SparkContext</span></span><br><span class="line">    <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setMaster(<span class="string">"local[4]"</span>).setAppName(<span class="string">"KMeans"</span>)</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//加载数据</span></span><br><span class="line">    <span class="keyword">val</span> path = <span class="string">"/home/liang/IdeaProjects/spark1/src/main/resources/kmeans_data.txt"</span></span><br><span class="line">    <span class="keyword">val</span> data = sc.textFile(path)</span><br><span class="line">    <span class="keyword">val</span> parsedData = data.map(s =&gt; <span class="type">Vectors</span>.dense(s.split(' ').map(_.toDouble))).cache()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过KMeans将数据分成两个阵营</span></span><br><span class="line">    <span class="keyword">val</span> numClusters = <span class="number">2</span></span><br><span class="line">    <span class="keyword">val</span> numIterations = <span class="number">20</span></span><br><span class="line">    <span class="keyword">val</span> clusters = <span class="type">KMeans</span>.train(parsedData, numClusters, numIterations)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出当前的聚类中心</span></span><br><span class="line">    clusters.clusterCenters.foreach(println(_))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> index = clusters.predict(<span class="type">Vectors</span>.dense(<span class="type">Array</span>(<span class="number">8.9</span>, <span class="number">7.2</span>, <span class="number">9.0</span>)))</span><br><span class="line">    println(<span class="string">s"Vectors[8.9,7.2,9.0]属于聚类索引为:<span class="subst">$&#123;index&#125;</span>"</span> +</span><br><span class="line">      <span class="string">s"  中心坐标为：<span class="subst">$&#123;clusters.clusterCenters(index)&#125;</span>的簇"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算误差平方和</span></span><br><span class="line">    <span class="keyword">val</span> <span class="type">WSSSE</span> = clusters.computeCost(parsedData)</span><br><span class="line">    println(<span class="string">"误差平方和="</span>+<span class="type">WSSSE</span>)</span><br><span class="line"></span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/10/22/bigdata-38/" data-id="ck21vms2a002qv4vj772pz4i7" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "机器学习的几个算法（上）",
+        "image": "http://yoursite.com",
+        "keywords": "Spark",
+        "genre": "大数据",
+        "datePublished": "2019-10-22",
+        "dateCreated": "2019-10-22",
+        "dateModified": "2019-10-22",
+        "url": "http://yoursite.com/2019/10/22/bigdata-38/",
+        "description": "大数据学习第38天
+梯度下降求线性回归数据样本
+12345-9.490009878824548 1:0.4551273600657362 2:0.36644694351969087 3:-0.38256108933468047 4:-0.4458430198517267 5:0.33109790358914726 6:0.8067445293443565 7:-0.2624341731773887"
+        "wordCount": 1135
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/10/21/bigdata-37/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">凸函数优化值之梯度下降法</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/22/bigdata-38/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/22/bigdata-38/" class="title">机器学习的几个算法（上）</a></p>
+                            <p class="item-date"><time datetime="2019-10-22T13:12:35.000Z" itemprop="datePublished">2019-10-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/21/bigdata-37/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/21/bigdata-37/" class="title">凸函数优化值之梯度下降法</a></p>
+                            <p class="item-date"><time datetime="2019-10-21T15:03:46.000Z" itemprop="datePublished">2019-10-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/19/bigdata-36（2）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/19/bigdata-36（2）/" class="title">Spark Streaming解析（上）</a></p>
+                            <p class="item-date"><time datetime="2019-10-19T00:42:17.000Z" itemprop="datePublished">2019-10-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/18/bigdata-36/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/10/18/bigdata-36/1.jpg)" alt="Spark Streaming概述" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/18/bigdata-36/" class="title">Spark Streaming概述</a></p>
+                            <p class="item-date"><time datetime="2019-10-18T13:52:56.000Z" itemprop="datePublished">2019-10-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/17/bigdata-35（1）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2019/10/17/bigdata-35（1）/" class="title">Kafka集群部署</a></p>
+                            <p class="item-date"><time datetime="2019-10-17T14:09:54.000Z" itemprop="datePublished">2019-10-17</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">47</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观后感/">观后感</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Hbase/" style="font-size: 16.67px;">Hbase</a> <a href="/tags/Kafka/" style="font-size: 11.67px;">Kafka</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Zookeeper/" style="font-size: 11.67px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">hadoop</a> <a href="/tags/hive/" style="font-size: 13.33px;">hive</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/示例/" style="font-size: 11.67px;">示例</a> <a href="/tags/观后感/" style="font-size: 10px;">观后感</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://baidu.com">baidu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 徐栋梁</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/10/22/bigdata-38/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
