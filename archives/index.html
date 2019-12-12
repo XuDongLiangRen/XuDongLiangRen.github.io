@@ -153,6 +153,56 @@
         <article class="article article-summary">
     <div class="article-summary-inner">
         
+        <a href="/2019/12/12/hadoop-02/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/12/12/hadoop-02/1.jpg)" alt="HDFS HA高可用" class="thumbnail-image"></span>
+    
+    
+        
+<span class="comment-counter">
+    <i class="fa fa-comments-o"></i>
+    
+        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/12/12/hadoop-02/">0</span>
+    
+</span>
+
+
+    
+</a>
+
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/hadoop总结/">hadoop总结</a>
+            </div>
+            <div class="date"><time datetime="2019-12-12T12:06:16.000Z" itemprop="datePublished">2019-12-12</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/2019/12/12/hadoop-02/">HDFS HA高可用</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            Hadoop是很典型的主从模式，那么就存在一个很直观的问题，就是一旦Master（NameNode）挂掉或者主节点硬件升级，集群就不能用了。所以呢，为了应对单点故障，需要配置高可用。
+我们讨论下设计高可用的思路：
+
+首先standby节点的元数据应该跟active的节点的元数据一样；
+Edits文件不能让NameNode管理，需要一个“小三”来管理，不然active节点挂掉，standby节点就无
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
         <a href="/2019/12/11/hadoop-01/" class="thumbnail">
     
     
@@ -198,10 +248,14 @@
     </div>
 </article>
     
+        </div>
+    
 
     
     
     
+    
+        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -246,14 +300,10 @@
     </div>
 </article>
     
-        </div>
-    
 
     
     
     
-    
-        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -297,10 +347,14 @@
     </div>
 </article>
     
+        </div>
+    
 
     
     
     
+    
+        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -344,14 +398,10 @@
     </div>
 </article>
     
-        </div>
-    
 
     
     
     
-    
-        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -396,10 +446,14 @@ Spark
     </div>
 </article>
     
+        </div>
+    
 
     
     
     
+    
+        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -449,14 +503,10 @@ Kafka集群部署1）解压安装包
     </div>
 </article>
     
-        </div>
-    
 
     
     
     
-    
-        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -501,10 +551,14 @@ kafka官方的kafka-server-start.sh不能关闭kafka进程解决办法如果在k
     </div>
 </article>
     
+        </div>
+    
 
     
     
     
+    
+        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -550,14 +604,10 @@ Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spa
     </div>
 </article>
     
-        </div>
-    
 
     
     
     
-    
-        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -597,57 +647,6 @@ Spark SQL的默认数据源为Parquet格式。数据源为Parquet文件时，Spa
         <p class="article-excerpt">
             大数据学习第34天（1）
 Sqark解析新的起始点SparkSession在老的版本中，SparkSQL提供了两种SQL查询起始点，一个叫SQLContext，用于SPark自己提供的SQL查询，一个叫HiveContext，用于连接Hive的查询。SparkSession是Spark最新的查询起始点，实质上是SQLContext和HiveContext的组合，所以在SQLContext和Hive
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/10/15/bigdata-33（2）/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/10/15/bigdata-33（2）/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/大数据/">大数据</a>
-            </div>
-            <div class="date"><time datetime="2019-10-15T12:57:59.000Z" itemprop="datePublished">2019-10-15</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/10/15/bigdata-33（2）/">Spark SQL概述</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            大数据学习第33天（2）
-Spark SQLSpark SQL是Spark用来处理结构化数据的一个模块，它提供了一个编程抽象叫做DataFrame并且作为分布式SQL查询引擎的作用。
-RDD vs DataFrames vs DataSetRDD
-RDD是一个懒执行的不可变的可以支持Lambda表达式的并行数据集合。
-RDD的最大好处就是简单，API的人性化程度很高。
-RDD的劣势是性能限制，它是
         </p>
     </div>
 </article>
@@ -711,6 +710,26 @@ RDD的劣势是性能限制，它是
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/12/12/hadoop-02/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2019/12/12/hadoop-02/1.jpg)" alt="HDFS HA高可用" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/hadoop总结/">hadoop总结</a></p>
+                            <p class="item-title"><a href="/2019/12/12/hadoop-02/" class="title">HDFS HA高可用</a></p>
+                            <p class="item-date"><time datetime="2019-12-12T12:06:16.000Z" itemprop="datePublished">2019-12-12</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -792,26 +811,6 @@ RDD的劣势是性能限制，它是
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/10/18/bigdata-36/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/2019/10/18/bigdata-36/1.jpg)" alt="Spark Streaming概述" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2019/10/18/bigdata-36/" class="title">Spark Streaming概述</a></p>
-                            <p class="item-date"><time datetime="2019-10-18T13:52:56.000Z" itemprop="datePublished">2019-10-18</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -821,7 +820,7 @@ RDD的劣势是性能限制，它是
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop总结/">hadoop总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">47</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop总结/">hadoop总结</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">47</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -831,7 +830,7 @@ RDD的劣势是性能限制，它是
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -841,7 +840,7 @@ RDD的劣势是性能限制，它是
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观后感/">观后感</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/">Scala</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">hive</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观后感/">观后感</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -851,7 +850,7 @@ RDD的劣势是性能限制，它是
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Hbase/" style="font-size: 18px;">Hbase</a> <a href="/tags/Kafka/" style="font-size: 12px;">Kafka</a> <a href="/tags/Scala/" style="font-size: 16px;">Scala</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Zookeeper/" style="font-size: 12px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 14px;">hive</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/示例/" style="font-size: 12px;">示例</a> <a href="/tags/观后感/" style="font-size: 10px;">观后感</a>
+            <a href="/tags/Hbase/" style="font-size: 16.67px;">Hbase</a> <a href="/tags/Kafka/" style="font-size: 11.67px;">Kafka</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Spark/" style="font-size: 18.33px;">Spark</a> <a href="/tags/Zookeeper/" style="font-size: 11.67px;">Zookeeper</a> <a href="/tags/hadoop/" style="font-size: 20px;">hadoop</a> <a href="/tags/hive/" style="font-size: 13.33px;">hive</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/示例/" style="font-size: 11.67px;">示例</a> <a href="/tags/观后感/" style="font-size: 10px;">观后感</a>
         </div>
     </div>
 

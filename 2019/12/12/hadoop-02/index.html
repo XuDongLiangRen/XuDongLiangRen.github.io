@@ -6,21 +6,26 @@
     
 
     
-    <title>分类: hadoop总结 | 徐栋梁的博客</title>
+    <title>HDFS HA高可用 | 徐栋梁的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="description" content="大数据小白成长日记">
+        <meta name="keywords" content="hadoop">
+    
+    <meta name="description" content="Hadoop是很典型的主从模式，那么就存在一个很直观的问题，就是一旦Master（NameNode）挂掉或者主节点硬件升级，集群就不能用了。所以呢，为了应对单点故障，需要配置高可用。 我们讨论下设计高可用的思路：  首先standby节点的元数据应该跟active的节点的元数据一样； Edits文件不能让NameNode管理，需要一个“小三”来管理，不然active节点挂掉，standby节点就无">
 <meta name="keywords" content="hadoop">
-<meta property="og:type" content="website">
-<meta property="og:title" content="徐栋梁的博客">
-<meta property="og:url" content="http://yoursite.com/categories/hadoop总结/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDFS HA高可用">
+<meta property="og:url" content="http://yoursite.com/2019/12/12/hadoop-02/index.html">
 <meta property="og:site_name" content="徐栋梁的博客">
-<meta property="og:description" content="大数据小白成长日记">
+<meta property="og:description" content="Hadoop是很典型的主从模式，那么就存在一个很直观的问题，就是一旦Master（NameNode）挂掉或者主节点硬件升级，集群就不能用了。所以呢，为了应对单点故障，需要配置高可用。 我们讨论下设计高可用的思路：  首先standby节点的元数据应该跟active的节点的元数据一样； Edits文件不能让NameNode管理，需要一个“小三”来管理，不然active节点挂掉，standby节点就无">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/12/12/hadoop-02/1.jpg">
+<meta property="og:updated_time" content="2019-12-12T12:34:56.290Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="徐栋梁的博客">
-<meta name="twitter:description" content="大数据小白成长日记">
+<meta name="twitter:title" content="HDFS HA高可用">
+<meta name="twitter:description" content="Hadoop是很典型的主从模式，那么就存在一个很直观的问题，就是一旦Master（NameNode）挂掉或者主节点硬件升级，集群就不能用了。所以呢，为了应对单点故障，需要配置高可用。 我们讨论下设计高可用的思路：  首先standby节点的元数据应该跟active的节点的元数据一样； Edits文件不能让NameNode管理，需要一个“小三”来管理，不然active节点挂掉，standby节点就无">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/12/hadoop-02/1.jpg">
     
 
     
@@ -129,131 +134,175 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-folder-open"></i>分类: <em class="page-title-link">hadoop总结</em>
+    <a class="page-title-link" href="/categories/hadoop总结/">hadoop总结</a>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-hadoop-02" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2019" class="archive-year"><i class="icon fa fa-calendar-o"></i>2019</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/12/12/hadoop-02/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/2019/12/12/hadoop-02/1.jpg)" alt="HDFS HA高可用" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/12/12/hadoop-02/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/hadoop总结/">hadoop总结</a>
-            </div>
-            <div class="date"><time datetime="2019-12-12T12:06:16.000Z" itemprop="datePublished">2019-12-12</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2019/12/12/hadoop-02/">HDFS HA高可用</a>
+        HDFS HA高可用
         </h1>
     
 
-        <p class="article-excerpt">
-            Hadoop是很典型的主从模式，那么就存在一个很直观的问题，就是一旦Master（NameNode）挂掉或者主节点硬件升级，集群就不能用了。所以呢，为了应对单点故障，需要配置高可用。
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/12/12/hadoop-02/" class="article-date">
+            <time datetime="2019-12-12T12:06:16.000Z" itemprop="datePublished">2019-12-12</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/hadoop/">hadoop</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>Hadoop是很典型的主从模式，那么就存在一个很直观的问题，就是一旦Master（NameNode）挂掉或者主节点硬件升级，集群就不能用了。<br>所以呢，为了应对单点故障，需要配置高可用。</p>
+<p>我们讨论下设计高可用的思路：</p>
+<ol>
+<li>首先standby节点的元数据应该跟active的节点的元数据一样；</li>
+<li>Edits文件不能让NameNode管理，需要一个“小三”来管理，不然active节点挂掉，standby节点就无法获取</li>
+<li>需要对active节点状态进行“定期检测”，检测到挂掉就得“换人”了</li>
+<li>得按顺序来，先关闭挂掉的节点，然后再开启新的主节点，防止“脑裂”</li>
+<li>4的操作hadoop本身做不了，得找Zookeeper来帮忙，实现自动故障转移工作</li>
+</ol>
+<p>当然所谓的高可用是指各个组件的HA，所以YARN也要配置HA。</p>
+<h2 id="Federation架构设计"><a href="#Federation架构设计" class="headerlink" title="Federation架构设计"></a>Federation架构设计</h2><p>即使配置了高可用，Hadoop集群还是有一些问题：</p>
+<ol>
+<li><p>Namespace（命名空间）的限制<br>NameNode节点的空间有限，虽然元数据相对较小，但是数据飞增的时候时间长了也顶不住</p>
+</li>
+<li><p>隔离问题<br>由于HDFS仅有一个namenode，无法隔离各个程序，因此HDFS上的一个实验程序就很有可能影响整个HDFS上运行的程序。</p>
+</li>
+<li><p>性能的瓶颈<br>由于是单个namenode的HDFS架构，因此整个HDFS文件系统的吞吐量受限于单个namenode的吞吐量。</p>
+</li>
+</ol>
+<p>为了解决上面的问题呢，我们就有了HDFS Federation架构设计。</p>
+<p>上图！！！！！！</p>
+<p><img src="/2019/12/12/hadoop-02/1.jpg" alt></p>
+<p>图看不太懂，但是大致能猜出来一点。</p>
+<p>简单而言，就是我们可以配置多个NameNode（不是备用节点），然后不同的NameNode负责不同的业务或应用，这样不仅解决了隔离性问题，也大大缓解了性能和存储元数据的问题。</p>
+<p>不过怎么配置或者说魔改hadoop底层，我还不了解。嘿嘿！</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2019/12/12/hadoop-02/" data-id="ck42pgjdl003ap0vjzjgb9ik4" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "徐栋梁"
+        },
+        "headline": "HDFS HA高可用",
+        "image": "http://yoursite.com/2019/12/12/hadoop-02/1.jpg",
+        "keywords": "hadoop",
+        "genre": "hadoop总结",
+        "datePublished": "2019-12-12",
+        "dateCreated": "2019-12-12",
+        "dateModified": "2019-12-12",
+        "url": "http://yoursite.com/2019/12/12/hadoop-02/",
+        "description": "Hadoop是很典型的主从模式，那么就存在一个很直观的问题，就是一旦Master（NameNode）挂掉或者主节点硬件升级，集群就不能用了。所以呢，为了应对单点故障，需要配置高可用。
 我们讨论下设计高可用的思路：
 
 首先standby节点的元数据应该跟active的节点的元数据一样；
-Edits文件不能让NameNode管理，需要一个“小三”来管理，不然active节点挂掉，standby节点就无
-        </p>
-    </div>
+Edits文件不能让NameNode管理，需要一个“小三”来管理，不然active节点挂掉，standby节点就无"
+        "wordCount": 8
+    }
+</script>
+
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2019/12/11/hadoop-01/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/12/11/hadoop-01/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/hadoop总结/">hadoop总结</a>
-            </div>
-            <div class="date"><time datetime="2019-12-11T12:44:25.000Z" itemprop="datePublished">2019-12-11</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/12/11/hadoop-01/">HDFS的API</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            使用HDFS的API操作集群上的文件简单来说，就3步
-
-创建一个配置信息对象，对象用于获取HDFS文件系统的对象（单例模式）
-调用 HDFS的对象 的对应的上传下载等操作，需要什么参数就创建什么参数
-关闭资源 
-
-下面看一个示例
-123456789101112131415161718public void initHDFS() throws Exception&#123;		// 1 创建配置信息
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
+
     
-        </div>
-    
-
-
-    </div></section>
-
+    </section>
 
 
 
@@ -291,6 +340,19 @@ Edits文件不能让NameNode管理，需要一个“小三”来管理，不然a
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/12/11/hadoop-01/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">HDFS的API</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -503,11 +565,13 @@ Edits文件不能让NameNode管理，需要一个“小三”来管理，不然a
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'http://yoursite.com/2019/12/12/hadoop-02/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
